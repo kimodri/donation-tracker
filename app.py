@@ -1,15 +1,19 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return '<h2>Welcome to DONEate!</h2><br><a href="/thank-you">Make a Donation</a>'
+    return render_template('index.html')
+
+@app.route('/process', methods = ['POST'])
+def process():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    role = request.form.get('role')
+
 
 @app.route('/thank-you')
 def thank_you():
     return render_template('thankyou.html')
 
-if __name__ == '__main__':
-    from werkzeug.serving import run_simple
-    run_simple('localhost', 5000, app, use_debugger=True, use_reloader=False)
