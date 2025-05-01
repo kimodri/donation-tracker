@@ -1,14 +1,17 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
+import os
 
-
+# Create the app instance
 app = Flask(__name__)
 
-# configurations:
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///doneate.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATION'] = False
+# Absolute path for SQLite (reliable path handling)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'db.db')}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# databases:
+
+# Initialize SQLAlchemy
 db = SQLAlchemy(app)
 
 class Users(db.Model):
@@ -17,7 +20,13 @@ class Users(db.Model):
     password = db.Column(db.String(20))
     role = db.Column(db.String(14))
 
+# Ensure the 'instance' folder exists
+if not os.path.exists('instance'):
+    os.makedirs('instance')
 
+# Create the tables if they don't exist yet (This will create db.db automatically)
+with app.app_context():
+    db.create_all()
 
 
 # Routes
@@ -27,16 +36,23 @@ def home():
 
 @app.route('/signin', methods = ['GET', 'POST'])
 def signin():
-    if request == 'POST':
-        username = request.form.get('email')
+    if request.method == 'POST':
+        print("Received POST request") 
+        username = request.form.get('username')
         password = request.form.get('password')
         role = request.form.get('role')
         
-        # Adding sa table
+        # Adding in table
         db.session.add(Users(username = username, password = password, role = role))
         db.session.commit()
+        
         # do flash here pre
-        return render_template('signin.html')
+        return redirect(url_for('thank_you'))
+    
+    return render_template('login.html')
+
+
+
 
 
 @app.route('/login', methods = ['GET', 'POST'])
