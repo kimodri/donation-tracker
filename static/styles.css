@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: Roboto;
+	font-family: Poppins;
 	text-decoration: none;
 }
 
@@ -44,11 +44,13 @@ li a {
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
-	background: linear-gradient(
+	/* background: linear-gradient(
 		to right,
-		#a3d1c6,
+		#a3d1ad,
 		#faf9f6
-	); /*for testing only*/
+	); */
+
+	background: #fdf6ec;
 	color: #333;
 }
 
@@ -63,15 +65,22 @@ li a {
 	background-color: #fff;
 	border-radius: 10px;
 	box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
+	display: none;
+}
+
+.form-box.active {
+	display: block;
 }
 
 .login-h2 {
 	font-size: 35px;
 	text-align: center;
 	margin-bottom: 20px;
+	color: #0f5959;
 }
 
-.login-input {
+.login-input,
+#role {
 	width: 100%;
 	padding: 12px;
 	background-color: #eee;
@@ -81,4 +90,34 @@ li a {
 	font-size: 16px;
 	color: #333;
 	margin-bottom: 20px;
+}
+
+.login-submit-btn {
+	width: 100%;
+	padding: 12px;
+	background: #f5a623;
+	border-radius: 6px;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	color: #fff;
+	font-weight: 500;
+	margin-bottom: 20px;
+	transition: 0.5s;
+}
+
+.login-submit-btn:hover {
+	background: #e09620;
+}
+
+.login-p {
+	font-size: 14.5px;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.login-p a {
+	color: #f5a623;
+	font-weight: 500;
+	text-decoration: underline;
 }
