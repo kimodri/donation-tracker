@@ -1,29 +1,46 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
+from sqlalchemy import text
+from extensions import db
 
 # Create the app instance
 app = Flask(__name__)
 
 # Absolute path for SQLite (reliable path handling)
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'db.db')}"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-
-# Initialize SQLAlchemy
-db = SQLAlchemy(app)
-
-class Users(db.Model):
-    user_id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(20))
-    password = db.Column(db.String(20))
-    role = db.Column(db.String(14))
 
 # Ensure the 'instance' folder exists
 if not os.path.exists('instance'):
     os.makedirs('instance')
 
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(basedir, 'instance', 'db.sqlite')}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize SQLAlchemy
+# db.init_app(app)
+
+# import models here
+from models import (
+    Users,
+    Campaigns,
+    CampaignRequests,
+    Communities,
+    Donations,
+    DonationDetails,
+    Donors,
+    Feedbacks,
+    Inventory,
+    ItemList,
+    Organizers,
+    Representatives,
+    Requests,
+    Updates
+)
+
+
+# bind the db instance to app
+db.init_app(app)
 # Create the tables if they don't exist yet (This will create db.db automatically)
 with app.app_context():
     db.create_all()
@@ -38,20 +55,35 @@ def home():
 def signin():
     if request.method == 'POST':
         print("Received POST request") 
-        username = request.form.get('username')
+        email = request.form.get('email')
+        name = request.form.get('name')
         password = request.form.get('password')
         role = request.form.get('role')
+        community = request.form.get('community')
+        address = request.form.get('address')
+
         
-        # Adding in table
-        db.session.add(Users(username = username, password = password, role = role))
-        db.session.commit()
+        # Add to the users table
+        db.session.add(Users(Email = email, Password = password, Role = role))
         
-        # do flash here pre
+        if role == 'donor':
+            db.session.add(Donors(Name = name, Email = email))
+            db.session.commit()
+
+        elif role == 'organizer':
+            db.session.add(Organizers(Name = name, Email = email))
+            db.session.commit()
+
+        else:
+            db.session.add(Representatives(Name = name, Email = email))
+            db.session.add(Communities(Name = community, Address = address))
+            db.session.commit()
+
+        
+        # # do flash here pre
         return redirect(url_for('thank_you'))
-    
+
     return render_template('login.html')
-
-
 
 
 
@@ -63,32 +95,46 @@ def login():
 
     else:
         # Get the things
-        username = request.form.get('username')
+        email = request.form.get('email')
         password = request.form.get('password')
+        print(email)
+        print(password)
+
 
         # query the user
-        user = Users.query.filter_by(username=username).first()
+        result = Users.query.filter_by(Email=email).first()
+        print(result.email)
+        print(result.role)
 
-        if user:
-            if user.password == password: 
-                session['user_id'] = user.user_id
-                session['username'] = user.username
-                session['role'] = user.role
+        if result:
+            if result.password == password: 
+                session['user_id'] = result.user_id
+                session['email'] = result.email
+                session['role'] = result.role
 
-                if user.role == 'donor':
-                    return redirect('')  # homepage for donor
-                elif user.role == 'organizer':
-                    return redirect('') # homepage for organizer
+                if result.role == 'donor':
+                    return "Donor Page"
+                    # return redirect('')  # homepage for donor
+                elif result.role == 'organizer':
+                    return "Organizer Page"
+                    # return redirect('') # homepage for organizer
                 else:
-                    return redirect('') # homepage for representative
+                    return "Representative Page"
+                    # return redirect('') # homepage for representative
             else:
                 flash('Incorrect password')
 
         else:
-            flash('Username not found')
+            flash('Account not found')
             # redicrect to sign in page whch will call the sign in function
 
         return redirect('/login')
+
+
+@app.route('/organizer_list', methods = ['GET'])
+def organizer_list():
+    pass
+    # render_template()
 
 
 @app.route('/feedback', methods = ['GET', 'POST'])
