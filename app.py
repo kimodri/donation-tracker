@@ -90,7 +90,6 @@ def login():
 
         return redirect('/login')
 
-
 @app.route('/feedback', methods = ['GET', 'POST'])
 def feedback():
     if request == 'GET':
