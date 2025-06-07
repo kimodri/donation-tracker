@@ -6,6 +6,7 @@ from extensions import db
 
 # Create the app instance
 app = Flask(__name__)
+app.secret_key = 'hello'
 
 # Absolute path for SQLite (reliable path handling)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -85,37 +86,35 @@ def signin():
 
     return render_template('login.html')
 
-
-
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
 
     if request == 'GET':
         return render_template('login.html')
 
-    else:
-        # Get the things
-        email = request.form.get('email')
-        password = request.form.get('password')
-        print(email)
-        print(password)
+    # Get the things
+    email = request.form.get('email')
+    password = request.form.get('password')
+    print(email)
+    print(password)
 
 
+    try:
         # query the user
         result = Users.query.filter_by(Email=email).first()
-        print(result.email)
-        print(result.role)
+        print(result.Email)
+        print(result.Role)
 
         if result:
-            if result.password == password: 
-                session['user_id'] = result.user_id
-                session['email'] = result.email
-                session['role'] = result.role
+            if result.Password == password: 
+                session['user_id'] = result.UserID
+                session['email'] = result.Email
+                session['role'] = result.Role
 
-                if result.role == 'donor':
+                if result.Role == 'donor':
                     return "Donor Page"
                     # return redirect('')  # homepage for donor
-                elif result.role == 'organizer':
+                elif result.Role == 'organizer':
                     return "Organizer Page"
                     # return redirect('') # homepage for organizer
                 else:
@@ -123,28 +122,46 @@ def login():
                     # return redirect('') # homepage for representative
             else:
                 flash('Incorrect password')
+                return redirect('/login')
 
-        else:
-            flash('Account not found')
-            # redicrect to sign in page whch will call the sign in function
+    except AttributeError:
+        flash('Account not found')
+        # redicrect to sign in page whch will call the sign in function
+        return render_template('login.html')
 
-        return redirect('/login')
 
-
-@app.route('/organizer_list', methods = ['GET'])
+@app.route('/organizer_list', methods = ['GET', 'POST'])
 def organizer_list():
     pass
     # render_template()
 
+@app.route('/donate', methods = ['GET', 'POST'])
+def donate():
+    pass 
+    '''
+    INSERT INTO Feedbacks()
+    if wala pang ganong connection 
+    '''
 
 @app.route('/feedback', methods = ['GET', 'POST'])
 def feedback():
     if request == 'GET':
         return render_template('feedback.html')
     else:
+        '''
+            SELECT Feedback, stars
+            FROM feedbacks
+            WHERE user = session['user'] AND organizer = organizer
+        
+        '''
         # kunin kung para kanino, kunin kung sino, kunin yung star, tanggalin siya sa pinag-anuhan
         pass
         # mula sa session na nagawa mo sa login kunn mo yung uder_id, lagay mo sa db
+
+@app.route('/update', methods = ['GET', 'POST'])
+def update():
+    pass
+
 
 
 @app.route('/thank-you')

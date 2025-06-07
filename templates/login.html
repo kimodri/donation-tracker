@@ -2,11 +2,18 @@
 
 {% block body %}
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p style="text-align: center;">{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div class="login-body">
         <!-- FOR LOGIN -->
         <div class="login-container">
             <div class="form-box active" id="login-form">
-                <form action="/thank-you">
+                <form action="/login", method="post">
                     <h2 class="login-h2">Login</h2>
                     <input class="login-input" type="text" name="email" placeholder="Email" required>
                     <input class="login-input" type="password" name="password" placeholder="Password" required>
