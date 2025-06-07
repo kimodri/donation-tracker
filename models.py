@@ -43,6 +43,8 @@ class Representatives(db.Model):
     Name = Column(String(100))
     Email = Column(String(50))
 
+    community = db.relationship("Communities", backref="representatives")
+
     def __repr__(self):
         return f"<Representative(RepresentativeID='{self.RepresentativeID}', Name='{self.Name}')>"
 
@@ -64,6 +66,8 @@ class Campaigns(db.Model):
     is_Urgent = Column(Boolean)
     DatePosted = Column(Date, default=date.today)
 
+    organizer = db.relationship("Organizers", backref="campaigns")
+
     def __repr__(self):
         return f"<Campaign(CampaignID='{self.CampaignID}', Name='{self.Name}')>"
 
@@ -73,6 +77,9 @@ class CampaignRequests(db.Model):
     CampaignID = Column(Integer, ForeignKey('Campaigns.CampaignID'))
     ItemID = Column(Integer, ForeignKey('ItemLists.ItemID'))
     QuantityNeeded = Column(Integer)
+
+    campaign = db.relationship("Campaigns", backref="campaign_requests")
+    item = db.relationship("ItemList", backref="campaign_requests")
 
     def __repr__(self):
         return f"<CampaignRequest(CampaignID='{self.CampaignID}', ItemID='{self.ItemID}', QuantityNeeded={self.QuantityNeeded})>"
@@ -84,8 +91,9 @@ class Donations(db.Model):
     OrganizerID = Column(Integer, ForeignKey('Organizers.OrganizerID'))
     Timestamp = Column(DateTime)
 
+    donor = db.relationship("Donors", backref="donations")
     organizer = db.relationship("Organizers", backref="donations")
-    
+
     def __repr__(self):
         return f"<Donation(DonationID='{self.DonationID}', Timestamp='{self.Timestamp}')>"
 
@@ -95,6 +103,9 @@ class DonationDetails(db.Model):
     DonationID = Column(Integer, ForeignKey('Donations.DonationID'))
     ItemID = Column(Integer, ForeignKey('ItemLists.ItemID'))
     Quantity = Column(Integer)
+
+    donation = db.relationship("Donations", backref="donation_details")
+    item = db.relationship("ItemList", backref="donation_details")
 
     def __repr__(self):
         return f"<DonationDetail(DonationDetailID='{self.DonationDetailID}', Quantity={self.Quantity})>"
@@ -110,6 +121,10 @@ class Inventory(db.Model):
     Status = Column(String(20))
     AllocationDate = Column(DateTime, nullable=True)
 
+    donation_detail = db.relationship("DonationDetails", backref="inventories")
+    item = db.relationship("ItemList", backref="inventories")
+    campaign = db.relationship("Campaigns", backref="inventories")
+
     def __repr__(self):
         return f"<Inventory(InventoryID='{self.InventoryID}', Status='{self.Status}')>"
 
@@ -120,6 +135,9 @@ class Feedbacks(db.Model):
     Stars = Column(Integer)
     DonorID = Column(Integer, ForeignKey('Donors.DonorID'))
     OrganizerID = Column(Integer, ForeignKey('Organizers.OrganizerID'))
+
+    donor = db.relationship("Donors", backref="feedbacks")
+    organizer = db.relationship("Organizers", backref="feedbacks")
 
     def __repr__(self):
         return (f"<Feedback(FeedbackID='{self.FeedbackID}', Stars={self.Stars}, "
@@ -132,6 +150,9 @@ class Requests(db.Model):
     RepresentativeID = Column(Integer, ForeignKey('Representatives.RepresentativeID'))
     Message = Column(Text)
 
+    organizer = db.relationship("Organizers", backref="requests")
+    representative = db.relationship("Representatives", backref="requests")
+
     def __repr__(self):
         return f"<Request(RequestID='{self.RequestID}', Message='{self.Message[:20]}...')>"
 
@@ -141,6 +162,9 @@ class Updates(db.Model):
     UpdateText = Column(Text)
     DonorID = Column(Integer, ForeignKey('Donors.DonorID'))
     OrganizerID = Column(Integer, ForeignKey('Organizers.OrganizerID'))
+
+    donor = db.relationship("Donors", backref="updates")
+    organizer = db.relationship("Organizers", backref="updates")
 
     def __repr__(self):
         return f"<Update(UpdateID='{self.UpdateID}', UpdateText='{self.UpdateText[:20]}...')>"
