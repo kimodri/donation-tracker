@@ -1,41 +1,73 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"); */
+
+@font-face {
+	font-family: "Poppins";
+	src: url("/static/fonts/Poppins-Light.ttf") format("truetype");
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Poppins";
+	src: url("/static/fonts/Poppins-Regular.ttf") format("truetype");
+	font-weight: 400;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Poppins";
+	src: url("/static/fonts/Poppins-Medium.ttf") format("truetype");
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Poppins";
+	src: url("/static/fonts/Poppins-Bold.ttf") format("truetype");
+	font-weight: 700;
+	font-style: normal;
+}
+
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: Poppins;
+	font-family: "Poppins", sans-serif;
 	text-decoration: none;
-}
-
-/* ======= FOR NAV BAR ======= */
-.nav-bar {
-	background-color: #3d8d7a;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.nav-bar-div {
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
-}
-
-.logo a {
-	color: #ffffff;
-	font-size: 35px;
-	font-weight: 600;
-}
-
-li {
-	display: inline-block;
 	list-style: none;
 }
 
-li a {
-	color: white;
-	font-size: 18px;
-	font-weight: bold;
-	margin-right: 25px;
+body{
+	background-color: var(--primary-color);
+}
+
+:root {
+	/* Colors */
+	--primary-color: #fdf6ec;
+	--secondary-color: #0f5959;
+	--accent-color: #f5a623;
+	--white: #fff;
+	--text-color: #2d2d2d;
+	--text-field-color: #f1f1f1;
+
+	/* Font size */
+	--font-size-s: 0.9rem;
+	--font-size-n: 1rem;
+	--font-size-m: 1.12rem;
+	--font-size-l: 1.5rem;
+	--font-size-xl: 2rem;
+	--font-size-xxl: 2.3rem;
+
+	/* Font weight */
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	--border-radius-1: 0.4rem;
+	--border-radius-2: 0.8rem;
+	--border-radius-3: 1.2rem;
+	--box-shadow: 0 2rem 3rem #0000001a;
 }
 
 /* ======= LOGIN ======= */
@@ -44,13 +76,7 @@ li a {
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
-	/* background: linear-gradient(
-		to right,
-		#a3d1ad,
-		#faf9f6
-	); */
-
-	background: #fdf6ec;
+	background-color: var(--primary-color);
 	color: #333;
 }
 
@@ -62,7 +88,7 @@ li a {
 	width: 100%;
 	max-width: 450px;
 	padding: 30px;
-	background-color: #fff;
+	background-color: var(--white);
 	border-radius: 10px;
 	box-shadow: 0 0 10px rgb(0, 0, 0, 0.1);
 	display: none;
@@ -76,7 +102,7 @@ li a {
 	font-size: 35px;
 	text-align: center;
 	margin-bottom: 20px;
-	color: #0f5959;
+	color: var(--secondary-color);
 }
 
 .login-input,
@@ -95,19 +121,19 @@ li a {
 .login-submit-btn {
 	width: 100%;
 	padding: 12px;
-	background: #f5a623;
+	background: var(--accent-color);
 	border-radius: 6px;
 	border: none;
 	cursor: pointer;
 	font-size: 16px;
-	color: #fff;
+	color: var(--white);
 	font-weight: 500;
 	margin-bottom: 20px;
 	transition: 0.5s;
 }
 
 .login-submit-btn:hover {
-	background: #e09620;
+	background: var(--accent-color);
 }
 
 .login-p {
@@ -117,7 +143,149 @@ li a {
 }
 
 .login-p a {
-	color: #f5a623;
+	color: var(--accent-color);
 	font-weight: 500;
 	text-decoration: underline;
+}
+
+/* ======= DONOR & REPRESENTATIVE SIDE: NAV BAR ======= */
+.nav-bar {
+	height: auto;
+	background-color: var(--secondary-color);
+	padding: 8px 20px;
+	
+}
+
+.nav-bar-div {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.logo a {
+	color: var(--primary-color);
+	font-size: var(--font-size-xxl);
+	font-weight: var(--font-weight-bold);
+}
+
+li {
+	display: inline-block;
+	list-style: none;
+}
+
+li a {
+	color: var(--primary-color);
+	font-size: var(--font-size-n);
+	font-weight: var(--font-weight-normal);
+	padding: 10px 20px;
+}
+
+
+li a:hover {
+	background-color: var(--accent-color);
+	border-radius: var(--border-radius-2);
+}
+
+/* ======= DONOR & REPRESENTATIVE SIDE: ORGANIZER LIST ======= */
+#donor-organizer-title{
+	color: var(--secondary-color);
+	margin: 20px 50px;
+	/* background-color: pink; */
+}
+
+.donor-organizer-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--white);
+	justify-content: center;
+	margin: 0px auto 0px auto;
+	width: 75%;
+	margin-top: 20px;
+	padding: 20px 0px;
+	box-shadow: 0px 1px 15px rgb(0, 0, 0, 0.1);
+	border-radius: var(--border-radius-2);	
+	gap: 10px;
+}
+
+.donor-organizer-div{
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	padding: 20px;
+	background-color: var(--white);
+	border-radius: var(--border-radius-2);
+	border: #2d2d2d42 1px solid;
+}
+
+.organizer-name{
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-medium);
+}
+
+.feedback-bttn{
+	background-color: var(--accent-color);
+	color: var(--primary-color);
+	border: 0px;
+	border-radius: var(--border-radius-2);
+	padding: 0px 20px;
+	font-size: var(--font-size-m);
+}
+
+/* ======= ORGANIZER DASHBOARD ======= */
+.dashboard-body {
+	min-height: 100vh;
+	background-color: var(--primary-color);
+}
+
+.dashboard-nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 250px;
+	background-color: var(--secondary-color);
+}
+
+nav .dashboard-logo-name {
+	display: flex;
+	align-items: center;
+	color: var(--primary-color);
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-xxl);
+	margin-left: 15px;
+	margin-top: 15px;
+}
+
+nav .dashboard-nav-items {
+	margin-left: 15px;
+	margin-top: 20px;
+	height: calc(100% - 90px);
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	color: var(--primary-color);
+	font-size: var(--font-size-m);
+	font-weight: 300;
+}
+
+nav .dashboard-nav-items a {
+	height: 55px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	padding: 0 12px;
+	text-decoration: none;
+	color: var(--primary-color);
+	font-weight: var(--font-weight-normal);
+}
+
+nav .dashboard-nav-items a .material-symbols-sharp {
+	font-size: 25px;
+}
+
+nav .dashboard-nav-items a:hover {
+	background-color: var(--accent-color);
+	border-radius: var(--border-radius-1);
+	margin-right: 17px;
 }
