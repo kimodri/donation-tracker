@@ -37,6 +37,10 @@
 	list-style: none;
 }
 
+body{
+	background-color: var(--primary-color);
+}
+
 :root {
 	/* Colors */
 	--primary-color: #fdf6ec;
@@ -64,37 +68,6 @@
 	--border-radius-2: 0.8rem;
 	--border-radius-3: 1.2rem;
 	--box-shadow: 0 2rem 3rem #0000001a;
-}
-
-/* ======= FOR NAV BAR ======= */
-.nav-bar {
-	background-color: #3d8d7a;
-	padding-left: 15px;
-	padding-right: 15px;
-}
-
-.nav-bar-div {
-	align-items: center;
-	display: flex;
-	justify-content: space-between;
-}
-
-.logo a {
-	color: var(--white);
-	font-size: 35px;
-	font-weight: bolder;
-}
-
-li {
-	display: inline-block;
-	list-style: none;
-}
-
-li a {
-	color: var(--white);
-	font-size: 18px;
-	font-weight: bold;
-	margin-right: 25px;
 }
 
 /* ======= LOGIN ======= */
@@ -175,6 +148,90 @@ li a {
 	text-decoration: underline;
 }
 
+/* ======= DONOR & REPRESENTATIVE SIDE: NAV BAR ======= */
+.nav-bar {
+	height: auto;
+	background-color: var(--secondary-color);
+	padding: 8px 20px;
+	
+}
+
+.nav-bar-div {
+	align-items: center;
+	display: flex;
+	justify-content: space-between;
+}
+
+.logo a {
+	color: var(--primary-color);
+	font-size: var(--font-size-xxl);
+	font-weight: var(--font-weight-bold);
+}
+
+li {
+	display: inline-block;
+	list-style: none;
+}
+
+li a {
+	color: var(--primary-color);
+	font-size: var(--font-size-n);
+	font-weight: var(--font-weight-normal);
+	padding: 10px 20px;
+}
+
+
+li a:hover {
+	background-color: var(--accent-color);
+	border-radius: var(--border-radius-2);
+}
+
+/* ======= DONOR & REPRESENTATIVE SIDE: ORGANIZER LIST ======= */
+#donor-organizer-title{
+	color: var(--secondary-color);
+	margin: 20px 50px;
+	/* background-color: pink; */
+}
+
+.donor-organizer-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--white);
+	justify-content: center;
+	margin: 0px auto 0px auto;
+	width: 75%;
+	margin-top: 20px;
+	padding: 20px 0px;
+	box-shadow: 0px 1px 15px rgb(0, 0, 0, 0.1);
+	border-radius: var(--border-radius-2);	
+	gap: 10px;
+}
+
+.donor-organizer-div{
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+	padding: 20px;
+	background-color: var(--white);
+	border-radius: var(--border-radius-2);
+	border: #2d2d2d42 1px solid;
+}
+
+.organizer-name{
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-medium);
+}
+
+.feedback-bttn{
+	background-color: var(--accent-color);
+	color: var(--primary-color);
+	border: 0px;
+	border-radius: var(--border-radius-2);
+	padding: 0px 20px;
+	font-size: var(--font-size-m);
+}
+
 /* ======= ORGANIZER DASHBOARD ======= */
 .dashboard-body {
 	min-height: 100vh;
@@ -201,7 +258,6 @@ nav .dashboard-logo-name {
 }
 
 nav .dashboard-nav-items {
-	/* background-color: red; */
 	margin-left: 15px;
 	margin-top: 20px;
 	height: calc(100% - 90px);
@@ -213,9 +269,7 @@ nav .dashboard-nav-items {
 	font-weight: 300;
 }
 
-/* ✅ FIXED THIS PART */
 nav .dashboard-nav-items a {
-	/* background-color: pink; */
 	height: 55px;
 	display: flex;
 	align-items: center;
