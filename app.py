@@ -46,7 +46,6 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-
 # Routes
 @app.route('/')
 def home():
@@ -132,7 +131,6 @@ def login():
         # redicrect to sign in page whch will call the sign in function
         return render_template('login.html')
 
-
 @app.route('/organizerList', methods = ['GET', 'POST'])
 def organizerList():
 
@@ -152,8 +150,6 @@ def organizerList():
     
     elif session['role'] == 'representative':
         pass
-
-
 
 @app.route('/donate', methods = ['GET', 'POST'])
 def donate():
@@ -181,8 +177,6 @@ def feedback():
 @app.route('/update', methods = ['GET', 'POST'])
 def update():
     pass
-
-
 
 @app.route('/thank-you')
 def thank_you():    
