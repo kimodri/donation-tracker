@@ -84,6 +84,8 @@ class Donations(db.Model):
     OrganizerID = Column(Integer, ForeignKey('Organizers.OrganizerID'))
     Timestamp = Column(DateTime)
 
+    organizer = db.relationship("Organizers", backref="donations")
+    
     def __repr__(self):
         return f"<Donation(DonationID='{self.DonationID}', Timestamp='{self.Timestamp}')>"
 

@@ -112,12 +112,15 @@ def login():
                 session['role'] = result.Role
 
                 if result.Role == 'donor':
+                    session['donor_id'] = result.DonorID
                     return "Donor Page"
                     # return redirect('')  # homepage for donor
                 elif result.Role == 'organizer':
+                    session['organizer_id'] = result.OrganizerID
                     return "Organizer Page"
                     # return redirect('') # homepage for organizer
                 else:
+                    session['representative_id'] = result.RepresentativeID
                     return "Representative Page"
                     # return redirect('') # homepage for representative
             else:
@@ -130,10 +133,27 @@ def login():
         return render_template('login.html')
 
 
-@app.route('/organizer_list', methods = ['GET', 'POST'])
-def organizer_list():
-    pass
-    # render_template()
+@app.route('/organizerList', methods = ['GET', 'POST'])
+def organizerList():
+
+    # This functionlity is for the users whose role is a donor
+    if session['role'] == 'donor':
+        # returns list of organizerID
+        # Get all donations by the donor
+        result = Donations.query.filter_by(DonorID=session['donor_id']).all()
+
+        # Use the relationship to access organizer names
+
+        organizer_names = list({donation.organizer.Name for donation in result})
+
+        dummy_organizers = ['Kim', 'Triselle', 'Matan','Audrey', 'John', 'Julliane']
+        return render_template('donor_organizer.html', organizers = dummy_organizers)
+    
+    
+    elif session['role'] == 'representative':
+        pass
+
+
 
 @app.route('/donate', methods = ['GET', 'POST'])
 def donate():
