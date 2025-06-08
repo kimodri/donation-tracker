@@ -111,15 +111,23 @@ def login():
                 session['role'] = result.Role
 
                 if result.Role == 'donor':
-                    session['donor_id'] = result.DonorID
+                    
+                    donors = [i.Email for i in Users.query.filter_by(Role = 'donor')]
+                    id = donors.index(session['email']) + 1
+                    session['donor_id'] = id
+                    print(type(session['donor_id']))
                     return "Donor Page"
                     # return redirect('')  # homepage for donor
                 elif result.Role == 'organizer':
-                    session['organizer_id'] = result.OrganizerID
+                    organizers = [i.Email for i in Users.query.filter_by(Role = 'organizer')]
+                    id = organizers.index(session['email']) + 1
+                    session['organizer_id'] = id
                     return "Organizer Page"
                     # return redirect('') # homepage for organizer
                 else:
-                    session['representative_id'] = result.RepresentativeID
+                    representatives = [i.Email for i in Users.query.filter_by(Role = 'representative')]
+                    id = representatives.index(session['email']) + 1
+                    session['representative_id'] = id
                     return "Representative Page"
                     # return redirect('') # homepage for representative
             else:
@@ -127,6 +135,8 @@ def login():
                 return redirect('/login')
 
     except AttributeError:
+        print(result.Email)
+        print(result.Password)
         flash('Account not found')
         # redicrect to sign in page whch will call the sign in function
         return render_template('login.html')
