@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/jpg" href="/static/img/doneate_favicon.png">
+    <title>DONEnate</title>
+</head>
+
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="nav-bar">
+        <div class="nav-bar-div">
+            <div class="logo"><a href=""><img  id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a></div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Campaigns</a></li>
+                <li><a href="#">Organizers</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">Updates</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1 id="donor-organizer-title">Organizers</h1>
+
+    <div class="donor-organizer-container">
+
+        <!-- {% for organizer in organizers %}
+                <h2>{{organizer['name']}}</h2>
+            {% endfor %} -->
+
+        <!-- Ito yung ipasok mo sa forloop na div -->
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">John Smith</h3>
+            <button onclick="window.location.href='rep_request_form.html'" class="feedback-bttn">Send a Request</button>
+        </div>
+
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">Joe Doe</h3>
+            <button onclick="window.location.href='rep_request_form.html'" class="feedback-bttn">Send a Request</button>
+        </div>
+
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">Alice Jonson</h3>
+            <button onclick="window.location.href='rep_request_form.html'" class="feedback-bttn">Send a Request</button>
+        </div>
+
+
+    </div>
+
+
+    <script src="/static/javascript.js"></script>
+</body>
+
+</html>

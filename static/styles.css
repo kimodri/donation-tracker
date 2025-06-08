@@ -47,7 +47,7 @@ body {
 	--secondary-color: #0f5959;
 	--accent-color: #f5a623;
 	--white: #fff;
-	--text-color: #2d2d2d;
+	--text-color: #333;
 	--text-field-color: #f1f1f1;
 
 	/* Font size */
@@ -152,7 +152,7 @@ body {
 .nav-bar {
 	height: auto;
 	background-color: var(--secondary-color);
-	padding: 8px 20px;
+	padding: 5px 20px;
 }
 
 .nav-bar-div {
@@ -161,10 +161,12 @@ body {
 	justify-content: space-between;
 }
 
-.logo a {
-	color: var(--primary-color);
-	font-size: var(--font-size-xxl);
-	font-weight: var(--font-weight-bold);
+
+#doneate-logo {
+	margin-top: 10px;
+	height: 40px;
+	width: 130px;
+	object-fit: cover;
 }
 
 li {
@@ -183,8 +185,8 @@ li a:hover {
 	background-color: var(--accent-color);
 	border-radius: var(--border-radius-2);
 }
-
-/* ======= DONOR & REPRESENTATIVE SIDE: ORGANIZER LIST ======= */
+/* ===================================== DONOR ===================================== */
+/* ------------ Organizer list ------------ */
 #donor-organizer-title {
 	color: var(--secondary-color);
 	margin: 20px 50px;
@@ -229,8 +231,7 @@ li a:hover {
 	font-size: var(--font-size-m);
 }
 
-/* ======= DONOR & REPRESENTATIVE SIDE: ORGANIZER LIST (FEEDBACK MODAL) ======= */
-
+/* ------------ Feedback pop up ------------ */
 .feedback-modal {
 	position: fixed;
 	top: 0;
@@ -300,10 +301,15 @@ li a:hover {
 }
 
 .feedback-modal-form p {
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 }
 
-/* ======== STAR RATING ======== */
+#feedback-organizer-name {
+	font-weight: var(--font-weight-medium);
+	font-size: var(--font-size-n);
+}
+
+/* ------------ Star rating ------------ */
 .rating {
 	display: flex;
 	flex-direction: row-reverse;
@@ -408,9 +414,9 @@ li a:hover {
 	transform: translate(-50%, -50%) scale(1);
 	opacity: 1;
 }
-/* ================== */
 
-/* ======= ORGANIZER DASHBOARD ======= */
+/* ===================================== ORGANIZER ===================================== */
+/* ------------ Organizer Dashboard ------------ */
 .dashboard-body {
 	min-height: 100vh;
 	background-color: var(--primary-color);
@@ -466,4 +472,140 @@ nav .dashboard-nav-items a:hover {
 	background-color: var(--accent-color);
 	border-radius: var(--border-radius-1);
 	margin-right: 17px;
+}
+
+/* ===================================== REPRESENTATIVE ===================================== */
+/* ------------ Request Form ------------ */
+.request-form-container {
+	max-width: 900px;
+	margin: 0px auto 30px auto;
+	background: var(--white);
+	padding: 30px;
+	border-radius: var(--border-radius-2);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+.request-form-container header {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-semibold);
+	color: var(--text-color);
+	position: relative;
+	margin-bottom: 20px;
+}
+.request-form-container header::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -6px;
+	height: 3px;
+	width: 27px;
+	background-color: var(--accent-color);
+	border-radius: 8px;
+}
+.request-form-container form {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	margin-top: 16px;
+	min-height: 490px;
+	background-color: var(--white);
+	overflow: hidden;
+}
+.request-form-container form .form {
+	position: absolute;
+	background-color: var(--white);
+	transition: 0.3s ease;
+}
+
+.request-form-container form .title {
+	font-size: var(--font-size-m);
+	font-weight: var(--font-weight-medium);
+	margin: 20px 0 10px;
+	color: var(--text-color);
+}
+.request-form-container form .fields {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 15px;
+}
+form .fields .input-field {
+	flex: 1 1 45%;
+	display: flex;
+	flex-direction: column;
+}
+.input-field label {
+	font-size: var(--font-size-s);
+	font-weight: var(--font-weight-normal);
+	color: var(--text-color);
+}
+
+.input-field input,
+select {
+	outline: none;
+	font-size: 14px;
+	font-weight: 400;
+	color: #333;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	padding: 0 15px;
+	height: 42px;
+	margin: 8px 0;
+}
+.input-field input :focus,
+.input-field select:focus {
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.13);
+}
+
+.request-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 10px;
+}
+
+.checkbox-label-group {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex: 1;
+}
+
+.request-item input[type="number"] {
+	width: 90px;
+}
+
+.input-field input,
+.input-field select,
+textarea {
+	padding: 10px 15px;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	font-size: 14px;
+	color: #333;
+}
+
+textarea {
+	width: 100%;
+	height: 100px;
+	resize: none;
+}
+.button-group {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+	gap: 10px;
+}
+
+/* ------------ Go back link ------------ */
+#go-back {
+	color: var(--secondary-color);
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-semibold);
+	position: relative;
+	left: 50px;
+	top: 50px;
+}
+
+#go-back:hover {
+	color: #0b4747;
 }
