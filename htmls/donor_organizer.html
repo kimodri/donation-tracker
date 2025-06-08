@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/jpg" href="/static/img/doneate_logo.png">
     <title>DONEnate</title>
 </head>
 
@@ -45,7 +46,7 @@
         </div>
 
         <div class="donor-organizer-div">
-            <h3 class="organizer-name">Joe Doe</h3>
+            <h3 class="organizer-name">Alice Johnson</h3>
             <button class="feedback-bttn">Feedback</button>
         </div>
 
@@ -64,8 +65,7 @@
             <form class="feedback-modal-form" name="feedback" action="">
                 <!-- <p><strong>Organizer:</strong> John Smith</p> -->
 
-                <!-- TEMPORARY ONLY, NOT SURE IF IM GOING TO USE JINJA -->
-                <p><strong>Organizer:</strong> <span class="organizer-name"></span></p>
+                <p><strong>Organizer:</strong> <span id="feedback-organizer-name" class="organizer-name"></span></p>
 
 
                 <label for="rating">How would you rate my service?</label>
@@ -87,17 +87,16 @@
                 </div>
 
                 <label for="feedback-textarea">Your Feedback</label>
-                <textarea name="feedback" id="feedback-textarea" rows="6"
-                    placeholder="Write your feedback here..."></textarea>
 
-                <div class="feedback-modal-buttons">
-                    <button type="button" class="cancel-bttn">Cancel</button>
+                <textarea name="message" placeholder="Write your message here..."></textarea>
+
+                <div class="button-group">
+                    <button type="reset" class="cancel-bttn">Cancel</button>
                     <button type="submit" class="submit-bttn">Submit</button>
                 </div>
             </form>
         </section>
     </div>
-
 
     <script src="/static/javascript.js"></script>
 </body>
