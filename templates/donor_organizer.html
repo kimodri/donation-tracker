@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{%block body%}
+<body>
+    <!-- NAV BAR -->
+    <nav class="nav-bar">
+        <div class="nav-bar-div">
+            <div class="logo"><a href="">DONEate</a></div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Campaigns</a></li>
+                <li><a href="#">Organizers</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">Updates</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1 id="donor-organizer-title">Organizers</h1>
+
+    <div class="donor-organizer-container">
+
+            {% for organizer in organizers %} <!-- Should organizer_names in production-->
+                {% if organizer %}
+                    <div class="donor-organizer-div">
+                        <h3 class="organizer-name">{{organizer}}</h3>
+                        <button class="feedback-bttn">Feedback</button> <!-- Perhaps lagyan to ng action na may value na name {{organizer}}-->
+                    </div>
+                {% else %}
+                    <h3 class = 'organizer-name'>You have not donated to anyone yet.</h3>
+                {% endif %}
+            {% endfor %}  
+       
+
+        <!-- {% for organizer in organizers %}
+                <h2>{{organizer['name']}}</h2>
+            {% endfor %} -->
+
+        <!-- Ito yung ipasok mo sa forloop na div
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">John Smith</h3>
+            <button class="feedback-bttn">Feedback</button>
+        </div>
+
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">Joe Doe</h3>
+            <button class="feedback-bttn">Feedback</button>
+        </div>
+
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">Joe Doe</h3>
+            <button class="feedback-bttn">Feedback</button>
+        </div> -->
+    </div>
+    <script src="{{ url_for('static', filename='javascript.js') }}"></script>
+</body>
+{% endblock %}
