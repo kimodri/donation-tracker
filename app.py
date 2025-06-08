@@ -150,6 +150,7 @@ def organizerList():
         # Get all donations by the donor
         result = Donations.query.filter_by(DonorID=session['donor_id']).all()
 
+
         # Use the relationship to access organizer names
 
         organizer_names = list({donation.organizer.Name for donation in result})
@@ -168,7 +169,6 @@ def donate():
     INSERT INTO Feedbacks()
     if wala pang ganong connection 
     '''
-
 @app.route('/feedback', methods = ['GET', 'POST'])
 def feedback():
     if request == 'GET':
