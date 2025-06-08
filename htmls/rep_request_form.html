@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/jpg" href="/static/img/doneate_favicon.png">
+    <title>DONEnate</title>
+</head>
+
+<body>
+
+    <!-- NAV BAR -->
+    <nav class="nav-bar">
+        <div class="nav-bar-div">
+            <div class="logo"><a href=""><img  id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a></div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Campaigns</a></li>
+                <li><a href="#">Organizers</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">Updates</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="rep_request_org.html" id="go-back">&#8592 Go Back</a>
+
+    <!-- REQUEST FORM -->
+    <div class="request-form-container">
+        <header>Request Form</header>
+        <form id="request-form">
+            <span class="title">Personal Details</span>
+            <div class="fields">
+                <div class="input-field">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="input-field">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-field">
+                    <label>Province</label>
+                    <select required>
+                        <option disabled selected>Select province</option>
+                        <option>Manila</option>
+                        <option>Rizal</option>
+                        <option>Laguna</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label>City</label>
+                    <select required>
+                        <option disabled selected>Select city</option>
+                        <option>Taguig</option>
+                        <option>Pasig</option>
+                        <option>Makati</option>
+                    </select>
+                </div>
+            </div>
+
+            <span class="title">Select What You Need</span>
+            <div>
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="rice-cb">
+                        <label for="rice-cb">Rice</label>
+                    </div>
+                    <input type="number" id="rice-num" disabled>
+                </div>
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="clothes-cb">
+                        <label for="clothes-cb">Clothes</label>
+                    </div>
+                    <input type="number" id="clothes-num" disabled>
+                </div>
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="canned-goods-cb">
+                        <label for="canned-goods-cb">Canned Goods</label>
+                    </div>
+                    <input type="number" id="canned-goods-num" disabled>
+                </div>
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="medical-kits-cb">
+                        <label for="medical-kits-cb">Medical Kits</label>
+                    </div>
+                    <input type="number" id="medical-kits-num" disabled>
+                </div>
+            </div>
+
+            <span class="title">Message</span>
+            <textarea name="message" placeholder="Write your message here..."></textarea>
+
+            <div class="button-group">
+                <button type="reset" class="cancel-bttn">Cancel</button>
+                <button type="submit" class="submit-bttn">Submit</button>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="/static/javascript.js"></script>
+</body>
+
+</html>
