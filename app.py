@@ -79,8 +79,6 @@ def signin():
             db.session.add(Communities(Name = community, Address = address))
             db.session.commit()
 
-        
-        # # do flash here pre
         return redirect(url_for('thank_you'))
 
     return render_template('login.html')
@@ -150,17 +148,40 @@ def organizerList():
         # Get all donations by the donor
         result = Donations.query.filter_by(DonorID=session['donor_id']).all()
 
-
         # Use the relationship to access organizer names
-
         organizer_names = list({donation.organizer.Name for donation in result})
 
         dummy_organizers = ['Kim', 'Triselle', 'Matan','Audrey', 'John', 'Julliane']
-        return render_template('donor_organizer.html', organizers = dummy_organizers)
-    
+        return render_template('donor_organizer.html', organizers = dummy_organizers, role = session['role'])
     
     elif session['role'] == 'representative':
-        pass
+        result = Organizers.query.all()
+        organizer_names = [i.Name for i in result]
+
+        dummy_organizer_names = ['ABS-CBN', 'GMA', 'Rastaman Inc']
+        render_template('rep_request_org.html', organizer_names = dummy_organizer_names, role = session['role'])
+    
+    else:
+        return "You are not allowed to visit this URL."
+
+@app.route('/sendRequest', methods = ['GET', 'POST'])
+def sendRequest():
+    if request == 'GET':
+        if session['role'] == 'representative':
+            organizer = request.args.get('organizer')
+            render_template('rep_request_form.html', role = session['role'], organizer=organizer)
+
+        else:
+            return "You are not allowed to visit this URL."
+    else:
+        organizerName = request.form.get('organizer')
+        message = request.form.get('message')
+
+        # get pa list ng mga checked and yung respective quantities
+        
+
+
+
 
 @app.route('/donate', methods = ['GET', 'POST'])
 def donate():
@@ -172,7 +193,7 @@ def donate():
 @app.route('/feedback', methods = ['GET', 'POST'])
 def feedback():
     if request == 'GET':
-        return render_template('feedback.html')
+        return render_template('feedback.html', role = session['role'])
     else:
         '''
             SELECT Feedback, stars
@@ -190,7 +211,7 @@ def update():
 
 @app.route('/thank-you')
 def thank_you():    
-    return render_template('thankyou.html')
+    return render_template('thankyou.html', role = session['role'])
 
 if __name__ == '__main__':
     app.run(debug=True)

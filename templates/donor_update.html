@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{%block body%}
+<body>
+
+  {% include "navigation.html" %}
+  
+    <h1 id="donor-page-title">Update</h1>
+    <div class="donor-center-container">
+
+        <!-- Ito yung ipasok mo sa forloop na div -->
+        <div class="donor-center-div update">
+            <h4 class="organizer-name-update">John Smith</h4>
+            <p class="update-message">Consider donating to this lady, she is really responsible. The updates are on time
+                :></p>
+        </div>
+
+        <div class="donor-center-div update">
+            <h4 class="organizer-name-update">Jane Doe</h4>
+            <p>Hirap i-spell ng name, namali tuloy ako ng mailing address!!! 😒</p>
+        </div>
+
+        <div class="donor-center-div update">
+            <h4 class="organizer-name-update">Alice Johnson</h4>
+            <p></p>Hulog ng langit to si madam, salamat po sa ganitong initiative! </p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut corrupti, sequi nam architecto pariatur
+                laborum aliquam, dolore, unde alias corporis culpa natus repellat quasi minima. Repellat eveniet
+                possimus ex mollitia.</p>
+        </div>
+    </div>
+
+    <script src="/static/javascript.js"></script>
+</body>
+{% endblock %}
