@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{%block body%}
+<body>
+    <!-- NAV BAR -->
+    <nav class="nav-bar">
+        <div class="nav-bar-div">
+            <div class="logo"><a href="">DONEate</a></div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Campaigns</a></li>
+                <li><a href="#">Organizers</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">Updates</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1 id="donor-organizer-title">Organizers</h1>
+
+    <div class="donor-organizer-container">
+
+            {% for organizer in organizers %} <!-- Should organizer_names in production-->
+                {% if organizer %}
+                    <div class="donor-organizer-div">
+                        <h3 class="organizer-name">{{organizer}}</h3>
+                        <button class="feedback-bttn">Feedback</button> <!-- Perhaps lagyan to ng action na may value na name {{organizer}}-->
+                    </div>
+                {% else %}
+                    <h3 class = 'organizer-name'>You have not donated to anyone yet.</h3>
+                {% endif %}
+            {% endfor %}  
+       
+
+        <!-- {% for organizer in organizers %}
+                <h2>{{organizer['name']}}</h2>
+            {% endfor %} -->
+
+        <!-- Ito yung ipasok mo sa forloop na div
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">John Smith</h3>
+            <button class="feedback-bttn">Feedback</button>
+        </div>
+
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">Joe Doe</h3>
+            <button class="feedback-bttn">Feedback</button>
+        </div>
+
+        <div class="donor-organizer-div">
+            <h3 class="organizer-name">Joe Doe</h3>
+            <button class="feedback-bttn">Feedback</button>
+        </div> -->
+    </div>
+
+    <div class="feedback-modal">
+        <div class="feedback-modal-overlay"></div>
+
+        <section class="feedback-modal-content" role="dialog" aria-modal="true" aria-labelledby="feedback-title">
+            <header class="feedback-modal-header">
+                <h2 id="feedback-title">Submit Feedback</h2>
+                <button class="feedback-modal-close" aria-label="Close feedback form">×</button>
+            </header>
+
+            <form class="feedback-modal-form" name="feedback" action="">
+                <!-- <p><strong>Organizer:</strong> John Smith</p> -->
+
+                <!-- TEMPORARY ONLY, NOT SURE IF IM GOING TO USE JINJA -->
+                <p><strong>Organizer:</strong> <span class="organizer-name"></span></p>
+
+
+                <label for="rating">How would you rate my service?</label>
+                <div class="rating">
+                    <input type="radio" name="rating" id="star5" value="5">
+                    <label for="star5" title="5 stars"></label>
+
+                    <input type="radio" name="rating" id="star4" value="4">
+                    <label for="star4" title="4 stars"></label>
+
+                    <input type="radio" name="rating" id="star3" value="3">
+                    <label for="star3" title="3 stars"></label>
+
+                    <input type="radio" name="rating" id="star2" value="2">
+                    <label for="star2" title="2 stars"></label>
+
+                    <input type="radio" name="rating" id="star1" value="1">
+                    <label for="star1" title="1 star"></label>
+                </div>
+
+                <label for="feedback-textarea">Your Feedback</label>
+                <textarea name="feedback" id="feedback-textarea" rows="6"
+                    placeholder="Write your feedback here..."></textarea>
+
+                <div class="feedback-modal-buttons">
+                    <button type="button" class="cancel-bttn">Cancel</button>
+                    <button type="submit" class="submit-bttn">Submit</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+    <script src="{{ url_for('static', filename='javascript.js') }}"></script>
+</body>
+{% endblock %}
