@@ -161,7 +161,6 @@ body {
 	justify-content: space-between;
 }
 
-
 #doneate-logo {
 	margin-top: 10px;
 	height: 40px;
@@ -187,12 +186,12 @@ li a:hover {
 }
 /* ===================================== DONOR ===================================== */
 /* ------------ Organizer list ------------ */
-#donor-organizer-title {
+#donor-page-title {
 	color: var(--secondary-color);
 	margin: 20px 50px;
 }
 
-.donor-organizer-container {
+.donor-center-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -207,7 +206,7 @@ li a:hover {
 	gap: 10px;
 }
 
-.donor-organizer-div {
+.donor-center-div {
 	display: flex;
 	justify-content: space-between;
 	width: 90%;
@@ -413,6 +412,19 @@ li a:hover {
 .feedback-modal.active .feedback-modal-content {
 	transform: translate(-50%, -50%) scale(1);
 	opacity: 1;
+}
+
+/* ------------ Updates page ------------ */
+.organizer-name-update {
+	font-size: var(--font-size-s);
+	font-weight: var(--font-weight-semibold);
+	display: block;
+}
+
+.donor-center-div.update {
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 5px;
 }
 
 /* ===================================== ORGANIZER ===================================== */
