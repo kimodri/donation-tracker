@@ -223,7 +223,7 @@ li a:hover {
 
 .feedback-bttn {
 	background-color: var(--accent-color);
-	color: var(--primary-color);
+	color: var(--white);
 	border: 0px;
 	border-radius: var(--border-radius-2);
 	padding: 0px 20px;
@@ -425,6 +425,19 @@ li a:hover {
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 5px;
+}
+
+/* ------------ Donate Page ------------ */
+#donate-bttn-div {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#donate-bttn-div .submit-bttn {
+	font-size: var(--font-size-m);
+	margin-right: 50px;
+	margin-bottom: 20px;
 }
 
 /* ===================================== ORGANIZER ===================================== */
