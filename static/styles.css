@@ -34,7 +34,7 @@
 	box-sizing: border-box;
 	font-family: "Poppins", sans-serif;
 	text-decoration: none;
-	list-style: none;
+	/* list-style: none; */
 }
 
 :root {
@@ -66,7 +66,6 @@
 	--box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 	--border: 1px solid rgba(0, 0, 0, 0.1);
 }
-
 
 body {
 	background-color: var(--primary-color);
@@ -170,7 +169,7 @@ body {
 	object-fit: cover;
 }
 
-li {
+.nav-bar-div li {
 	display: inline-block;
 	list-style: none;
 }
@@ -598,16 +597,6 @@ li a:hover {
 	text-decoration: none;
 }
 
-/* .donor-center-div {
-	display: flex;
-	justify-content: space-between;
-	width: 90%;
-	padding: 20px;
-	background-color: var(--white);
-	border-radius: var(--border-radius-2);
-	border: #2d2d2d42 1px solid;
-} */
-
 .feedback-section {
 	width: 90%;
 	display: flex;
@@ -629,17 +618,85 @@ li a:hover {
 	color: var(--secondary-color);
 }
 
-/* .donor-center-div {
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 5px;
-	box-shadow: none;
-} */
-
 @media (max-width: 768px) {
 	.campaign-list-flex {
 		flex-direction: column;
 	}
+}
+
+/* ------------ Donor - Campaign post ------------ */
+.campaign-post-container{
+	width: 75%;
+	margin: 0 auto;
+	background-color: var(--white);
+	border-radius: var(--border-radius-2);
+	padding: 30px;
+	box-shadow: var(--box-shadow);
+}
+
+.campaign-post-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	color: var(--secondary-color);
+	font-size: var(--font-size-xl);
+}
+
+.campaign-post-title {
+	font-size: var(--font-size-xl);
+	font-weight: bold;
+	color: var(--primary);
+	margin: 0;
+}
+
+.urgent-tag {
+	background-color: #e74c3c;
+	color: #fff;
+	padding: 6px 12px;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.campaign-post-meta {
+	font-size: var(--font-size-n);
+	color: #666;
+	margin: 15px 0;
+}
+
+.campaign-post-description h3{
+	font-size: var(--font-size-m);
+	color: var(--secondary-color);
+	margin-bottom: 10px;
+	margin-top: 30px;
+
+}
+
+.campaign-post-description p{
+	font-size: var(--font-size-s);
+	line-height: 1.6;
+	margin-bottom: 10px;
+
+}
+
+.item-list {
+	margin-top: 30px;
+}
+
+.item-list h3 {
+	color: var(--secondary-color);
+	font-size: var(--font-size-m);
+	margin-bottom: 10px;
+}
+
+.item-list ul {
+	list-style: disc;
+	display: flex;
+	flex-direction: column;
+	padding-left: 20px;
+	font-size: var(--font-size-s);
 }
 
 /* ===================================== ORGANIZER ===================================== */
