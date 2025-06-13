@@ -35,6 +35,19 @@
     <div class="request-form-container donation">
         <header>Donation Form</header>
         <form id="request-form">
+            <span class="title">Select Organizer</span>
+            <div class="fields">
+                <div class="input-field">
+                    <label>Organizer</label>
+                    <select required>
+                        <option disabled selected>Select organizer</option>
+                        <option>John Smith</option>
+                        <option>Jane Doe</option>
+                        <option>Alice Johnson</option>
+                    </select>
+                </div>
+            </div>
+
             <span class="title">Select Donation Type</span>
             <div class="donation-types">
                 <button class="donation-types-bttn cancel-bttn" type="button"
@@ -47,7 +60,6 @@
                     onclick="toggleSection('medical-kits')">Medical Kits</button>
             </div>
 
-
             <div class="donation-info">
                 <div id="rice" class="donor-center-div donation-section">
                     <span class="title">Rice</span>
@@ -59,7 +71,7 @@
 
                 <div id="clothes" class="donor-center-div donation-section">
                     <span class="title">Clothes</span>
-                    <label for="clothes-quantity">Enter Quantity (in kilograms)</label> <!-- FIXED id and unit -->
+                    <label for="clothes-quantity">Enter Quantity (in kilograms)</label> 
                     <div class="input-field">
                         <input type="number" name="clothes-quantity" id="clothes-quantity" placeholder="0">
                     </div>
