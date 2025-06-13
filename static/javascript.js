@@ -84,19 +84,6 @@ document
 	});
 
 // FOR DONATE FORM
-// function toggleSection(id) {
-//   const section = document.getElementById(id);
-//   section.classList.toggle('active');
-// }
-
-// function toggleSection(id) {
-// 	const section = document.getElementById(id);
-// 	section.classList.toggle("active");
-
-// 	const button = document.querySelector(`[onclick="toggleSection('${id}')"]`);
-// 	button.classList.toggle("active-bttn");
-// }
-
 function toggleSection(id) {
 	const section = document.getElementById(id);
 	const button = document.querySelector(`button[onclick*="${id}"]`);
