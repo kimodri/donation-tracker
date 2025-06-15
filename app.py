@@ -317,6 +317,33 @@ def donor_update():
     return render_template('donor_update.html', role = session.get('role'), updates=updates)
 
 
+# FOR REPRESENTATIVES
+@app.route('/rep_request_org')
+def rep_request_org():
+    organizers = Organizers.query.all()
+    return render_template('rep_request_org.html', organizers = organizers, role = session.get('role'))    
+
+@app.route('/rep_request_org/request_form')
+def request_form():
+    organizer_id = request.args.get('organizer_id')
+    return render_template('rep_request_form.html', organizer_id=organizer_id, role = session.get('role'))
+
+@app.route('/submit_request_form', methods = ['POST'])
+def submit_request_form():
+    organizer_id = request.form.get('organizer')
+    representative_id = session.get('representative_id')
+    message = request.form.get('message') 
+
+    db.session.add(Requests(OrganizerID=organizer_id, RepresentativeID=representative_id,\
+                            Message=message))
+    
+    # but i feel like we should also record kung ilan yung requests
+    db.session.commit()
+
+
+
+# FOR ORGANIZERS
+
 
 # @app.route('/feedback', methods = ['GET', 'POST'])
 # def feedback():
