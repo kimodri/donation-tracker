@@ -504,7 +504,7 @@ li a:hover {
 
 /* ------------ Donor - Organizer view and campaign list ------------ */
 .donor-center-container.campaign-container {
-	padding: 40px;
+	/* padding: 40px; */
 
 	/* background-color: red; */
 }
@@ -515,12 +515,11 @@ li a:hover {
 	margin-bottom: 10px;
 }
 
-.campaign-list-flex {
+/* .campaign-list-flex {
 	display: flex;
 	justify-content: space-between;
 	gap: 30px;
 	width: 90%;
-	/* border: red 1px solid; */
 	border: var(--border);
 	border-radius: var(--border-radius-2);
 	box-shadow: var(--box-shadow);
@@ -584,6 +583,61 @@ li a:hover {
 
 .status.completed {
 	background-color: #888;
+} */
+
+.campaign-card {
+	background-color: var(--white);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: var(--border-radius-2);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+}
+
+.campaign-content {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.campaign-content h4 {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+}
+
+.status {
+	font-size: 14px;
+	color: #333;
+}
+
+.campaign-link {
+	font-size: 14px;
+	color: var(--accent-color);
+	text-decoration: none;
+}
+
+.campaign-link:hover {
+	text-decoration: underline;
+}
+
+.allocate-button {
+	padding: 8px 16px;
+	background-color: #f4a024;
+	color: #fff;
+	border: none;
+	border-radius: 20px;
+	font-weight: 600;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.allocate-button:hover {
+	background-color: #d98c13;
 }
 
 .campaign-desc {
@@ -766,12 +820,6 @@ nav .dashboard-nav-items a:hover {
 	align-items: center;
 }
 
-/* .organizer-name-update {
-	margin: 0;
-	font-size: 20px;
-	color: #0f5959;
-} */
-
 .update-message {
 	margin-top: 8px;
 	font-size: 16px;
@@ -790,6 +838,20 @@ nav .dashboard-nav-items a:hover {
 
 .delete-btn:hover {
 	background-color: #c0392b;
+}
+
+/* ------------ Organizer: Campaign post form ------------ */
+.radio-group {
+	display: flex;
+	gap: 20px;
+	/* margin-top: 8px; */
+	height: 40px;
+}
+
+.radio-group label {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
 }
 
 /* ===================================== REPRESENTATIVE ===================================== */
@@ -829,7 +891,7 @@ nav .dashboard-nav-items a:hover {
 	/* min-height: 490px; */
 	background-color: var(--white);
 	overflow: hidden;
-	gap: 15px;
+	gap: 8px;
 }
 .request-form-container form .form {
 	position: absolute;
@@ -859,6 +921,11 @@ form .fields .input-field {
 	color: var(--text-color);
 }
 
+.input-field textarea {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
 .input-field input,
 select {
 	outline: none;
@@ -870,6 +937,7 @@ select {
 	padding: 0 15px;
 	height: 42px;
 	margin: 8px 0;
+	margin-bottom: 10px;
 }
 .input-field input :focus,
 .input-field select:focus {
@@ -881,18 +949,51 @@ select {
 	justify-content: space-between;
 	align-items: center;
 	gap: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 6px;
+}
+
+.request-item label {
+	font-size: var(--font-size-s);
+	font-weight: var(--font-weight-normal);
+}
+
+.request-item input {
+	outline: none;
+	font-size: 14px;
+	font-weight: 400;
+	color: #333;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	padding: 0 15px;
+	height: 40px;
+	margin: 8px 0;
 }
 
 .checkbox-label-group {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 8px;
 	flex: 1;
+	height: 20px;
 }
 
 .request-item input[type="number"] {
 	width: 90px;
+	margin: 0;
+	padding: 8px 10px;
+}
+
+/* When enabled (default style of number input fields) */
+.request-item input[type="number"]:enabled {
+	background-color: #ffffff;
+	color: #333333;
+}
+
+/* When disabled */
+.request-item input[type="number"]:disabled {
+	background-color: #f0f0f0;
+	color: #999999;
+	cursor: not-allowed;
 }
 
 .input-field input,
@@ -933,3 +1034,85 @@ textarea {
 #go-back:hover {
 	color: #0b4747;
 }
+
+/* TRYYYYYYYYYYYYY */
+
+/* .campaign-list-flex {
+	display: flex;
+	justify-content: space-between;
+	gap: 30px;
+	width: 75%;
+	border: var(--border);
+	border-radius: var(--border-radius-2);
+	box-shadow: var(--box-shadow);
+	padding: 30px;
+	background-color: var(--white);
+}
+
+.campaign-column {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.campaign-column h3 {
+	margin-bottom: 5px;
+	font-weight: var(--font-weight-semibold);
+	font-size: 20px;
+	color: var(--secondary-color);
+}
+
+.campaign-card {
+	background-color: var(--white);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	padding: 15px 20px;
+	border-radius: var(--border-radius-2);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	transition: transform 0.2s;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.campaign-card:hover {
+	transform: translateY(-2px);
+	background-color: #f9fafc;
+}
+
+.campaign-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.campaign-info h4 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: var(--font-weight-semibold);
+}
+
+.status {
+	padding: 5px 10px;
+	border-radius: var(--border-radius-2);
+	font-size: 12px;
+	color: #fff;
+}
+
+.status.ongoing {
+	background-color: #4caf50;
+}
+
+.status.completed {
+	background-color: #888;
+}
+
+.campaign-link {
+	font-size: 13px;
+	color: var(--accent-color);
+	text-decoration: none;
+}
+
+.campaign-link:hover {
+	text-decoration: underline;
+} */
