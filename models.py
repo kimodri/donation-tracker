@@ -74,10 +74,12 @@ class Campaigns(db.Model):
 class CampaignRequests(db.Model):
     __tablename__ = 'CampaignRequests'
     CrID = Column(Integer, primary_key=True, autoincrement=True)
+    # RequestID = Column(Integer, ForeignKey('Requests.RequestID'))
     CampaignID = Column(Integer, ForeignKey('Campaigns.CampaignID'))
     ItemID = Column(Integer, ForeignKey('ItemLists.ItemID'))
     QuantityNeeded = Column(Integer)
 
+    # request = db.relationship("Requests", backref = "campaign_requests")  # something is wrong here
     campaign = db.relationship("Campaigns", backref="campaign_requests")
     item = db.relationship("ItemList", backref="campaign_requests")
 

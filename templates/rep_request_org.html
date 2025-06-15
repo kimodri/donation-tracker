@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<body>
+
+  {% include "navigation.html" %}
+
+    <h1 id="donor-page-title">Organizers</h1>
+
+    <div class="donor-center-container">
+
+        <!-- {% for organizer in organizers %}
+                <h2>{{organizer['name']}}</h2>
+            {% endfor %} -->
+
+        {% for organizer in organizer_names %}
+            {% if organizer %}
+                <div class="donor-center-div">
+                    <h3 class="organizer-name">{{organizer}}</h3>
+                    <a href="{{ url_for('sendRequest') }}?organizer={{ organizer | urlencode }}">
+                    <button class="feedback-bttn">Send a Request</button>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+
+        <!-- Ito yung ipasok mo sa forloop na div
+        <div class="donor-center-div">
+            <h3 class="organizer-name">John Smith</h3>
+            <button onclick="window.location.href='rep_request_form.html'" class="feedback-bttn">Send a Request</button>
+        </div>
+
+        <div class="donor-center-div">
+            <h3 class="organizer-name">Joe Doe</h3>
+            <button onclick="window.location.href='rep_request_form.html'" class="feedback-bttn">Send a Request</button>
+        </div>
+
+        <div class="donor-center-div">
+            <h3 class="organizer-name">Alice Jonson</h3>
+            <button onclick="window.location.href='rep_request_form.html'" class="feedback-bttn">Send a Request</button>
+        </div> -->
+
+
+    </div>
+
+
+    <script src="/static/javascript.js"></script>
+</body>
+{% endblock %}

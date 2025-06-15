@@ -2,7 +2,7 @@
 
 {%block body%}
 <body>
-    <!-- NAV BAR -->
+    <!-- NAV BAR
     <nav class="nav-bar">
         <div class="nav-bar-div">
             <div class="logo"><a href="">DONEate</a></div>
@@ -15,17 +15,22 @@
                 <li><a href="#">Updates</a></li>
             </ul>
         </div>
-    </nav>
+    </nav> -->
 
+    {% include "navigation.html" %}
+    
     <h1 id="donor-organizer-title">Organizers</h1>
 
-    <div class="donor-organizer-container">
+    <div class="donor-center-container">
 
-            {% for organizer in organizers %} <!-- Should organizer_names in production-->
+            {% for organizer in organizers %}
                 {% if organizer %}
-                    <div class="donor-organizer-div">
-                        <h3 class="organizer-name">{{organizer}}</h3>
-                        <button class="feedback-bttn">Feedback</button> <!-- Perhaps lagyan to ng action na may value na name {{organizer}}-->
+                    <div class="donor-center-div">
+                    <h3 class="organizer-name">{{ organizer }}</h3>
+                    <a href="{{ url_for('feedback') }}?organizer={{ organizer | urlencode }}">
+                        <button class="feedback-bttn">See Feedback</button>
+                        <button class="feedback-bttn">Feedback</button>
+                    </a>
                     </div>
                 {% else %}
                     <h3 class = 'organizer-name'>You have not donated to anyone yet.</h3>
@@ -89,11 +94,11 @@
                 </div>
 
                 <label for="feedback-textarea">Your Feedback</label>
-                <textarea name="feedback" id="feedback-textarea" rows="6"
-                    placeholder="Write your feedback here..."></textarea>
 
-                <div class="feedback-modal-buttons">
-                    <button type="button" class="cancel-bttn">Cancel</button>
+                <textarea name="message" placeholder="Write your message here..."></textarea>
+
+                <div class="button-group">
+                    <button type="reset" class="cancel-bttn">Cancel</button>
                     <button type="submit" class="submit-bttn">Submit</button>
                 </div>
             </form>
