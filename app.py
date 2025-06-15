@@ -109,12 +109,11 @@ def login():
                 session['role'] = result.Role
 
                 if result.Role == 'donor':
-                    
                     donors = [i.Email for i in Users.query.filter_by(Role = 'donor')]
                     id = donors.index(session['email']) + 1
                     session['donor_id'] = id
                     print(type(session['donor_id']))
-                    return "Donor Page"
+                    return redirect(url_for('donor_donate'))
                     # return redirect('')  # homepage for donor
                 elif result.Role == 'organizer':
                     organizers = [i.Email for i in Users.query.filter_by(Role = 'organizer')]
@@ -141,7 +140,6 @@ def login():
 
 @app.route('/organizerList', methods = ['GET', 'POST'])
 def organizerList():
-
     # This functionlity is for the users whose role is a donor
     if session['role'] == 'donor':
         # returns list of organizerID
@@ -166,15 +164,104 @@ def organizerList():
 
 
 # For donors templates
-@app.route('/donate')
-def donate():
-    return render_template('donor_donate.html')
-
 @app.route('/campaign')
 def campaign():
-    return render_template('donor_campaign_post.html')
+    return render_template('donor_campaign_post.html', role = session.get('role'))
 
-@app.route('')
+@app.route('/donate_form')
+def donate_form():
+    # query for the lists of organizers
+    result = Organizers.query.all()
+    organizers = [i.Name.upper() for i in result]
+    return render_template('donor_donate_form.html', organizers = organizers, role = session.get('role'))
+
+@app.route('/donor_donate')
+def donor_donate():
+    result = Organizers.query.all()
+    organizers = [i.Name.upper() for i in result]
+    return render_template('donor_donate.html', organizers = organizers, role = session.get('role'))
+
+@app.route('/donor_feedback.html')
+def donor_feedback():
+    return render_template('donor_feedback.html', role = session.get('role'))
+
+@app.route('/donor_org_profile')
+def donor_org_profile():
+    return render_template('donor_org_profile.html', role = session.get('role')) 
+
+@app.route('/donor_update')
+def donor_update():
+    # since id lang meron sa ano kailangan mo magJOIN, ask chatgpt
+    return render_template('donor_update.html', role = session.get('role'))
+
+@app.route('/feedback', methods = ['GET', 'POST'])
+def feedback():
+    pass
+
+    # if request == 'GET':
+    #     if session['role'] == 'organizer':
+    #         result = Feedbacks.query.filter_by(OrganizerID = session.get('organizer_id'))
+            
+    #         names = result.DonorID # join the names
+            
+    #         comments = result.Comment 
+    #         stars = result.Stars
+    #         starSum = 0
+    #         for star in stars:
+    #             starSum += star
+    #         avgStars = starSum / len(stars)
+
+    #         return render_template('feedbacks.html', role = session['role'], avgStars = avgStars, \
+    #                                names = names, comments=comments)
+        
+
+    #     elif session['role'] == 'representative':
+    #         organizerName = request.args.get('name')
+    #         result = Feedbacks.query.filter_by(Name=organizerName)
+    #         comments = result.Comment
+
+    #         render_template('feedbacks.html', role = session.get('role'), name = organizerName, \
+    #                         message = comments)
+
+
+
+    # else:
+    #     # I want to get the organizerID
+    #     donor_id = session.get('donor_id')
+    #     message = request.form.get('message')
+    #     rating = int(request.form.get('rating'))
+
+
+    #     '''
+    #         SELECT Feedback, stars
+    #         FROM feedbacks
+    #         WHERE user = session['user'] AND organizer = organizer
+        
+    #     '''
+    #     # kunin kung para kanino, kunin kung sino, kunin yung star, tanggalin siya sa pinag-anuhan
+    #     pass
+    #     # mula sa session na nagawa mo sa login kunn mo yung uder_id, lagay mo sa db
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # @app.route('/sendRequest', methods = ['GET', 'POST'])
@@ -252,52 +339,6 @@ def donate():
     INSERT INTO Feedbacks()
     if wala pang ganong connection 
     '''
-
-@app.route('/feedback', methods = ['GET', 'POST'])
-def feedback():
-    if request == 'GET':
-        if session['role'] == 'organizer':
-            result = Feedbacks.query.filter_by(OrganizerID = session.get('organizer_id'))
-            
-            names = result.DonorID # join the names
-            
-            comments = result.Comment 
-            stars = result.Stars
-            starSum = 0
-            for star in stars:
-                starSum += star
-            avgStars = starSum / len(stars)
-
-            return render_template('feedbacks.html', role = session['role'], avgStars = avgStars, \
-                                   names = names, comments=comments)
-        
-
-        elif session['role'] == 'representative':
-            organizerName = request.args.get('name')
-            result = Feedbacks.query.filter_by(Name=organizerName)
-            comments = result.Comment
-
-            render_template('feedbacks.html', role = session.get('role'), name = organizerName, \
-                            message = comments)
-
-
-
-    else:
-        # I want to get the organizerID
-        donor_id = session.get('donor_id')
-        message = request.form.get('message')
-        rating = int(request.form.get('rating'))
-
-
-        '''
-            SELECT Feedback, stars
-            FROM feedbacks
-            WHERE user = session['user'] AND organizer = organizer
-        
-        '''
-        # kunin kung para kanino, kunin kung sino, kunin yung star, tanggalin siya sa pinag-anuhan
-        pass
-        # mula sa session na nagawa mo sa login kunn mo yung uder_id, lagay mo sa db
 
 
 

@@ -7,7 +7,7 @@
 {% include "navigation.html" %}
 
     <div id="go-back-div">
-        <a href="donor_donate.html" id="go-back">&#8592 Go Back</a>
+        <a href="{{ url_for('donor_donate') }}" id="go-back">&#8592 Go Back</a>
     </div>
 
     <!-- REQUEST FORM -->
@@ -20,9 +20,13 @@
                     <label>Organizer</label>
                     <select required>
                         <option disabled selected>Select organizer</option>
-                        <option>John Smith</option>
-                        <option>Jane Doe</option>
-                        <option>Alice Johnson</option>
+                        {% if organizers %}
+                            {% for organizer in organizers %}
+                            <option>{{ organizer }}</option>
+                            {% endfor %}
+                        {% else %}
+                            <option disabled selected>No organizers found</option>
+                        {% endif %}
                     </select>
                 </div>
             </div>

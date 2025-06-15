@@ -16,11 +16,19 @@
         <!-- <button href="#" class="submit-bttn donate">Donate</button> -->
 
         <div class="donor-center-div">
-            <h3 class="organizer-name">John Smith</h3>
-            <button onclick="window.location.href='donor_view_organizer.html'" class="feedback-bttn">View</button>
+            {% if organizers %}
+                {% for organizer in organizers %}
+                    <h3 class="organizer-name">{{organizer}}</h3>
+                    <a href = "{{url_for('donor_org_profile')}}">
+                        <button class="feedback-bttn">View</button>  
+                    </a>     
+                {% endfor %}
+            {% else %}
+                <p>No organizers found!</p>
+            {% endif %}
         </div>
 
-        <div class="donor-center-div">
+        <!-- <div class="donor-center-div">
             <h3 class="organizer-name">Joe Doe</h3>
             <button onclick="window.location.href='donor_view_organizer.html'" class="feedback-bttn">View</button>
         </div>
@@ -28,7 +36,7 @@
         <div class="donor-center-div">
             <h3 class="organizer-name">Alice Johnson</h3>
             <button onclick="window.location.href='donor_view_organizer.html'" class="feedback-bttn">View</button>
-        </div>
+        </div> -->
     </div>
 
     <script src="/static/javascript.js"></script>

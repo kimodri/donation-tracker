@@ -5,12 +5,12 @@
             
             <ul>
                 <li><a href="/">About</a></li>
-                <li><a href="/">Home</a></li>
+                <!-- <li><a href="/">Home</a></li> -->
                 <li><a href="/organizerList">Organizers</a></li>
-                <li><a href="#">Campaigns</a></li>  
+                <!-- <li><a href="#">Campaigns</a></li>   -->
             {% if role == 'donor' %}
-                <li><a href="#">Feedback</a></li>
-                <li><a href="#">Updates</a></li>
+                <li><a href="{{ url_for('feedback') }}">Feedback</a></li>
+                <li><a href="{{ url_for('donor_update') }}">Updates</a></li>
             {% endif %}
             </ul>
 
