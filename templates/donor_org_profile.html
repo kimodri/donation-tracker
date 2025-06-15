@@ -23,21 +23,23 @@
             <div class="campaign-column">
                 <h3>Active Campaigns</h3>
                 <div class="campaign-card-organizer-view">
-                    <div class="campaign-info">
                         {% if active_campaigns %}
                             {% for active_campaign in active_campaigns %}
+                            <div class="campaign-info">
                                 <h4>{{active_campaign.Name}}</h4>
                                 <span class="status ongoing">Ongoing</span>
-                                <a href = "{{url_for('campaign'), campaign_id = active_campaign.CampaignID}}"></a>
+                                <a href = "{{url_for('campaign', campaign_id = active_campaign.CampaignID)}}"></a>
+                            </div>
                             {% endfor %}
                         {% else %}
-                            <p>No active campaigns.</p>
+                            <div class="campaign-info">
+                                <p>No active campaigns.</p>
+                            </div>
                         {% endif %} 
-                    </div>
-
-                    <!-- edit mo pa to para malagyan ng info -->
-
-                    <!-- <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a> -->
+                        
+                        <!-- edit mo pa to para malagyan ng info -->
+                        
+                        <!-- <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a> -->
                 </div>
 
                 <!-- <div class="campaign-card-organizer-view">
@@ -55,17 +57,19 @@
                 <h3>Completed Campaigns</h3>
                 <div class="campaign-card-organizer-view">
                     
-                    <div class="campaign-info">
                         {% if completed_campaigns %}
                             {% for completed_campaign in completed_campaigns %}
-                                <h4>completed_campaign.Name</h4>
-                                <span class="status completed">Completed</span>
-                                <a href="{{url_for('campaign'), campaign_id = completed_campaign.CampaignID}}" class="campaign-link">View Campaign &#8594</a>
+                                <div class="campaign-info">
+                                    <h4>completed_campaign.Name</h4>
+                                    <span class="status completed">Completed</span>
+                                    <a href="{{url_for('campaign', campaign_id = completed_campaign.CampaignID)}}" class="campaign-link">View Campaign &#8594</a>
+                                </div>
                             {% endfor %}
                         {% else %}
-                            <p>No completed campaigns.</p>
+                                <div class="campaign-info">    
+                                    <p>No completed campaigns.</p>
+                                </div>
                         {% endif %}
-                    </div>
 
                     <!-- edit mo pa to para malagyan ng info -->
                     <!-- <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a> -->
@@ -83,14 +87,25 @@
 
         <hr>
 
+
+        <!-- dito mag-aadd ng stars -->
         <div class="feedback-section">
             <h2>Feedback</h2>
 
-            <div class="donor-center-div update">
-                <h4 class="organizer-name-update">Jane Doe</h4>
-                <p>Salamat sa tulong niyo! Ang bilis ng response time ni Madam!</p>
-            </div>
-
+            {% if feedbacks %}
+                {% for feedback in feedbacks %}
+                    <div class="donor-center-div update">
+                        <h4 class="organizer-name-update">{{feedback.donor.Name}}</h4>
+                        <p>{{feedback.Comment}}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="donor-center-div update">
+                    <p>No feedbacks available.</p>
+                </div>
+            {% endif %}
+       
+<!-- 
             <div class="donor-center-div update">
                 <h4 class="organizer-name-update">Juan Dela Cruz</h4>
                 <p>Walang hassle sa donation process, very smooth. Thumbs up!</p>
@@ -99,7 +114,8 @@
             <div class="donor-center-div update">
                 <h4 class="organizer-name-update">Maria Clara</h4>
                 <p>Grabe si organizer, hindi lang magaling—may puso pa!</p>
-            </div>
+            </div> -->
+            
         </div>
     </div>
 

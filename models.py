@@ -1,6 +1,6 @@
 from extensions import db
-from sqlalchemy import Column, String, Text, Boolean, Date, ForeignKey, Integer, DateTime
-from datetime import date
+from sqlalchemy import Column, String, Text, Boolean, Date, ForeignKey, Integer, DateTime, func
+from datetime import date, datetime
 
 class Users(db.Model):
     __tablename__ = 'Users'
@@ -65,6 +65,7 @@ class Campaigns(db.Model):
     Status = Column(String(20))
     is_Urgent = Column(Boolean)
     DatePosted = Column(Date, default=date.today)
+    Location = Column(String(31))
 
     organizer = db.relationship("Organizers", backref="campaigns")
 
@@ -91,7 +92,7 @@ class Donations(db.Model):
     DonationID = Column(Integer, primary_key=True, autoincrement=True)
     DonorID = Column(Integer, ForeignKey('Donors.DonorID'))
     OrganizerID = Column(Integer, ForeignKey('Organizers.OrganizerID'))
-    Timestamp = Column(DateTime)
+    Timestamp = Column(DateTime, default=datetime.now, server_default=func.now())
 
     donor = db.relationship("Donors", backref="donations")
     organizer = db.relationship("Organizers", backref="donations")

@@ -42,11 +42,27 @@ const organizerNameField = document.querySelector(
 
 feedbackButtons.forEach((button) => {
 	button.addEventListener("click", () => {
-		const organizerName =
-			button.previousElementSibling?.textContent || "Organizer";
+		const organizerName = button.dataset.orgName || "Organizer";
 		if (organizerNameField) organizerNameField.textContent = organizerName;
-		const hiddenInput = document.getElementById("organizer-name-input");
-		if (hiddenInput) hiddenInput.value = organizerName;
+
+
+		// const hiddenInput = document.getElementById("organizer-name-input");
+		// if (hiddenInput) hiddenInput.value = organizerName;
+
+		const nameInput = document.getElementById("organizer-name-input");
+		const idInput = document.getElementById("organizer-id-input");
+
+		// These come from data attributes in the button
+		// const organizerName = button.dataset.orgName || "Organizer";
+		const organizerId = button.dataset.orgId;
+
+		// Set the visible span text
+		if (organizerNameField) organizerNameField.textContent = organizerName;
+
+		// Set the hidden inputs
+		if (nameInput) nameInput.value = organizerName;
+		if (idInput) idInput.value = organizerId;
+
 		modal?.classList.add("active");
 	});
 });

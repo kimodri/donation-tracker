@@ -8,23 +8,40 @@
     <h1 id="donor-page-title">Update</h1>
     <div class="donor-center-container">
 
-        <!-- Ito yung ipasok mo sa forloop na div -->
+        <!-- Ito yung ipasok mo sa forloop na div
         <div class="donor-center-div update">
             <h4 class="organizer-name-update">John Smith</h4>
             <p class="update-message">Consider donating to this lady, she is really responsible. The updates are on time
                 :></p>
-        </div>
+        </div> -->
         
-        <div class="donor-center-div update">
+        <!-- <div class="donor-center-div update">
         {% if updates %}
             {% for update in updates %}
-                <h4 class="organizer-name-update">{{update.organizer}}</h4>
-                <p>{{update.UpdateText}}</p>
+                <div class="donor-center-div update">
+                    <h4 class="organizer-name-update">{{update.organizer.Name}}</h4>
+                    <p>{{update.UpdateText}}</p>
+                </div>
             {% endfor %}
         {% else %}
-            <p>No updates found.</p>
-        {% endif %}
-        </div>
+            <div class="donor-center-div update">
+                <p>No updates found.</p>
+            </div>
+        {% endif %} -->
+            {% if updates|length > 0 %}
+                {% for update in updates %}
+                    <div class="donor-center-div update">
+                        <h4 class="organizer-name-update">{{ update.organizer.Name }}</h4>
+                        <p>{{ update.UpdateText }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="donor-center-div update">
+                    <p>No updates found.</p>
+                </div>
+            {% endif %}
+
+      
 
         <!-- <div class="donor-center-div update">
             <h4 class="organizer-name-update">Alice Johnson</h4>

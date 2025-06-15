@@ -8,27 +8,31 @@
     <h1 id="donor-page-title">Donate</h1>
 
     <div class="donor-center-container">
-
+        
+        {% if role == 'donor' %}
         <div id="donate-bttn-div">
-            <a href="{{ url_for('donate_form') }}"></a>
+            <a href="{{ url_for('donate_form') }}"></a>    
                 <button class="submit-bttn">Donate</button>
             </a>    
         </div>
+        {% endif %}
 
         <!-- <button href="#" class="submit-bttn donate">Donate</button> -->
-
-        <div class="donor-center-div">
-            {% if organizers %}
-                {% for organizer in organizers %}
+        {% if organizers %}
+            {% for organizer in organizers %}
+                <div class="donor-center-div">
                     <h3 class="organizer-name">{{organizer.Name}}</h3>
-                    <a href = "{{url_for('donor_org_profile'), organizer_id = organizer.OrganizerID}}">  
-                        <button class="feedback-bttn">View</button>  
-                    </a>     
-                {% endfor %}
-            {% else %}
+                        <a href="{{ url_for('donor_org_profile', organizer_id=organizer.OrganizerID) }}">
+                            <button class="feedback-bttn">View</button>  
+                        </a> 
+                </div>           
+            {% endfor %}
+        {% else %}
+            <div class="donor-center-div">
                 <p>No organizers found!</p>
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
+      
 
         <!-- <div class="donor-center-div">
             <h3 class="organizer-name">Joe Doe</h3>

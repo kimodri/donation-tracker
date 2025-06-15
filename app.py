@@ -1,3 +1,5 @@
+# Fix the models add location sa acmpaigns table
+
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -163,23 +165,72 @@ def login():
 #         return "You are not allowed to visit this URL."
 
 
+
 # For donors templates
 @app.route('/campaign')
 def campaign():
+    # get the campaign id
+    campaign_id = request.args.get('campaign_id')
 
-    return render_template('donor_campaign_post.html', role = session.get('role'))
+    # from the id, query the info
+    campaign = Campaigns.query.filter_by(CampaignID = campaign_id)
+
+    name = campaign.Name
+
+    urgency = campaign.is_Urgent
+
+    date_posted = campaign.DatePosted
+
+    location = campaign.Location
+
+    description = campaign.Description
+
+    organizer_name = campaign.organizer.Name
+
+    # Go to campaign request
+    result = CampaignRequests.query.filter_by(CampaignID = campaign_id).all()
+    item_list = list({item.ItemID for item in result})
+
+    return render_template('donor_campaign_post.html', role = session.get('role'), name=name,\
+                           urgency=urgency, organizer_name=organizer_name, description=description,\
+                            date_posted=date_posted, location=location, item_list=item_list)
+
 
 @app.route('/donate_form')
 def donate_form():
-
     # query for the lists of organizers
     result = Organizers.query.all()
-    organizers = [i.Name.upper() for i in result]
-    return render_template('donor_donate_form.html', organizers = organizers, role = session.get('role'))
+    return render_template('donor_donate_form.html', organizers = result, role = session.get('role'))
+
+@app.route('/donate_form/submit_donate_form', methods = ['POST'])
+def submit_donate_form():
+    organizer_id = request.form.get('organizer_id')
+    rice_quantity = int(request.form.get('rice-quantity'))
+    clothes_quantity = int(request.form.get('clothes-quantity'))
+    canned_goods_quantity = int(request.form.get('canned-goods-quantity'))
+    medical_kits_quantity = int(request.form.get('medical-kits-quantity'))
+
+    # add to database
+    # donation table
+    db.session.add(Donations(DonorID = session.get('donor_id'), OrganizerID = organizer_id))
+    db.session.commit()
+
+    # donation details table
+    donation = Donations.query.filter_by(DonorID=session.get('donor_id')).order_by(Donations.DonationID.desc()).first()
+
+    items_quantity = [rice_quantity, clothes_quantity, canned_goods_quantity, medical_kits_quantity]
+    
+    for idx, qty in enumerate(items_quantity, start=1):  # idx: 1 to 4
+        if qty != 0:
+            db.session.add(DonationDetails(DonationID=donation.DonationID, ItemID=idx, Quantity=qty))
+    db.session.commit()
+
+    # Perhaps flash here, thanking
+    return redirect(url_for('donor_donate'))
+
 
 @app.route('/donor_donate')
 def donor_donate():
-
     organizers = Organizers.query.all()
     return render_template('donor_donate.html', organizers = organizers, role = session.get('role'))
 
@@ -229,31 +280,41 @@ def donor_feedback():
     # Now extract unique organizer names (in order of appearance)
     from collections import OrderedDict
 
-    organizer_names = list(OrderedDict.fromkeys(
-        donation.organizer.Name for donation in donations_to_unfeedbacked_organizers
+    organizers = list(OrderedDict.fromkeys(
+        donation for donation in donations_to_unfeedbacked_organizers
     ))
+    
+    # organizer_names = list(OrderedDict.fromkeys(
+    #     donation.organizer.Name for donation in donations_to_unfeedbacked_organizers
+    # ))
         
-    return render_template('donor_feedback.html', role = session.get('role'), organizers = organizer_names)
+    return render_template('donor_feedback.html', role = session.get('role'), organizers = organizers)
+
+    # return render_template('donor_feedback.html', role = session.get('role'), organizers = organizer_names)
+
     # preserving the "you can still have an organizer in th elist even if nafeedbackan mo na"
     # donations = Donations.query.filter_by(DonorID=donor_id).all()
     # organizer_names = list({donation.organizer.Name for donation in donations})
 
 
 # kapag clinick yung feedback button sa overlay ito yung icacall
-@app.route('donor_feedback/submit_feedback', methods = ['POST'])
+@app.route('/donor_feedback/submit_feedback', methods = ['POST'])
 def donor_submit_feedback():
-    organizer_name = request.form.get('organizer_name')
+    organizer_id = request.form.get('organizer_id') # make this an ID
     rating = request.form.get('rating')
     comment = request.form.get('message')
     donor_id = session.get('donor_id')
 
+    # add to database
+    db.session.add(Feedbacks(Comment=comment, Stars=rating, DonorID=donor_id, OrganizerID=organizer_id))
+    db.session.commit()
     return redirect(url_for('donor_feedback'))
-
 
 @app.route('/donor_update')
 def donor_update():
-    # since id lang meron sa ano kailangan mo magJOIN, ask chatgpt
-    return render_template('donor_update.html', role = session.get('role'))
+    # since id lang meron sa updatestable kailangan mo magJOIN, ask chatgpt
+    updates = Updates.query.filter_by(DonorID = session.get('donor_id')).all()
+    return render_template('donor_update.html', role = session.get('role'), updates=updates)
 
 
 

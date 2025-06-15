@@ -13,16 +13,16 @@
     <!-- REQUEST FORM -->
     <div class="request-form-container donation">
         <header>Donation Form</header>
-        <form id="request-form">
+        <form id="request-form" method = 'post', action = "{{url_for('submit_donate_form')}}">
             <span class="title">Select Organizer</span>
             <div class="fields">
                 <div class="input-field">
                     <label>Organizer</label>
-                    <select required>
+                    <select required name = 'organizer_id'>
                         <option disabled selected>Select organizer</option>
                         {% if organizers %}
                             {% for organizer in organizers %}
-                            <option>{{ organizer }}</option>
+                                <option value = "{{organizer.OrganizerID}}">{{ organizer.Name }}</option>
                             {% endfor %}
                         {% else %}
                             <option disabled selected>No organizers found</option>
