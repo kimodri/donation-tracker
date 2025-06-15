@@ -79,7 +79,7 @@ def signin():
             db.session.add(Communities(Name = community, Address = address))
             db.session.commit()
 
-        return redirect(url_for('thank_you'))
+        return redirect(url_for('login'))
 
     return render_template('login.html')
 
@@ -138,38 +138,40 @@ def login():
         # redicrect to sign in page whch will call the sign in function
         return render_template('login.html')
 
-@app.route('/organizerList', methods = ['GET', 'POST'])
-def organizerList():
-    # This functionlity is for the users whose role is a donor
-    if session['role'] == 'donor':
-        # returns list of organizerID
-        # Get all donations by the donor
-        result = Donations.query.filter_by(DonorID=session['donor_id']).all()
+# @app.route('/organizerList', methods = ['GET', 'POST'])
+# def organizerList():
+#     # This functionlity is for the users whose role is a donor
+#     if session['role'] == 'donor':
+#         # returns list of organizerID
+#         # Get all donations by the donor
+#         result = Donations.query.filter_by(DonorID=session['donor_id']).all()
 
-        # Use the relationship to access organizer names
-        organizer_names = list({donation.organizer.Name for donation in result})
+#         # Use the relationship to access organizer names
+#         organizer_names = list({donation.organizer.Name for donation in result})
 
-        dummy_organizers = ['Kim', 'Triselle', 'Matan','Audrey', 'John', 'Julliane']
-        return render_template('donor_organizer.html', organizers = dummy_organizers, role = session['role'])
+#         dummy_organizers = ['Kim', 'Triselle', 'Matan','Audrey', 'John', 'Julliane']
+#         return render_template('donor_organizer.html', organizers = dummy_organizers, role = session['role'])
     
-    elif session['role'] == 'representative':
-        result = Organizers.query.all()
-        organizer_names = [i.Name for i in result]
+#     elif session['role'] == 'representative':
+#         result = Organizers.query.all()
+#         organizer_names = [i.Name for i in result]
 
-        dummy_organizer_names = ['ABS-CBN', 'GMA', 'Rastaman Inc']
-        render_template('rep_request_org.html', organizer_names = dummy_organizer_names, role = session['role'])
+#         dummy_organizer_names = ['ABS-CBN', 'GMA', 'Rastaman Inc']
+#         render_template('rep_request_org.html', organizer_names = dummy_organizer_names, role = session['role'])
     
-    else:
-        return "You are not allowed to visit this URL."
+#     else:
+#         return "You are not allowed to visit this URL."
 
 
 # For donors templates
 @app.route('/campaign')
 def campaign():
+
     return render_template('donor_campaign_post.html', role = session.get('role'))
 
 @app.route('/donate_form')
 def donate_form():
+
     # query for the lists of organizers
     result = Organizers.query.all()
     organizers = [i.Name.upper() for i in result]
@@ -177,26 +179,87 @@ def donate_form():
 
 @app.route('/donor_donate')
 def donor_donate():
-    result = Organizers.query.all()
-    organizers = [i.Name.upper() for i in result]
-    return render_template('donor_donate.html', organizers = organizers, role = session.get('role'))
 
-@app.route('/donor_feedback.html')
-def donor_feedback():
-    return render_template('donor_feedback.html', role = session.get('role'))
+    organizers = Organizers.query.all()
+    return render_template('donor_donate.html', organizers = organizers, role = session.get('role'))
 
 @app.route('/donor_org_profile')
 def donor_org_profile():
-    return render_template('donor_org_profile.html', role = session.get('role')) 
+    
+    # get the organizerID
+    organizer_id = request.args.get('organizer_id')
+
+    # get the profile
+    organizer = Organizers.query.filter_by(OrganizerID=organizer_id)
+    
+    # get the active campaigns by querying and filtering using the id
+    active_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Active').all()
+    
+    # get the completed campaigns by querying and filtering using the id
+    completed_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Active').all()
+    # get the feedback by querying and filtering using the id
+
+    feedbacks = Feedbacks.query.filter_by(OrganizerID=organizer_id).all()
+
+    return render_template('donor_org_profile.html', role = session.get('role'), organizer=organizer, \
+                           active_campaigns=active_campaigns, completed_campaigns=completed_campaigns,\
+                            feedbacks=feedbacks) 
+
+
+@app.route('/donor_feedback')
+def donor_feedback():
+
+    # get the organizers that the session[role.id] has donated, pass the list 
+    donor_id = session.get("donor_id")
+
+    # Get all donations made by the donor
+    donations = Donations.query.filter_by(DonorID=donor_id).all()
+
+    # Get all feedbacks the donor has already submitted
+    feedbacks = Feedbacks.query.filter_by(DonorID=donor_id).all()
+
+    # Get a set of OrganizerIDs that have already been feedbacked
+    feedbacked_organizer_ids = {feedback.OrganizerID for feedback in feedbacks}
+
+    # Filter only the donations to organizers that have NOT been feedbacked
+    donations_to_unfeedbacked_organizers = [
+        donation for donation in donations if donation.OrganizerID not in feedbacked_organizer_ids
+    ]
+
+    # Now extract unique organizer names (in order of appearance)
+    from collections import OrderedDict
+
+    organizer_names = list(OrderedDict.fromkeys(
+        donation.organizer.Name for donation in donations_to_unfeedbacked_organizers
+    ))
+        
+    return render_template('donor_feedback.html', role = session.get('role'), organizers = organizer_names)
+    # preserving the "you can still have an organizer in th elist even if nafeedbackan mo na"
+    # donations = Donations.query.filter_by(DonorID=donor_id).all()
+    # organizer_names = list({donation.organizer.Name for donation in donations})
+
+
+# kapag clinick yung feedback button sa overlay ito yung icacall
+@app.route('donor_feedback/submit_feedback', methods = ['POST'])
+def donor_submit_feedback():
+    organizer_name = request.form.get('organizer_name')
+    rating = request.form.get('rating')
+    comment = request.form.get('message')
+    donor_id = session.get('donor_id')
+
+    return redirect(url_for('donor_feedback'))
+
 
 @app.route('/donor_update')
 def donor_update():
     # since id lang meron sa ano kailangan mo magJOIN, ask chatgpt
     return render_template('donor_update.html', role = session.get('role'))
 
-@app.route('/feedback', methods = ['GET', 'POST'])
-def feedback():
-    pass
+
+
+# @app.route('/feedback', methods = ['GET', 'POST'])
+# def feedback():
+#     pass
 
     # if request == 'GET':
     #     if session['role'] == 'organizer':

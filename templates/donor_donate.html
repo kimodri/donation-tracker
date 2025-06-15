@@ -10,7 +10,9 @@
     <div class="donor-center-container">
 
         <div id="donate-bttn-div">
-            <button onclick="window.location.href='donor_donate_form.html'" class="submit-bttn">Donate</button>
+            <a href="{{ url_for('donate_form') }}"></a>
+                <button class="submit-bttn">Donate</button>
+            </a>    
         </div>
 
         <!-- <button href="#" class="submit-bttn donate">Donate</button> -->
@@ -18,8 +20,8 @@
         <div class="donor-center-div">
             {% if organizers %}
                 {% for organizer in organizers %}
-                    <h3 class="organizer-name">{{organizer}}</h3>
-                    <a href = "{{url_for('donor_org_profile')}}">
+                    <h3 class="organizer-name">{{organizer.Name}}</h3>
+                    <a href = "{{url_for('donor_org_profile'), organizer_id = organizer.OrganizerID}}">  
                         <button class="feedback-bttn">View</button>  
                     </a>     
                 {% endfor %}

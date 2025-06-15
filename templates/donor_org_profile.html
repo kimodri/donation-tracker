@@ -7,49 +7,77 @@
  {% include "navigation.html" %}
 
     <div id="go-back-div">
-        <a href="donor_donate.html" id="go-back">&#8592 Go Back</a>
+        <a href="{{ url_for('donor_donate') }}" id="go-back">&#8592 Go Back</a>
     </div>
 
     <div class="donor-center-container campaign-container">
-        <h1 class="organizer-name-view">John Smith</h1>
+        <!-- name -->
+        <!-- need mo makuha yung name, kuhanin yung id, from there pwede mo makuha yung mga campaigns -->
+        <!--  -->
+        <h1 class="organizer-name-view">{{organizer}}</h1>
 
         <div class="campaign-list-flex">
+            
+
+            <!-- Active campaigns -->
             <div class="campaign-column">
                 <h3>Active Campaigns</h3>
                 <div class="campaign-card-organizer-view">
                     <div class="campaign-info">
-                        <h4>Sunog sa Palawan</h4>
-                        <span class="status ongoing">Ongoing</span>
+                        {% if active_campaigns %}
+                            {% for active_campaign in active_campaigns %}
+                                <h4>{{active_campaign.Name}}</h4>
+                                <span class="status ongoing">Ongoing</span>
+                                <a href = "{{url_for('campaign'), campaign_id = active_campaign.CampaignID}}"></a>
+                            {% endfor %}
+                        {% else %}
+                            <p>No active campaigns.</p>
+                        {% endif %} 
                     </div>
-                    <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a>
+
+                    <!-- edit mo pa to para malagyan ng info -->
+
+                    <!-- <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a> -->
                 </div>
 
-                <div class="campaign-card-organizer-view">
+                <!-- <div class="campaign-card-organizer-view">
                     <div class="campaign-info">
                         <h4>Flood in Isabela</h4>
                         <span class="status ongoing">Ongoing</span>
                     </div>
                     <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a>
-                </div>
+                </div> -->
             </div>
 
+            
+            <!-- completed campaigns -->
             <div class="campaign-column">
                 <h3>Completed Campaigns</h3>
                 <div class="campaign-card-organizer-view">
+                    
                     <div class="campaign-info">
-                        <h4>COVID Food Drive</h4>
-                        <span class="status completed">Completed</span>
+                        {% if completed_campaigns %}
+                            {% for completed_campaign in completed_campaigns %}
+                                <h4>completed_campaign.Name</h4>
+                                <span class="status completed">Completed</span>
+                                <a href="{{url_for('campaign'), campaign_id = completed_campaign.CampaignID}}" class="campaign-link">View Campaign &#8594</a>
+                            {% endfor %}
+                        {% else %}
+                            <p>No completed campaigns.</p>
+                        {% endif %}
                     </div>
-                    <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a>
+
+                    <!-- edit mo pa to para malagyan ng info -->
+                    <!-- <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a> -->
                 </div>
 
-                <div class="campaign-card-organizer-view">
+                <!-- <div class="campaign-card-organizer-view">
                     <div class="campaign-info">
                         <h4>Bayanihan Fundraiser</h4>
                         <span class="status completed">Completed</span>
                     </div>
                     <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a>
-                </div>
+                </div> -->
             </div>
         </div>
 

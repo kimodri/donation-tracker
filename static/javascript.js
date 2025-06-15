@@ -45,6 +45,8 @@ feedbackButtons.forEach((button) => {
 		const organizerName =
 			button.previousElementSibling?.textContent || "Organizer";
 		if (organizerNameField) organizerNameField.textContent = organizerName;
+		const hiddenInput = document.getElementById("organizer-name-input");
+		if (hiddenInput) hiddenInput.value = organizerName;
 		modal?.classList.add("active");
 	});
 });
