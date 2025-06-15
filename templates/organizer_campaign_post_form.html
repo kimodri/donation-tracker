@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<body>
+
+    <div class="dashboard-container">
+        <!-- NAVIGATION -->
+        <nav class="dashboard-nav">
+            <div class="logo" style="margin-left: 10px;">
+                <a href="#"><img id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a>
+            </div>
+            <div class="dashboard-nav-items">
+                <p>DASHBOARD</p>
+                <a href="#">
+                    <p>Overview</p>
+                </a>
+                <a href="organizer_campaign_post_form.html">
+                    <p>Campaigns</p>
+                </a>
+                <a href="organizer_request_list.html">
+                    <p>Requests</p>
+                </a>
+                <a href="organizer_update_form.html">
+                    <p>Updates</p>
+                </a>
+                <a href="#">
+                    <p>Profile</p>
+                </a>
+                <a href="#">
+                    <p>Logout</p>
+                </a>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <h1 class="main-content-title">Campaigns</h1> 
+            <!-- Di ko alam kung ano maganda itawag dito HAHAHAH, ikaw na lang magbago : ) -->
+
+            <div class="request-form-container">
+                <header>Campaign Post Form</header>
+                <form id="request-form">
+
+                    <span class="title">Campaign Details</span>
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Campaign Title</label>
+                            <input type="text" placeholder="Enter campaign title" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Location</label>
+                            <input type="text" placeholder="Enter location" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Campaign Description</label>
+                            <textarea name="campaign-description"
+                                placeholder="Write your description here..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="input-field">
+                        <label>Is this campaign urgent?</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="urgency" value="yes" required> Yes</label>
+                            <label><input type="radio" name="urgency" value="no"> No</label>
+                        </div>
+                    </div>
+
+                    <span class="title">Requested Items</span>
+                    <div>
+                        <div class="request-item">
+                            <div class="checkbox-label-group">
+                                <input type="checkbox" id="rice-cb">
+                                <label for="rice-cb">Rice</label>
+                            </div>
+                            <input type="number" id="rice-num" disabled>
+                        </div>
+                        <div class="request-item">
+                            <div class="checkbox-label-group">
+                                <input type="checkbox" id="clothes-cb">
+                                <label for="clothes-cb">Clothes</label>
+                            </div>
+                            <input type="number" id="clothes-num" disabled>
+                        </div>
+                        <div class="request-item">
+                            <div class="checkbox-label-group">
+                                <input type="checkbox" id="canned-goods-cb">
+                                <label for="canned-goods-cb">Canned Goods</label>
+                            </div>
+                            <input type="number" id="canned-goods-num" disabled>
+                        </div>
+                        <div class="request-item">
+                            <div class="checkbox-label-group">
+                                <input type="checkbox" id="medical-kits-cb">
+                                <label for="medical-kits-cb">Medical Kits</label>
+                            </div>
+                            <input type="number" id="medical-kits-num" disabled>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="reset" class="cancel-bttn">Cancel</button>
+                        <button type="submit" class="submit-bttn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <script src="/static/javascript.js"></script>
+</body>
+
+{% endblock %}

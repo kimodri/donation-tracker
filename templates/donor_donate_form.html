@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<body>
+
+{% include "navigation.html" %}
+
+    <div id="go-back-div">
+        <a href="donor_donate.html" id="go-back">&#8592 Go Back</a>
+    </div>
+
+    <!-- REQUEST FORM -->
+    <div class="request-form-container donation">
+        <header>Donation Form</header>
+        <form id="request-form">
+            <span class="title">Select Organizer</span>
+            <div class="fields">
+                <div class="input-field">
+                    <label>Organizer</label>
+                    <select required>
+                        <option disabled selected>Select organizer</option>
+                        <option>John Smith</option>
+                        <option>Jane Doe</option>
+                        <option>Alice Johnson</option>
+                    </select>
+                </div>
+            </div>
+
+            <span class="title">Select Donation Type</span>
+            <div class="donation-types">
+                <button class="donation-types-bttn cancel-bttn" type="button"
+                    onclick="toggleSection('rice')">Rice</button>
+                <button class="donation-types-bttn cancel-bttn" type="button"
+                    onclick="toggleSection('clothes')">Clothes</button>
+                <button class="donation-types-bttn cancel-bttn" type="button"
+                    onclick="toggleSection('canned-goods')">Canned Goods</button>
+                <button class="donation-types-bttn cancel-bttn" type="button"
+                    onclick="toggleSection('medical-kits')">Medical Kits</button>
+            </div>
+
+            <div class="donation-info">
+                <div id="rice" class="donor-center-div donation-section">
+                    <span class="title">Rice</span>
+                    <label for="rice-quantity">Enter Quantity (in sacks)</label>
+                    <div class="input-field">
+                        <input type="number" name="rice-quantity" id="rice-quantity" placeholder="0">
+                    </div>
+                </div>
+
+                <div id="clothes" class="donor-center-div donation-section">
+                    <span class="title">Clothes</span>
+                    <label for="clothes-quantity">Enter Quantity (in kilograms)</label> 
+                    <div class="input-field">
+                        <input type="number" name="clothes-quantity" id="clothes-quantity" placeholder="0">
+                    </div>
+                </div>
+
+                <div id="canned-goods" class="donor-center-div donation-section">
+                    <span class="title">Canned Goods</span>
+                    <label for="canned-goods-quantity">Enter Quantity (in pieces)</label>
+                    <div class="input-field">
+                        <input type="number" name="canned-goods-quantity" id="canned-goods-quantity" placeholder="0">
+                    </div>
+                </div>
+
+                <div id="medical-kits" class="donor-center-div donation-section">
+                    <span class="title">Medical Kits</span>
+                    <label for="medical-kits-quantity">Enter Quantity (in kits)</label>
+                    <div class="input-field">
+                        <input type="number" name="medical-kits-quantity" id="medical-kits-quantity" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="button-group hidden">
+                    <button type="reset" class="cancel-bttn">Cancel</button>
+                    <button type="submit" class="submit-bttn">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+    <script src="/static/javascript.js"></script>
+</body>
+{% endblock %}

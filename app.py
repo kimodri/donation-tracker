@@ -165,6 +165,18 @@ def organizerList():
         return "You are not allowed to visit this URL."
 
 
+# For donors templates
+@app.route('/donate')
+def donate():
+    return render_template('donor_donate.html')
+
+@app.route('/campaign')
+def campaign():
+    return render_template('donor_campaign_post.html')
+
+@app.route('')
+
+
 # @app.route('/sendRequest', methods = ['GET', 'POST'])
 # def sendRequest():
 #     if request == 'GET':
