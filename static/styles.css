@@ -34,11 +34,7 @@
 	box-sizing: border-box;
 	font-family: "Poppins", sans-serif;
 	text-decoration: none;
-	list-style: none;
-}
-
-body {
-	background-color: var(--primary-color);
+	/* list-style: none; */
 }
 
 :root {
@@ -67,7 +63,13 @@ body {
 	--border-radius-1: 0.4rem;
 	--border-radius-2: 0.8rem;
 	--border-radius-3: 1.2rem;
-	--box-shadow: 0 2rem 3rem #0000001a;
+	--box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	--border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body {
+	background-color: var(--primary-color);
+	min-height: 100vh;
 }
 
 /* ======= LOGIN ======= */
@@ -168,7 +170,7 @@ body {
 	object-fit: cover;
 }
 
-li {
+.nav-bar-div li {
 	display: inline-block;
 	list-style: none;
 }
@@ -199,8 +201,9 @@ li a:hover {
 	justify-content: center;
 	margin: 0px auto 0px auto;
 	width: 75%;
-	margin-top: 20px;
-	padding: 20px 0px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+	padding: 40px;
 	box-shadow: 0px 1px 15px rgb(0, 0, 0, 0.1);
 	border-radius: var(--border-radius-2);
 	gap: 10px;
@@ -209,25 +212,35 @@ li a:hover {
 .donor-center-div {
 	display: flex;
 	justify-content: space-between;
-	width: 90%;
+	width: 100%;
 	padding: 20px;
 	background-color: var(--white);
 	border-radius: var(--border-radius-2);
-	border: #2d2d2d42 1px solid;
+	/* border: #2d2d2d42 1px solid; */
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .organizer-name {
-	font-size: var(--font-size-xl);
+	font-size: var(--font-size-l);
 	font-weight: var(--font-weight-medium);
 }
 
 .feedback-bttn {
-	background-color: var(--accent-color);
-	color: var(--primary-color);
-	border: 0px;
+	background-color: #fff;
+	color: var(--accent-color);
+	border: 2.5px solid var(--accent-color);
 	border-radius: var(--border-radius-2);
-	padding: 0px 20px;
-	font-size: var(--font-size-m);
+	padding: 8px 15px;
+	font-size: var(--font-size-s);
+	font-weight: var(--font-weight-semibold);
+	cursor: pointer;
+	transition: background-color 0.3s ease;
+}
+
+.feedback-bttn:hover {
+	background-color: var(--accent-color);
+	color: #fff;
 }
 
 /* ------------ Feedback pop up ------------ */
@@ -394,7 +407,7 @@ li a:hover {
 }
 
 .cancel-bttn:hover {
-	background-color: var(--accent-color, #007bff);
+	background-color: var(--accent-color);
 	color: #fff;
 }
 
@@ -415,54 +428,368 @@ li a:hover {
 }
 
 /* ------------ Updates page ------------ */
+
 .organizer-name-update {
-	font-size: var(--font-size-s);
-	font-weight: var(--font-weight-semibold);
+	font-size: var(--font-size-m);
+	font-weight: var(--font-weight-medium);
 	display: block;
 }
 
 .donor-center-div.update {
+	width: 100%;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 5px;
 }
 
+.donor-center-div.update p {
+	font-size: 13px;
+}
+
+/* ------------ Donate Page ------------ */
+#donate-bttn-div {
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 10px;
+}
+
+#donate-bttn-div .submit-bttn {
+	font-size: var(--font-size-m);
+}
+
+/* ------------ Donate Form ------------ */
+.donation-info {
+	display: inline-block;
+}
+
+.donation-section {
+	display: none;
+}
+
+.donation-section.active {
+	display: flex;
+	flex-direction: column;
+	width: auto;
+	margin-top: 20px;
+	gap: 5px;
+}
+
+.donation-types {
+	display: flex;
+	gap: 10px;
+}
+
+.donation-types-bttn .cancel-bttn {
+	border-radius: var(--border-radius-2);
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.donation-types-bttn.cancel-bttn.active-bttn {
+	background-color: orange;
+	color: white;
+}
+
+.button-group.hidden {
+	display: none;
+}
+
+.button-group {
+	display: flex;
+	gap: 10px;
+	margin-top: 20px;
+	justify-content: flex-end;
+}
+
+/* ------------ Donor - Organizer view and campaign list ------------ */
+
+.organizer-name-view {
+	font-size: var(--font-size-xxl);
+	color: var(--accent-color);
+	margin-bottom: 10px;
+}
+
+.campaign-list-flex {
+	display: flex;
+	justify-content: space-between;
+	gap: 30px;
+	width: 100%;
+	background-color: var(--white);
+	border: var(--border);
+	border-radius: var(--border-radius-2);
+	box-shadow: var(--box-shadow);
+	padding: 20px;
+	margin: 0 auto;
+}
+
+.campaign-list-flex.allocation {
+	width: 75%;
+}
+
+.campaign-column {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	margin-top: 10px;
+}
+
+.campaign-column h3 {
+	margin-bottom: 5px;
+	font-weight: var(--font-weight-semibold);
+	font-size: 20px;
+	color: var(--secondary-color);
+}
+
+.campaign-card-allocate {
+	background-color: var(--white);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: var(--border-radius-2);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 20px;
+	height: auto;
+}
+
+.campaign-card-organizer-view {
+	background-color: var(--white);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	padding: 15px;
+	border-radius: var(--border-radius-2);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+	transition: transform 0.2s;
+}
+
+.campaign-card a {
+	font-size: 13px;
+}
+
+.campaign-card a:hover {
+	text-decoration: underline;
+}
+
+.campaign-info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.campaign-content {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.campaign-content h4 {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+}
+
+.campaign-details {
+	display: flex;
+	flex-direction: column;
+}
+
+.status {
+	font-size: 14px;
+	color: #333;
+}
+
+.status.ongoing {
+	background-color: #4caf50;
+	color: var(--white);
+	border-radius: var(--border-radius-2);
+	padding: 3px 10px;
+}
+
+.status.completed {
+	background-color: #888;
+	color: var(--white);
+	border-radius: var(--border-radius-2);
+	padding: 3px 10px;
+}
+
+.campaign-link {
+	font-size: 14px;
+	color: var(--accent-color);
+	text-decoration: none;
+	margin-top: 3px;
+}
+
+.campaign-link:hover {
+	text-decoration: underline;
+}
+
+.allocate-button {
+	padding: 8px 16px;
+	background-color: #f4a024;
+	color: #fff;
+	border: none;
+	border-radius: 20px;
+	font-weight: 600;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.allocate-button:hover {
+	background-color: #d98c13;
+}
+
+.campaign-desc {
+	font-size: 14px;
+	color: #555;
+	margin: 8px 0;
+}
+
+.campaign-link {
+	font-size: 14px;
+	color: #007bff;
+	text-decoration: none;
+}
+
+.feedback-section {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	gap: 10px;
+	margin-top: 30px;
+}
+
+hr {
+	border: var(--border);
+	width: 100%;
+	margin-top: 30px;
+}
+
+.feedback-section h2 {
+	margin-bottom: 5px;
+	font-weight: var(--font-weight-semibold);
+	font-size: var(--font-size-l);
+	color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+	.campaign-list-flex {
+		flex-direction: column;
+	}
+}
+
+/* ------------ Donor - Campaign post ------------ */
+.campaign-post-container {
+	width: 75%;
+	margin: 0 auto;
+	background-color: var(--white);
+	border-radius: var(--border-radius-2);
+	padding: 30px;
+	box-shadow: var(--box-shadow);
+}
+
+.campaign-post-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	color: var(--secondary-color);
+	font-size: var(--font-size-xl);
+}
+
+.campaign-post-title {
+	font-size: var(--font-size-xl);
+	font-weight: bold;
+	color: var(--primary);
+	margin: 0;
+}
+
+.urgent-tag {
+	background-color: #e74c3c;
+	color: #fff;
+	padding: 6px 12px;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 5px;
+	margin-top: 10px;
+}
+
+.campaign-post-meta {
+	font-size: var(--font-size-n);
+	color: #666;
+	margin: 15px 0;
+}
+
+.campaign-post-description h3 {
+	font-size: var(--font-size-m);
+	color: var(--secondary-color);
+	margin-bottom: 10px;
+	margin-top: 30px;
+}
+
+.campaign-post-description p {
+	font-size: var(--font-size-s);
+	line-height: 1.6;
+	margin-bottom: 10px;
+}
+
+.item-list {
+	margin-top: 30px;
+}
+
+.item-list h3 {
+	color: var(--secondary-color);
+	font-size: var(--font-size-m);
+	margin-bottom: 10px;
+}
+
+.item-list ul {
+	list-style: disc;
+	display: flex;
+	flex-direction: column;
+	padding-left: 20px;
+	font-size: var(--font-size-s);
+}
+
 /* ===================================== ORGANIZER ===================================== */
 /* ------------ Organizer Dashboard ------------ */
-.dashboard-body {
-	min-height: 100vh;
-	background-color: var(--primary-color);
+.dashboard-container {
+	display: flex;
+	width: 100%;
+	height: 100vh;
 }
 
 .dashboard-nav {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 250px;
+	width: 20%;
 	background-color: var(--secondary-color);
+	color: var(--primary-color);
+	display: flex;
+	flex-direction: column;
+	padding: 20px;
+	box-sizing: border-box;
 }
 
-nav .dashboard-logo-name {
-	display: flex;
-	align-items: center;
-	color: var(--primary-color);
-	font-weight: var(--font-weight-bold);
-	font-size: var(--font-size-xxl);
-	margin-left: 15px;
-	margin-top: 15px;
+.main-content {
+	width: 80%;
+	padding: 20px;
+	box-sizing: border-box;
+	overflow-y: auto;
 }
 
 nav .dashboard-nav-items {
-	margin-left: 15px;
+	margin-left: 20px;
 	margin-top: 20px;
 	height: calc(100% - 90px);
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
 	color: var(--primary-color);
-	font-size: var(--font-size-m);
-	font-weight: 300;
+	font-size: var(--font-size-n);
+	font-weight: var(--font-weight-normal);
 }
 
 nav .dashboard-nav-items a {
@@ -474,10 +801,7 @@ nav .dashboard-nav-items a {
 	text-decoration: none;
 	color: var(--primary-color);
 	font-weight: var(--font-weight-normal);
-}
-
-nav .dashboard-nav-items a .material-symbols-sharp {
-	font-size: 25px;
+	margin-left: 10px;
 }
 
 nav .dashboard-nav-items a:hover {
@@ -486,10 +810,58 @@ nav .dashboard-nav-items a:hover {
 	margin-right: 17px;
 }
 
+.main-content-title {
+	color: var(--secondary-color);
+	margin-bottom: 20px;
+}
+
+/* ------------ Organizer: Requests list ------------ */
+.update-header {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+}
+
+.update-message {
+	margin-top: 8px;
+	font-size: 16px;
+}
+
+.delete-btn {
+	background-color: #e74c3c;
+	color: white;
+	border: none;
+	padding: 6px 12px;
+	border-radius: 6px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.delete-btn:hover {
+	background-color: #c0392b;
+}
+
+/* ------------ Organizer: Campaign post form ------------ */
+.radio-group {
+	display: flex;
+	gap: 20px;
+	/* margin-top: 8px; */
+	height: 40px;
+}
+
+.radio-group label {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+
 /* ===================================== REPRESENTATIVE ===================================== */
 /* ------------ Request Form ------------ */
 .request-form-container {
-	max-width: 900px;
+	width: 75%;
+	/* max-width: 900px; */
 	margin: 0px auto 30px auto;
 	background: var(--white);
 	padding: 30px;
@@ -499,7 +871,7 @@ nav .dashboard-nav-items a:hover {
 .request-form-container header {
 	font-size: var(--font-size-l);
 	font-weight: var(--font-weight-semibold);
-	color: var(--text-color);
+	color: var(--secondary-color);
 	position: relative;
 	margin-bottom: 20px;
 }
@@ -518,9 +890,11 @@ nav .dashboard-nav-items a:hover {
 	flex-direction: column;
 	position: relative;
 	margin-top: 16px;
-	min-height: 490px;
+	height: auto;
+	/* min-height: 490px; */
 	background-color: var(--white);
 	overflow: hidden;
+	gap: 8px;
 }
 .request-form-container form .form {
 	position: absolute;
@@ -531,7 +905,7 @@ nav .dashboard-nav-items a:hover {
 .request-form-container form .title {
 	font-size: var(--font-size-m);
 	font-weight: var(--font-weight-medium);
-	margin: 20px 0 10px;
+	/* margin: 20px 0 10px; */
 	color: var(--text-color);
 }
 .request-form-container form .fields {
@@ -550,6 +924,11 @@ form .fields .input-field {
 	color: var(--text-color);
 }
 
+.input-field textarea {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
 .input-field input,
 select {
 	outline: none;
@@ -561,6 +940,7 @@ select {
 	padding: 0 15px;
 	height: 42px;
 	margin: 8px 0;
+	margin-bottom: 10px;
 }
 .input-field input :focus,
 .input-field select:focus {
@@ -572,18 +952,51 @@ select {
 	justify-content: space-between;
 	align-items: center;
 	gap: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 6px;
+}
+
+.request-item label {
+	font-size: var(--font-size-s);
+	font-weight: var(--font-weight-normal);
+}
+
+.request-item input {
+	outline: none;
+	font-size: 14px;
+	font-weight: 400;
+	color: #333;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+	padding: 0 15px;
+	height: 40px;
+	margin: 8px 0;
 }
 
 .checkbox-label-group {
 	display: flex;
 	align-items: center;
-	gap: 10px;
+	gap: 8px;
 	flex: 1;
+	height: 20px;
 }
 
 .request-item input[type="number"] {
 	width: 90px;
+	margin: 0;
+	padding: 8px 10px;
+}
+
+/* When enabled (default style of number input fields) */
+.request-item input[type="number"]:enabled {
+	background-color: #ffffff;
+	color: #333333;
+}
+
+/* When disabled */
+.request-item input[type="number"]:disabled {
+	background-color: #f0f0f0;
+	color: #999999;
+	cursor: not-allowed;
 }
 
 .input-field input,
@@ -609,15 +1022,19 @@ textarea {
 }
 
 /* ------------ Go back link ------------ */
-#go-back {
+#go-back-div {
+	margin: 30px 0 0 30px; 
+}
+
+#go-back-div a {
 	color: var(--secondary-color);
 	font-size: var(--font-size-l);
 	font-weight: var(--font-weight-semibold);
-	position: relative;
-	left: 50px;
-	top: 50px;
+	text-decoration: none;
+	display: inline-block;
 }
 
 #go-back:hover {
 	color: #0b4747;
 }
+

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/jpg" href="/static/img/doneate_favicon.png">
+    <title>DONEnate</title>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <!-- NAVIGATION -->
+        <nav class="dashboard-nav">
+            <div class="logo" style="margin-left: 10px;">
+                <a href="#"><img id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a>
+            </div>
+            <div class="dashboard-nav-items">
+                <p>DASHBOARD</p>
+                <a href="#">
+                    <p>Overview</p>
+                </a>
+                <a href="organizer_campaign_post_form.html">
+                    <p>Campaigns</p>
+                </a>
+                <a href="organizer_request_list.html">
+                    <p>Requests</p>
+                </a>
+                <a href="organizer_update_form.html">
+                    <p>Updates</p>
+                </a>
+                <a href="#">
+                    <p>Profile</p>
+                </a>
+                <a href="#">
+                    <p>Logout</p>
+                </a>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <h1 class="main-content-title">Allocate</h1>
+            <!-- Di ko alam kung ano maganda itawag dito HAHAHAH, ikaw na lang magbago : ) -->
+
+            <div class="campaign-list-flex allocation">
+
+                <!-- Active Campaigns -->
+                <div class="campaign-column">
+                    <h3>Active Campaigns</h3>
+
+                    <div class="campaign-card-allocate">
+                        <div class="campaign-details">
+                            <h4>Sunog sa Palawan</h4>
+                            <small>Ongoing</small>
+                            <a href="#" class="campaign-link">View Campaign &#8594;</a>
+                        </div>
+                        <div class="campaign-actions">
+                            <button class="allocate-button">Allocate</button>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="campaign-card-allocate">
+                        <div class="campaign-details">
+                            <h4>Flood in Isabela</h4>
+                            <small>Ongoing</small> 
+                            <a href="#" class="campaign-link">View Campaign &#8594;</a>
+                        </div>
+                        <div class="campaign-actions">
+                            <button class="allocate-button">Allocate</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Completed Campaigns -->
+                <div class="campaign-column">
+                    <h3>Completed Campaigns</h3>
+
+                    <div class="campaign-card-allocate">
+                        <div class="campaign-details">
+                            <h4>COVID Food Drive</h4>
+                            <small>Completed</small> 
+                            <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594;</a>
+                        </div>
+                    </div>
+
+                    <div class="campaign-card-allocate">
+                        <div class="campaign-details">
+                            <h4>Bayanihan Fundraiser</h4>
+                            <small>Completed</small>
+                            <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594;</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script src="/static/javascript.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" type="image/jpg" href="/static/img/doneate_favicon.png">
+    <title>DONEnate</title>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+        <!-- NAVIGATION -->
+        <nav class="dashboard-nav">
+            <div class="logo" style="margin-left: 10px;">
+                <a href="#"><img id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a>
+            </div>
+            <div class="dashboard-nav-items">
+                <p>DASHBOARD</p>
+                <a href="#">
+                    <p>Overview</p>
+                </a>
+                <a href="organizer_campaign_form.html">
+                    <p>Campaigns</p>
+                </a>
+                <a href="organizer_request_list.html">
+                    <p>Requests</p>
+                </a>
+                <a href="organizer_update_form.html">
+                    <p>Updates</p>
+                </a>
+                <a href="#">
+                    <p>Profile</p>
+                </a>
+                <a href="#">
+                    <p>Logout</p>
+                </a>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <h1 class="main-content-title">Update Message</h1>
+
+            <div class="request-form-container">
+                <header>New Message</header>
+                <form id="request-form">
+                    <label>Recipient</label>
+                    <select required>
+                        <option disabled selected>Select representative</option>
+                        <option>Triselle@gmail.com</option>
+                        <option>Matan@gmail.com</option>
+                        <option>Kim@gmail.com</option>
+                    </select>
+
+                    <label>Message</label>
+                    <textarea name="message" placeholder="Write your message here..."></textarea>
+
+                    <div class="button-group">
+                        <button type="reset" class="cancel-bttn">Cancel</button>
+                        <button type="submit" class="submit-bttn">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="/static/javascript.js"></script>
+</body>
+
+</html>

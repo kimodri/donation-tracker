@@ -1,18 +1,16 @@
-
 // FOR LOGIN / SIGNUP
 document.addEventListener("DOMContentLoaded", function () {
-    const roleSelect = document.getElementById("role");
-    const repFields = document.getElementById("representative-extra-fields");
+	const roleSelect = document.getElementById("role");
+	const repFields = document.getElementById("representative-extra-fields");
 
-    roleSelect.addEventListener("change", function () {
-        if (roleSelect.value === "representative") {
-            repFields.style.display = "block";
-        } else {
-            repFields.style.display = "none";
-        }
-    });
+	roleSelect.addEventListener("change", function () {
+		if (roleSelect.value === "representative") {
+			repFields.style.display = "block";
+		} else {
+			repFields.style.display = "none";
+		}
+	});
 });
-
 
 function showForm(formId) {
 	document
@@ -84,3 +82,24 @@ document
 			);
 		});
 	});
+
+// FOR DONATE FORM
+function toggleSection(id) {
+	const section = document.getElementById(id);
+	const button = document.querySelector(`button[onclick*="${id}"]`);
+	const buttonGroup = document.querySelector(".button-group");
+
+	section.classList.toggle("active");
+	button.classList.toggle("active-bttn");
+
+	// Check if ANY section is active
+	const anyActive =
+		document.querySelectorAll(".donation-section.active").length > 0;
+
+	// Show or hide the button group
+	if (anyActive) {
+		buttonGroup.classList.remove("hidden");
+	} else {
+		buttonGroup.classList.add("hidden");
+	}
+}
