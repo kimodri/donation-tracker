@@ -47,37 +47,41 @@
             <input type="hidden" name="organizer" value="{{ organizer }}">
             <span class="title">Select What You Need</span>
             <div> <!-- Item ID dapat yung value ng mga checklists dito-->
+                
+                
                 <div class="request-item">
                     <div class="checkbox-label-group">
-                        <input type="checkbox" id="rice-cb">
+                        <input type="checkbox" id="rice-cb", value = '1' name = 'cb'>
                         <label for="rice-cb">Rice (Sacks)</label>
                     </div>
-                    <input type="number" id="rice-num" disabled>
+                    <input name = 'rnum' type="number" id="rice-num" disabled>
                 </div>
 
 
                 <div class="request-item">
                     <div class="checkbox-label-group">
-                        <input type="checkbox" id="clothes-cb">
+                        <input type="checkbox" id="clothes-cb" value = '2' name = 'cb'>
                         <label for="clothes-cb">Clothes</label>
                     </div>
-                    <input type="number" id="clothes-num" disabled>
+                    <input type="number" name = 'cnum' id="clothes-num" disabled>
                 </div>
 
 
                 <div class="request-item">
                     <div class="checkbox-label-group">
-                        <input type="checkbox" id="canned-goods-cb">
+                        <input type="checkbox" id="canned-goods-cb" value = '3' name = 'cb'>
                         <label for="canned-goods-cb">Canned Goods</label>
                     </div>
-                    <input type="number" id="canned-goods-num" disabled>
+                    <input type="number" name = 'cgnum' id="canned-goods-num" disabled>
                 </div>
+
+
                 <div class="request-item">
                     <div class="checkbox-label-group">
-                        <input type="checkbox" id="medical-kits-cb">
+                        <input type="checkbox" id="medical-kits-cb" value = '4' name = 'cb'>
                         <label for="medical-kits-cb">Medical Kits</label>
                     </div>
-                    <input type="number" id="medical-kits-num" disabled>
+                    <input type="number" name = 'mednum' id="medical-kits-num" disabled>
                 </div>
             </div>
 

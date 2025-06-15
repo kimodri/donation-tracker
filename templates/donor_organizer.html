@@ -27,7 +27,8 @@
                 {% if organizer %}
                     <div class="donor-center-div">
                     <h3 class="organizer-name">{{ organizer }}</h3>
-                    <a href="{{ url_for('sendRequest') }}?organizer={{ organizer | urlencode }}">
+                    <a href="{{ url_for('feedback') }}?organizer={{ organizer | urlencode }}">
+                        <button class="feedback-bttn">See Feedback</button>
                         <button class="feedback-bttn">Feedback</button>
                     </a>
                     </div>
