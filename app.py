@@ -27,7 +27,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 from models import (
     Users,
     Campaigns,
-    CampaignRequests,
+    CampaignDetails,
     Communities,
     Donations,
     DonationDetails,
@@ -173,11 +173,11 @@ def campaign():
     campaign_id = request.args.get('campaign_id')
 
     # from the id, query the info
-    campaign = Campaigns.query.filter_by(CampaignID = campaign_id)
+    campaign = Campaigns.query.filter_by(CampaignID = campaign_id).all()[0]
 
-    name = campaign.Name
+    name = campaign.Name.title()
 
-    urgency = campaign.is_Urgent
+    urgency = campaign.isUrgent
 
     date_posted = campaign.DatePosted
 
@@ -185,10 +185,10 @@ def campaign():
 
     description = campaign.Description
 
-    organizer_name = campaign.organizer.Name
+    organizer_name = campaign.organizer.Name.title()
 
     # Go to campaign request
-    result = CampaignRequests.query.filter_by(CampaignID = campaign_id).all()
+    result = CampaignDetails.query.filter_by(CampaignID = campaign_id).all()
     item_list = list({item.ItemID for item in result})
 
     return render_template('donor_campaign_post.html', role = session.get('role'), name=name,\
@@ -225,6 +225,12 @@ def submit_donate_form():
             db.session.add(DonationDetails(DonationID=donation.DonationID, ItemID=idx, Quantity=qty))
     db.session.commit()
 
+    # Add again for inventory
+    donation_detail_id = DonationDetails.query.filter_by(DonorID=session.get('donor_id')).order_by(Donations.DonationID.desc()).first()
+
+    
+
+
     # Perhaps flash here, thanking
     return redirect(url_for('donor_donate'))
 
@@ -234,25 +240,35 @@ def donor_donate():
     organizers = Organizers.query.all()
     return render_template('donor_donate.html', organizers = organizers, role = session.get('role'))
 
+
 @app.route('/donor_org_profile')
 def donor_org_profile():
     
     # get the organizerID
-    organizer_id = request.args.get('organizer_id')
+    organizer_id = int(request.args.get('organizer_id'))
 
     # get the profile
-    organizer = Organizers.query.filter_by(OrganizerID=organizer_id)
-    
+    organizer = Organizers.query.filter_by(OrganizerID=organizer_id).first()
+
+    # print(organizer)
+    # print(organizer.OrganizerID)
+    # print(type(organizer.OrganizerID))
+    # print(type(organizer))
+
     # get the active campaigns by querying and filtering using the id
-    active_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Active').all()
-    
+    active_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status = 'Active').all() # , Status='Active'
+
+    print(active_campaigns)
+
     # get the completed campaigns by querying and filtering using the id
-    completed_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Active').all()
+    completed_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Completed').all()
+
+    print(completed_campaigns)
     # get the feedback by querying and filtering using the id
 
     feedbacks = Feedbacks.query.filter_by(OrganizerID=organizer_id).all()
 
-    return render_template('donor_org_profile.html', role = session.get('role'), organizer=organizer, \
+    return render_template('donor_org_profile.html', role = session.get('role'), organizer=organizer.Name.title(), \
                            active_campaigns=active_campaigns, completed_campaigns=completed_campaigns,\
                             feedbacks=feedbacks) 
 
@@ -337,12 +353,42 @@ def submit_request_form():
     db.session.add(Requests(OrganizerID=organizer_id, RepresentativeID=representative_id,\
                             Message=message))
     
-    # but i feel like we should also record kung ilan yung requests
+    # but i feel like we should also record kung ilan yung requested
     db.session.commit()
 
 
-
 # FOR ORGANIZERS
+@app.route('/org_request_list')
+def org_request_list():
+    requests = Requests.query.filter_by(OrganizerID=session.get('organizer_id')).all()
+    render_template('organizer_request_list.html', requests = requests)
+
+@app.route('/delete_request')
+def delete_request():
+    request_id = request.args.get('request_id')
+    # delete the row with the request
+    del_request = Requests.query.filter_by(RequestID = request_id).first()
+    db.session.delete(del_request)
+    db.session.commit()
+
+@app.route('/org_update_form')
+def org_update_form():
+    # query those who only donated to you
+    donations = Donations.query.filter_by(OrganizerID = session.get('donor_id')).all()
+    render_template('organizer_request_form.html', donations=donations)
+
+@app.route('/org_update_form/submit_update', methods = ['POST'])
+def submit_update():
+    updateText = request.form.get('message')
+    organizer_id = session.get('organizer_id')
+    donor_id = request.form.get('donor_id')
+
+    db.session.add(Updates(UpdateText=updateText, DonorID = donor_id, OrganizerID=organizer_id))
+    db.session.commit()
+
+@app.route('/allocate')
+def allocate():
+    pass
 
 
 # @app.route('/feedback', methods = ['GET', 'POST'])

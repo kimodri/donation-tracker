@@ -510,6 +510,14 @@ li a:hover {
 	margin-bottom: 10px;
 }
 
+.campaign-header {
+	display: flex;
+	/* justify-content: space-between; */
+	align-items: center;
+	/* margin-bottom: 15px; */
+	gap: 10px;
+}
+
 .campaign-list-flex {
 	display: flex;
 	justify-content: space-between;
@@ -1023,7 +1031,7 @@ textarea {
 
 /* ------------ Go back link ------------ */
 #go-back-div {
-	margin: 30px 0 0 30px; 
+	margin: 30px 0 0 30px;
 }
 
 #go-back-div a {
@@ -1038,3 +1046,58 @@ textarea {
 	color: #0b4747;
 }
 
+/* ------------ About Us page ------------ */
+.about-us-container {
+	width: 100%;
+	padding: 30px;
+	background-color: white;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.about-section {
+	width: 75%;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 30px;
+}
+
+.about-text {
+	flex: 1 1 60%;
+}
+
+.about-image {
+	flex: 1 1 35%;
+}
+
+.about-image img {
+	max-width: 100%;
+	border-radius: 15px;
+}
+
+.about-text h1 {
+	font-size: 36px;
+	color: var(--secondary-color);
+}
+
+.about-text h2 {
+	font-size: 28px;
+	margin-top: 40px;
+	color: var(--secondary-color);
+}
+
+.about-text p {
+	font-size: var(--font-size-m);
+	line-height: 1.6;
+	margin-top: 10px;
+}
+
+.about-image {
+	flex: 1 1 35%;
+}
+
+.about-image img {
+	max-width: 100%;
+	border-radius: 15px;
+}
