@@ -225,6 +225,12 @@ def submit_donate_form():
             db.session.add(DonationDetails(DonationID=donation.DonationID, ItemID=idx, Quantity=qty))
     db.session.commit()
 
+    # Add again for inventory
+    donation_detail_id = DonationDetails.query.filter_by(DonorID=session.get('donor_id')).order_by(Donations.DonationID.desc()).first()
+
+    
+
+
     # Perhaps flash here, thanking
     return redirect(url_for('donor_donate'))
 
@@ -337,12 +343,42 @@ def submit_request_form():
     db.session.add(Requests(OrganizerID=organizer_id, RepresentativeID=representative_id,\
                             Message=message))
     
-    # but i feel like we should also record kung ilan yung requests
+    # but i feel like we should also record kung ilan yung requested
     db.session.commit()
 
 
-
 # FOR ORGANIZERS
+@app.route('/org_request_list')
+def org_request_list():
+    requests = Requests.query.filter_by(OrganizerID=session.get('organizer_id')).all()
+    render_template('organizer_request_list.html', requests = requests)
+
+@app.route('/delete_request')
+def delete_request():
+    request_id = request.args.get('request_id')
+    # delete the row with the request
+    del_request = Requests.query.filter_by(RequestID = request_id).first()
+    db.session.delete(del_request)
+    db.session.commit()
+
+@app.route('/org_update_form')
+def org_update_form():
+    # query those who only donated to you
+    donations = Donations.query.filter_by(OrganizerID = session.get('donor_id')).all()
+    render_template('organizer_request_form.html', donations=donations)
+
+@app.route('/org_update_form/submit_update', methods = ['POST'])
+def submit_update():
+    updateText = request.form.get('message')
+    organizer_id = session.get('organizer_id')
+    donor_id = request.form.get('donor_id')
+
+    db.session.add(Updates(UpdateText=updateText, DonorID = donor_id, OrganizerID=organizer_id))
+    db.session.commit()
+
+@app.route('/allocate')
+def allocate():
+    pass
 
 
 # @app.route('/feedback', methods = ['GET', 'POST'])

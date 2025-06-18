@@ -46,13 +46,19 @@
 
             <div class="request-form-container">
                 <header>New Message</header>
-                <form id="request-form">
+                <form id="request-form" method = 'post', action="{{ url_for('submit_update') }}">
                     <label>Recipient</label>
-                    <select required>
-                        <option disabled selected>Select representative</option>
-                        <option>Triselle@gmail.com</option>
-                        <option>Matan@gmail.com</option>
-                        <option>Kim@gmail.com</option>
+                    <select required name = 'donor_id'>
+                        {% if donations %}
+                            <option disabled selected>Select representative</option>
+                            {% for donation in donations %}
+                                <option value = "{{donation.DonorID}}">{{donation.donor.Name}}</option>
+                                <!-- <option>Matan@gmail.com</option>
+                                <option>Kim@gmail.com</option> -->
+                            {% endfor %}
+                        {% else %}
+                            <option disabled selected> No one has donated yet.</option>
+                        {% endif %}
                     </select>
 
                     <label>Message</label>
