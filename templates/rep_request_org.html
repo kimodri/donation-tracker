@@ -13,16 +13,21 @@
                 <h2>{{organizer['name']}}</h2>
             {% endfor %} -->
 
-        {% for organizer in organizer_names %}
-            {% if organizer %}
+        {% if organizers %}
+            {% for organizer in organizers %}
                 <div class="donor-center-div">
-                    <h3 class="organizer-name">{{organizer}}</h3>
-                    <a href="{{ url_for('sendRequest') }}?organizer={{ organizer | urlencode }}">
-                    <button class="feedback-bttn">Send a Request</button>
+                    <h3 class="organizer-name">{{organizer.Name}}</h3>
+                    <a href="{{ url_for('request_form', organizer_id = organizer.OrganizerID) }}">
+                        <button class="feedback-bttn">Send a Request</button>
                     </a>
                 </div>
-            {% endif %}
-        {% endfor %}
+            {% endfor %}
+            
+        {% else %}
+                <div class ="donor-center-div">
+                    <p>No organizers found.</p>
+                </div>
+        {% endif %}
 
 
         <!-- Ito yung ipasok mo sa forloop na div

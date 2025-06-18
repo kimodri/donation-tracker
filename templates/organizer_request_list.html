@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/styles.css">
-    <link rel="icon" type="image/jpg" href="/static/img/doneate_favicon.png">
-    <title>DONEnate</title>
-</head>
+{% block body %}
 
 <body>
 
@@ -45,17 +38,30 @@
             <h1 class="main-content-title">Requests</h1>
 
             <div class="donor-center-container">
+                    {% if requests %}
+                        {% for request in requests%}
+                        <div class="donor-center-div update">
 
-                <div class="donor-center-div update">
-                    <div class="update-header">
-                        <h4 class="organizer-name-update">John Smith</h4>
-                        <button class="delete-btn" onclick="">Delete</button>
-                    </div>
-                    <p class="update-message">Consider donating to this lady, she is really responsible. The updates are
-                        on time :></p>
+                            <div class="update-header">
+                                <h4 class="organizer-name-update">{{request.representative.Name}}</h4>
+
+                                <!-- lagay ka actio url_for -->
+                                <a href = "{{ url_for(delete_request, {{request_id = request.RequestID}}) }}">
+                                    <button class="delete-btn">Delete</button>
+                                </a>
+                            </div>
+                            <p class="update-message">{{request.Message}}</p>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="donor-center-div update">
+                            <p class="update-message">No pending requests.</p>
+                        </div>
+                    {% endif %}
                 </div>
 
-                <div class="donor-center-div update">
+
+                <!-- <div class="donor-center-div update">
                     <div class="update-header">
                         <h4 class="organizer-name-update">Jane Doe</h4>
                         <button class="delete-btn" onclick="">Delete</button>
@@ -72,7 +78,7 @@
                     <p class="update-message">Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt,
                         tempora. Praesentium, nulla minima dicta nisi temporibus libero quam mollitia voluptatem,
                         dolorum tenetur velit odio vitae veniam non doloremque error dolore.</p>
-                </div>
+                </div> -->
 
             </div>
         </div>
@@ -83,4 +89,4 @@
     <script src="/static/javascript.js"></script>
 </body>
 
-</html>
+{% endblock %}

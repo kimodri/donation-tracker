@@ -26,11 +26,14 @@
             {% for organizer in organizers %}
                 {% if organizer %}
                     <div class="donor-center-div">
-                    <h3 class="organizer-name">{{ organizer }}</h3>
-                    <a href="{{ url_for('feedback') }}?organizer={{ organizer | urlencode }}">
-                        <button class="feedback-bttn">See Feedback</button>
-                        <button class="feedback-bttn">Feedback</button>
-                    </a>
+                    <h3 class="organizer-name">{{ organizer.organizer.Name }}</h3>
+                        <button 
+                            class="feedback-bttn" 
+                            data-org-name="{{ organizer.organizer.Name }}" 
+                            data-org-id="{{ organizer.organizer.OrganizerID }}">
+                            Send Feedback
+                        </button>
+                        <!-- hindi nagbigay ng link kasi automatic -->
                     </div>
                 {% else %}
                     <h3 class = 'organizer-name'>You have not donated to anyone yet.</h3>
@@ -59,6 +62,7 @@
         </div> -->
     </div>
 
+
     <div class="feedback-modal">
         <div class="feedback-modal-overlay"></div>
 
@@ -68,12 +72,16 @@
                 <button class="feedback-modal-close" aria-label="Close feedback form">×</button>
             </header>
 
-            <form class="feedback-modal-form" name="feedback" action="">
+            <form class="feedback-modal-form" name="feedback" action="{{ url_for('donor_submit_feedback')}}", method = 'post'>
                 <!-- <p><strong>Organizer:</strong> John Smith</p> -->
 
                 <!-- TEMPORARY ONLY, NOT SURE IF IM GOING TO USE JINJA -->
                 <p><strong>Organizer:</strong> <span class="organizer-name"></span></p>
-
+                
+                <!-- so we can get the organizer name -->
+                <input type="hidden" name="organizer_id" id="organizer-name-input">
+                 <!-- trying to get ID -->
+                <input type="hidden" name="organizer_id" id="organizer-id-input">
 
                 <label for="rating">How would you rate my service?</label>
                 <div class="rating">

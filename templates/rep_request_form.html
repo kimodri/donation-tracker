@@ -5,12 +5,12 @@
 
   {% include "navigation.html" %}
 
-    <a href="/organizerList" id="go-back">&#8592 Go Back</a>
+    <a href="{{ url_for('rep_request_org') }}" id="go-back">&#8592 Go Back</a>
 
     <!-- REQUEST FORM -->
     <div class="request-form-container">
         <header>Request Form</header>
-        <form id="request-form", action = {{ url_for('sendRequest') }}, method = 'post'>
+        <form id="request-form", method = 'post', action = "{{ url_for('submit_request_form') }}">
 
             <!-- <span class="title">Personal Details</span>
             <div class="fields">
@@ -44,7 +44,10 @@
                 </div>
             </div> -->
 
-            <input type="hidden" name="organizer" value="{{ organizer }}">
+
+
+            
+            <input type="hidden" name="organizer" value="{{ organizer_id }}">
             <span class="title">Select What You Need</span>
             <div> <!-- Item ID dapat yung value ng mga checklists dito-->
                 
@@ -52,7 +55,7 @@
                 <div class="request-item">
                     <div class="checkbox-label-group">
                         <input type="checkbox" id="rice-cb", value = '1' name = 'cb'>
-                        <label for="rice-cb">Rice (Sacks)</label>
+                        <label for="rice-cb">Rice</label>
                     </div>
                     <input name = 'rnum' type="number" id="rice-num" disabled>
                 </div>

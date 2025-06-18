@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<body>
+
+     {% include "navigation.html" %}
+
+    <!-- <div id="go-back-div">
+        <a href="{{ url_for('donor_org_profile') }}" id="go-back">&#8592 Go Back</a>
+    </div> -->
+    <br><br><br><br>
+
+    <div class="campaign-post-container">
+        <div class="campaign-post-header">
+            <h1 class="campaign-post-title">{{name}}</h1>
+            {% if urgency == 1 %}
+                <span class="urgent-tag">URGENT</span>
+            {% endif %}
+        </div>
+
+        <p class="campaign-post-meta">📅 Posted on {{date_posted}} &nbsp; | &nbsp; 📍 {{location}} &nbsp;
+            | &nbsp;
+            👤 Organizer: {{organizer_name}}</p>
+
+        <div class="campaign-post-description">
+            <h3>Description</h3>
+            <p>
+                {{description}}
+                <!-- This campaign aims to provide essential food packs to families affected by recent flooding in Barangay
+                Mabini.
+                Each pack contains rice, canned goods, and hygiene supplies. We need your help to reach our goal and
+                ensure
+                no one goes hungry during recovery. Any donation, big or small, makes a difference! -->
+            </p>
+            <!-- <p>
+                Donations will be accepted via our online form or at our community drop-off center. Let's support one
+                another in
+                these trying times. Salamat po!
+            </p> -->
+        </div>
+
+        <div class="item-list">
+            <h3>Needed Items</h3>
+            <ul>
+                {% if 1 in item_list %}
+                <li>Rice</li>
+                {% endif %}
+                
+                {% if 2 in item_list %}
+                <li>Clothes</li>
+                {% endif %}
+                
+                {% if 3 in item_list %}
+                <li>Canned Goods</li>
+                {% endif %}
+
+                {% if 4 in item_list %}
+                <li>Medical Kits</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+    <script src="/static/javascript.js"></script>
+</body>
+{% endblock %}
