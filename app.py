@@ -27,7 +27,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 from models import (
     Users,
     Campaigns,
-    CampaignRequests,
+    CampaignDetails,
     Communities,
     Donations,
     DonationDetails,
@@ -173,11 +173,11 @@ def campaign():
     campaign_id = request.args.get('campaign_id')
 
     # from the id, query the info
-    campaign = Campaigns.query.filter_by(CampaignID = campaign_id)
+    campaign = Campaigns.query.filter_by(CampaignID = campaign_id).all()[0]
 
-    name = campaign.Name
+    name = campaign.Name.title()
 
-    urgency = campaign.is_Urgent
+    urgency = campaign.isUrgent
 
     date_posted = campaign.DatePosted
 
@@ -185,10 +185,10 @@ def campaign():
 
     description = campaign.Description
 
-    organizer_name = campaign.organizer.Name
+    organizer_name = campaign.organizer.Name.title()
 
     # Go to campaign request
-    result = CampaignRequests.query.filter_by(CampaignID = campaign_id).all()
+    result = CampaignDetails.query.filter_by(CampaignID = campaign_id).all()
     item_list = list({item.ItemID for item in result})
 
     return render_template('donor_campaign_post.html', role = session.get('role'), name=name,\
@@ -240,25 +240,35 @@ def donor_donate():
     organizers = Organizers.query.all()
     return render_template('donor_donate.html', organizers = organizers, role = session.get('role'))
 
+
 @app.route('/donor_org_profile')
 def donor_org_profile():
     
     # get the organizerID
-    organizer_id = request.args.get('organizer_id')
+    organizer_id = int(request.args.get('organizer_id'))
 
     # get the profile
-    organizer = Organizers.query.filter_by(OrganizerID=organizer_id)
-    
+    organizer = Organizers.query.filter_by(OrganizerID=organizer_id).first()
+
+    # print(organizer)
+    # print(organizer.OrganizerID)
+    # print(type(organizer.OrganizerID))
+    # print(type(organizer))
+
     # get the active campaigns by querying and filtering using the id
-    active_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Active').all()
-    
+    active_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status = 'Active').all() # , Status='Active'
+
+    print(active_campaigns)
+
     # get the completed campaigns by querying and filtering using the id
-    completed_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Active').all()
+    completed_campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id, Status='Completed').all()
+
+    print(completed_campaigns)
     # get the feedback by querying and filtering using the id
 
     feedbacks = Feedbacks.query.filter_by(OrganizerID=organizer_id).all()
 
-    return render_template('donor_org_profile.html', role = session.get('role'), organizer=organizer, \
+    return render_template('donor_org_profile.html', role = session.get('role'), organizer=organizer.Name.title(), \
                            active_campaigns=active_campaigns, completed_campaigns=completed_campaigns,\
                             feedbacks=feedbacks) 
 
