@@ -5,14 +5,15 @@
 
      {% include "navigation.html" %}
 
-    <div id="go-back-div">
+    <!-- <div id="go-back-div">
         <a href="{{ url_for('donor_org_profile') }}" id="go-back">&#8592 Go Back</a>
-    </div>
+    </div> -->
+    <br><br><br><br>
 
     <div class="campaign-post-container">
         <div class="campaign-post-header">
             <h1 class="campaign-post-title">{{name}}</h1>
-            {% if urgency == 0 %}
+            {% if urgency == 1 %}
                 <span class="urgent-tag">URGENT</span>
             {% endif %}
         </div>
