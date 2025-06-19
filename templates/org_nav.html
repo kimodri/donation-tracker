@@ -1,0 +1,26 @@
+     <nav class="dashboard-nav">
+            <div class="logo" style="margin-left: 10px;">
+                <a href="{{ url_for('org_request_list') }}"><img id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a>
+            </div>
+            <div class="dashboard-nav-items">
+                <p>DASHBOARD</p>
+                <!-- <a href="#">
+                    <p>Overview</p>
+                </a> -->
+                <a href="{{url_for('post_campaign')}}">
+                    <p>Post a Campaign</p>
+                </a>
+                <a href="{{ url_for('org_campaign') }}">
+                    <p>Campaigns</p>
+                </a>
+                <a href="{{ url_for('org_request_list') }}">
+                    <p>Requests</p>
+                </a>
+                <a href="{{ url_for('org_update_form') }}">
+                    <p>Updates</p>
+                </a>
+                <a href="{{url_for('logout')}}">
+                    <p>Logout</p>
+                </a>
+            </div>
+        </nav>

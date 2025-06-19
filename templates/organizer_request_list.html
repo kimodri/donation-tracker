@@ -6,32 +6,7 @@
 
     <div class="dashboard-container">
         <!-- NAVIGATION -->
-        <nav class="dashboard-nav">
-            <div class="logo" style="margin-left: 10px;">
-                <a href="#"><img id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a>
-            </div>
-            <div class="dashboard-nav-items">
-                <p>DASHBOARD</p>
-                <a href="#">
-                    <p>Overview</p>
-                </a>
-                <a href="organizer_campaign_form.html">
-                    <p>Campaigns</p>
-                </a>
-                <a href="organizer_request_list.html">
-                    <p>Requests</p>
-                </a>
-                <a href="organizer_update_form.html">
-                    <p>Updates</p>
-                </a>
-                <a href="#">
-                    <p>Profile</p>
-                </a>
-                <a href="#">
-                    <p>Logout</p>
-                </a>
-            </div>
-        </nav>
+        {% include "org_nav.html" %}
 
         <!-- MAIN CONTENT -->
         <div class="main-content">
@@ -43,10 +18,10 @@
                         <div class="donor-center-div update">
 
                             <div class="update-header">
-                                <h4 class="organizer-name-update">{{request.representative.Name}}</h4>
+                                <h4 class="organizer-name-update">{{ request.representative.Name.title() }}</h4>
 
                                 <!-- lagay ka actio url_for -->
-                                <a href = "{{ url_for(delete_request, request_id = request.RequestID) }}">
+                                <a href = "{{ url_for('delete_request', request_id = request.RequestID) }}">
                                     <button class="delete-btn">Delete</button>
                                 </a>
                             </div>

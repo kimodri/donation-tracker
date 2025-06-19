@@ -6,32 +6,7 @@
 
     <div class="dashboard-container">
         <!-- NAVIGATION -->
-        <nav class="dashboard-nav">
-            <div class="logo" style="margin-left: 10px;">
-                <a href="#"><img id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a>
-            </div>
-            <div class="dashboard-nav-items">
-                <p>DASHBOARD</p>
-                <a href="#">
-                    <p>Overview</p>
-                </a>
-                <a href="organizer_campaign_post_form.html">
-                    <p>Campaigns</p>
-                </a>
-                <a href="organizer_request_list.html">
-                    <p>Requests</p>
-                </a>
-                <a href="organizer_update_form.html">
-                    <p>Updates</p>
-                </a>
-                <a href="#">
-                    <p>Profile</p>
-                </a>
-                <a href="#">
-                    <p>Logout</p>
-                </a>
-            </div>
-        </nav>
+    {% include "org_nav.html" %}
 
         <!-- MAIN CONTENT -->
         <div class="main-content">
@@ -40,23 +15,22 @@
 
             <div class="request-form-container">
                 <header>Campaign Post Form</header>
-                <form id="request-form">
-
+                <form id="request-form" method = 'post' action="/post_campaign/submit">
                     <span class="title">Campaign Details</span>
                     <div class="fields">
                         <div class="input-field">
                             <label>Campaign Title</label>
-                            <input type="text" placeholder="Enter campaign title" required>
+                            <input type="text" name = 'title' placeholder="Enter campaign title" required>
                         </div>
 
                         <div class="input-field">
                             <label>Location</label>
-                            <input type="text" placeholder="Enter location" required>
+                            <input type="text" name = "location" placeholder="Enter location" required>
                         </div>
 
                         <div class="input-field">
                             <label>Campaign Description</label>
-                            <textarea name="campaign-description"
+                            <textarea name="description"
                                 placeholder="Write your description here..."></textarea>
                         </div>
                     </div>
@@ -73,44 +47,41 @@
                     <div>
                         <div class="request-item">
                             <div class="checkbox-label-group">
-                                <input type="checkbox" id="rice-cb">
+                                <input type="checkbox" name = "items" value = "rice" id="rice-cb">
                                 <label for="rice-cb">Rice</label>
                             </div>
-                            <input type="number" id="rice-num" disabled>
+                            <input type="number" name = "rice_quantity" id="rice-num" disabled>
                         </div>
                         <div class="request-item">
                             <div class="checkbox-label-group">
-                                <input type="checkbox" id="clothes-cb">
+                                <input type="checkbox" id="clothes-cb" name = "items" value = "clothes">
                                 <label for="clothes-cb">Clothes</label>
                             </div>
                             <input type="number" id="clothes-num" disabled>
                         </div>
                         <div class="request-item">
                             <div class="checkbox-label-group">
-                                <input type="checkbox" id="canned-goods-cb">
+                                <input type="checkbox" name="items" value="canned goods" id="canned-goods-cb">
                                 <label for="canned-goods-cb">Canned Goods</label>
                             </div>
-                            <input type="number" id="canned-goods-num" disabled>
+                            <input type="number" id="canned-goods-num" name = "canned_goods_quantity" disabled>
                         </div>
                         <div class="request-item">
                             <div class="checkbox-label-group">
-                                <input type="checkbox" id="medical-kits-cb">
+                                <input type="checkbox" name="items" value="medical kits" id="medical-kits-cb">
                                 <label for="medical-kits-cb">Medical Kits</label>
                             </div>
-                            <input type="number" id="medical-kits-num" disabled>
+                            <input type="number" id="medical-kits-num" name = "medical_kits_quantity" disabled>
                         </div>
                     </div>
 
                     <div class="button-group">
-                        <button type="reset" class="cancel-bttn">Cancel</button>
+                        <!-- <button type="reset" class="cancel-bttn">Cancel</button> -->
                         <button type="submit" class="submit-bttn">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
-
-
-
     </div>
 
     <script src="/static/javascript.js"></script>

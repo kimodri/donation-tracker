@@ -339,6 +339,7 @@ class Requests(db.Model):
 
     organizer = db.relationship("Organizers", backref="requests")
     representative = db.relationship("Representatives", backref="requests")
+    requestdetails = db.relationship("RequestDetails", back_populates="request", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Request(RequestID='{self.RequestID}', Message='{self.Message[:20]}...')>"
@@ -350,8 +351,8 @@ class RequestDetails(db.Model):
     ItemID = Column(Integer, ForeignKey('ItemList.ItemID'))
     QuantityNeeded = Column(Integer)
 
-    request = db.relationship("Requests", backref='requestdetails')
-    item = db.relationship("ItemList", backref='requestdetails')
+    request = db.relationship("Requests", back_populates="requestdetails")
+    item = db.relationship("ItemList", backref="requestdetails")
 
 class Updates(db.Model):
     __tablename__ = 'Updates'

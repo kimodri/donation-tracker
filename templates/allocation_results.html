@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block body %}
+<body>
+    {% include "org_nav.html" %}
+
+    <div class="dashboard-container">
+        <div class="main-content">
+            <h1 class="main-content-title">Allocation Results</h1>
+
+            {% if results %}
+                {% for campaign in results %}
+                    <div class="campaign-card-allocate">
+                        <h3>{{ campaign.name }}</h3>
+                        <ul>
+                            {% for alloc in campaign.allocations %}
+                                <li><strong>{{ alloc.item }}:</strong> {{ alloc.allocated }} allocated</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No new allocations were made.</p>
+            {% endif %}
+
+            <div style="margin-top: 2rem;">
+                <a href="{{ url_for('org_update_form') }}" class="submit-bttn">Update the Donors</a>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<body>
+{% include "navigation.html" %}
+
+<h2>Your Donations</h2>
+
+{% if campaigns %}
+    {% for campaign, items in campaigns.items() %}
+        <h3>📦 {{ campaign }}</h3>
+        <ul>
+            {% for item_name, qty in items %}
+                <li>{{ item_name }}: {{ qty }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+{% else %}
+    <p>You haven't donated to any campaigns yet.</p>
+{% endif %}
+
+{% endblock %}

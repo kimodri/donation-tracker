@@ -3,8 +3,11 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 import os
-from sqlalchemy import text
+from sqlalchemy import text, func, distinct
 from extensions import db
+from datetime import date
+from collections import defaultdict
+
 
 # Create the app instance
 app = Flask(__name__)
@@ -54,6 +57,10 @@ with app.app_context():
 def index():
     return render_template('index.html', role = session.get('role'))
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route('/home')
 def home():
@@ -160,28 +167,52 @@ def campaign():
     campaign_id = request.args.get('campaign_id')
 
     # from the id, query the info
-    campaign = Campaigns.query.filter_by(CampaignID = campaign_id).all()[0]
+    campaign = Campaigns.query.filter_by(CampaignID=campaign_id).first()
 
     name = campaign.Name.title()
-
     urgency = campaign.isUrgent
-
     date_posted = campaign.DatePosted
-
     location = campaign.Location
-
     description = campaign.Description
-
     organizer_name = campaign.organizer.Name.title()
+    status = campaign.Status  # <-- Add this
 
-    # Go to campaign request
-    result = CampaignDetails.query.filter_by(CampaignID = campaign_id).all()
+    # Query campaign item needs
+    result = CampaignDetails.query.filter_by(CampaignID=campaign_id).all()
+
     item_list = list({item.ItemID for item in result})
 
-    return render_template('donor_campaign_post.html', role = session.get('role'), name=name,\
-                           urgency=urgency, organizer_name=organizer_name, description=description,\
-                            date_posted=date_posted, location=location, item_list=item_list)
+    # Now prepare a dict: item_id => {name, allocated, needed}
+    item_statuses = {}
+    for detail in result:
+        item_id = detail.ItemID
+        item_name = detail.item.ItemName
+        needed = detail.QuantityNeeded
 
+        # Get total allocated in inventory (sum of QuantityAvailable)
+        allocated = db.session.query(
+            func.sum(Inventory.QuantityAvailable)
+        ).filter_by(CampaignID=campaign_id, ItemID=item_id).scalar() or 0
+
+        item_statuses[item_id] = {
+            'name': item_name,
+            'allocated': allocated,
+            'needed': needed
+        }
+
+    return render_template(
+        'donor_campaign_post.html',
+        role=session.get('role'),
+        name=name,
+        urgency=urgency,
+        organizer_name=organizer_name,
+        description=description,
+        date_posted=date_posted,
+        location=location,
+        item_list=item_list,
+        item_statuses=item_statuses,
+        status=status  # <-- pass to template
+    )
 
 @app.route('/donate_form')
 def donate_form():
@@ -237,7 +268,7 @@ def submit_donate_form():
                     ItemID=item.ItemID,
                     QuantityAvailable=qty,
                     CampaignID=None,  # No campaign allocated yet
-                    Status='available',  # or 'unallocated'
+                    Status='unallocated',  # or 'unallocated'
                     AllocationDate=None  # still unallocated
                 )
                 db.session.add(inventory_entry)
@@ -249,12 +280,10 @@ def submit_donate_form():
 
     return redirect(url_for('donor_donate'))
 
-
 @app.route('/donor_donate')
 def donor_donate():
     organizers = Organizers.query.all()
     return render_template('donor_donate.html', organizers = organizers, role = session.get('role'))
-
 
 @app.route('/donor_org_profile')
 def donor_org_profile():
@@ -278,7 +307,10 @@ def donor_org_profile():
     for star in stars:
         sum_stars += star.Stars
 
-    avg_stars = sum_stars / len(stars)
+    try:
+        avg_stars = sum_stars / len(stars)
+    except:
+        avg_stars = 'No ratings yet.'
     
 
     # get the active campaigns by querying and filtering using the id
@@ -297,7 +329,6 @@ def donor_org_profile():
     return render_template('donor_org_profile.html', role = session.get('role'), organizer=organizer.Name.title(), \
                            active_campaigns=active_campaigns, completed_campaigns=completed_campaigns,\
                             feedbacks=feedbacks, avg_stars=avg_stars) 
-
 
 @app.route('/donor_feedback')
 def donor_feedback():
@@ -350,7 +381,6 @@ def donor_feedback():
     # donations = Donations.query.filter_by(DonorID=donor_id).all()
     # organizer_names = list({donation.organizer.Name for donation in donations})
 
-
 # kapag clinick yung feedback button sa overlay ito yung icacall
 @app.route('/donor_feedback/submit_feedback', methods = ['POST'])
 def donor_submit_feedback():
@@ -377,8 +407,34 @@ def donor_update():
     return render_template('donor_update.html', role = session.get('role'), updates=updates)
 
 
-# FOR REPRESENTATIVES
+@app.route('/donor_track')
+def donor_track():
+    donor_id = session.get('donor_id')  # make sure this is set on login
 
+    # Query: Get item name, quantity donated, and campaign name (if allocated)
+    results = (
+        db.session.query(
+            Campaigns.Name.label('campaign_name'),
+            ItemList.ItemName.label('item_name'),
+            func.sum(Inventory.QuantityAvailable).label('quantity')
+        )
+        .join(Donations, Donations.DonationID == Inventory.DonationID)
+        .join(Campaigns, Campaigns.CampaignID == Inventory.CampaignID)
+        .join(ItemList, ItemList.ItemID == Inventory.ItemID)
+        .filter(Donations.DonorID == donor_id)
+        .group_by(Campaigns.Name, ItemList.ItemName)
+        .all()
+    )
+
+    # Structure: {campaign_name: [(item_name, quantity), ...]}
+    campaigns = defaultdict(list)
+    for row in results:
+        campaigns[row.campaign_name].append((row.item_name, row.quantity))
+
+    return render_template('donor_track.html', campaigns=campaigns, role = session.get('role'))
+
+
+# FOR REPRESENTATIVES
 @app.route('/submit_request_form', methods=['POST'])
 def submit_request_form():
     from sqlalchemy.exc import SQLAlchemyError
@@ -444,25 +500,60 @@ def request_form():
     organizer_id = request.args.get('organizer_id')
     return render_template('rep_request_form.html', organizer_id=organizer_id, role = session.get('role'))
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # FOR ORGANIZERS
+@app.route('/org_campaign')
+def org_campaign():
+    active_campaigns = Campaigns.query.filter_by(OrganizerID = session.get('organizer_id'), Status = 'Active').all()
+    completed_campaigns = Campaigns.query.filter_by(OrganizerID = session.get('organizer_id'), Status = 'Completed').all()
+    
+    return render_template('organizer_allocate.html', active_campaigns=active_campaigns,\
+                     completed_campaigns=completed_campaigns, role=session.get('role'))
+
 @app.route('/org_request_list')
 def org_request_list():
     requests = Requests.query.filter_by(OrganizerID=session.get('organizer_id')).all()
-    return render_template('organizer_request_list.html', requests = requests)
+    return render_template('organizer_request_list.html', requests = requests, role = session.get('role'))
 
 @app.route('/delete_request')
 def delete_request():
     request_id = request.args.get('request_id')
-    # delete the row with the request
-    del_request = Requests.query.filter_by(RequestID = request_id).first()
+    del_request = Requests.query.filter_by(RequestID=request_id).first()
     db.session.delete(del_request)
     db.session.commit()
+    return redirect(url_for('org_request_list'))
 
 @app.route('/org_update_form')
 def org_update_form():
-    # query those who only donated to you
-    donations = Donations.query.filter_by(OrganizerID = session.get('donor_id')).all()
-    return render_template('organizer_request_form.html', donations=donations)
+    organizer_id = session.get('organizer_id')
+
+    # Get all donations for the organizer
+    all_donations = Donations.query.filter_by(OrganizerID=organizer_id).all()
+
+    # Use a dictionary to store unique donors, mapping DonorID to the first found Donation object
+    # This ensures only one Donation object per DonorID is kept.
+    unique_donations_by_donor = {}
+    for donation in all_donations:
+        if donation.DonorID not in unique_donations_by_donor:
+            unique_donations_by_donor[donation.DonorID] = donation
+    
+    donations = list(unique_donations_by_donor.values())
+
+    return render_template('organizer_update_form.html', donations=donations, role=session.get('role'))
 
 @app.route('/org_update_form/submit_update', methods = ['POST'])
 def submit_update():
@@ -473,27 +564,170 @@ def submit_update():
     db.session.add(Updates(UpdateText=updateText, DonorID = donor_id, OrganizerID=organizer_id))
     db.session.commit()
 
+    return redirect(url_for('org_request_list'))
+
 @app.route('/allocate')
 def allocate():
-    pass
+    organizer_id = session.get('organizer_id')
+    allocation_results = []
 
+    # Get all campaigns belonging to the logged-in organizer
+    campaigns = Campaigns.query.filter_by(OrganizerID=organizer_id).order_by(
+        Campaigns.isUrgent.desc(),
+        Campaigns.DatePosted.asc()
+    ).all()
 
-@app.route('/donate', methods = ['GET', 'POST'])
-def donate():
-    pass 
-    '''
-    INSERT INTO Feedbacks()
-    if wala pang ganong connection 
-    '''
+    print(campaigns)
 
+    for campaign in campaigns:
+        campaign_summary = {'name': campaign.Name, 'allocations': []}
+        campaign_details = CampaignDetails.query.filter_by(CampaignID=campaign.CampaignID).all()
 
-@app.route('/update', methods = ['GET', 'POST'])
-def update():
-    pass
+        for detail in campaign_details:
+            item_id = detail.ItemID
+            item_name = detail.item.ItemName
+            qty_needed = detail.QuantityNeeded
 
-@app.route('/thank-you')
-def thank_you():    
-    return render_template('thankyou.html', role = session['role'])
+            # Check how much has already been allocated
+            already_allocated = db.session.query(func.sum(Inventory.QuantityAvailable)).filter_by(
+                CampaignID=campaign.CampaignID,
+                ItemID=item_id
+            ).scalar() or 0
+
+            remaining_needed = qty_needed - already_allocated
+            if remaining_needed <= 0:
+                continue
+
+            # Get unallocated inventory FROM THIS ORGANIZER only
+            inventories = (
+                db.session.query(Inventory)
+                .join(Donations, Inventory.DonationID == Donations.DonationID)
+                .filter(
+                    Inventory.ItemID == item_id,
+                    Inventory.CampaignID == None,
+                    Inventory.Status == 'unallocated',
+                    Donations.OrganizerID == organizer_id  # restrict by organizer
+                )
+                .order_by(Inventory.InventoryID.asc())
+                .all()
+            )
+
+            total_allocated = 0
+            for inv in inventories:
+                if remaining_needed <= 0:
+                    break
+
+                if inv.QuantityAvailable <= remaining_needed:
+                    inv.CampaignID = campaign.CampaignID
+                    inv.Status = 'allocated'
+                    inv.AllocationDate = date.today()
+                    total_allocated += inv.QuantityAvailable
+                    remaining_needed -= inv.QuantityAvailable
+                else:
+                    # Split inventory
+                    allocated_qty = remaining_needed
+                    excess_qty = inv.QuantityAvailable - remaining_needed
+
+                    inv.QuantityAvailable = allocated_qty
+                    inv.CampaignID = campaign.CampaignID
+                    inv.Status = 'allocated'
+                    inv.AllocationDate = date.today()
+
+                    new_inv = Inventory(
+                        DonationID=inv.DonationID,
+                        ItemID=inv.ItemID,
+                        QuantityAvailable=excess_qty,
+                        CampaignID=None,
+                        Status='unallocated',
+                        AllocationDate=None
+                    )
+                    db.session.add(new_inv)
+
+                    total_allocated += allocated_qty
+                    remaining_needed = 0
+
+            if total_allocated > 0:
+                campaign_summary['allocations'].append({
+                    'item': item_name,
+                    'allocated': total_allocated
+                })
+
+        # Check if the campaign is now fully allocated
+        fully_allocated = True
+        for detail in campaign_details:
+            allocated = db.session.query(func.sum(Inventory.QuantityAvailable)).filter_by(
+                CampaignID=campaign.CampaignID,
+                ItemID=detail.ItemID
+            ).scalar() or 0
+
+            if allocated < detail.QuantityNeeded:
+                fully_allocated = False
+                break
+
+        if fully_allocated:
+            campaign.Status = "Completed"
+
+        if campaign_summary['allocations']:
+            allocation_results.append(campaign_summary)
+
+    print(allocation_results)
+    db.session.commit()
+    flash("Allocation complete!")
+    return render_template('allocation_results.html', results=allocation_results)
+
+@app.route('/post_campaign')
+def post_campaign():
+    return render_template('organizer_campaign_post_form.html', role=session.get('role'))
+
+@app.route('/post_campaign/submit', methods=['POST'])
+def submit_campaign():
+    organizer_id = session.get('organizer_id')
+
+    if not organizer_id:
+        flash("Organizer not logged in.")
+        return redirect(url_for('login'))  
+
+    # Get campaign main fields
+    title = request.form.get('title')
+    location = request.form.get('location')
+    description = request.form.get('description')
+    urgency = request.form.get('urgency')  
+    is_urgent = 1 if urgency == 'yes' else 0
+
+    # Create campaign
+    new_campaign = Campaigns(
+        OrganizerID=organizer_id,
+        Name=title,
+        Description=description,
+        Status="Active",
+        isUrgent=is_urgent,
+        DatePosted=date.today(),
+        Location=location
+    )
+    db.session.add(new_campaign)
+    db.session.commit() 
+
+    items = {
+        'rice': request.form.get('rice_quantity'),
+        'clothes': request.form.get('clothes_quantity'),
+        'canned goods': request.form.get('canned_goods_quantity'),
+        'medical kits': request.form.get('medical_kits_quantity')
+    }
+
+    for item_name, qty in items.items():
+        if qty and qty.strip() and int(qty) > 0:
+            item_record = ItemList.query.filter(ItemList.ItemName.ilike(item_name)).first()
+            if item_record:
+                campaign_detail = CampaignDetails(
+                    CampaignID=new_campaign.CampaignID,
+                    ItemID=item_record.ItemID,
+                    QuantityNeeded=int(qty)
+                )
+                db.session.add(campaign_detail)
+
+    db.session.commit()
+    flash("Campaign posted successfully.")
+    return redirect(url_for('org_campaign')) 
 
 if __name__ == '__main__':
     app.run(debug=True)

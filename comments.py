@@ -1,3 +1,70 @@
+
+#@app.route('/campaign')
+# def campaign():
+#     # get the campaign id
+#     campaign_id = request.args.get('campaign_id')
+
+#     # from the id, query the info
+#     campaign = Campaigns.query.filter_by(CampaignID = campaign_id).all()[0]
+
+#     name = campaign.Name.title()
+
+#     urgency = campaign.isUrgent
+
+#     date_posted = campaign.DatePosted
+
+#     location = campaign.Location
+
+#     description = campaign.Description
+
+#     organizer_name = campaign.organizer.Name.title()
+
+#     # Go to campaign request
+#     result = CampaignDetails.query.filter_by(CampaignID = campaign_id).all()
+#     item_list = list({item.ItemID for item in result})
+
+#     return render_template('donor_campaign_post.html', role = session.get('role'), name=name,\
+#                            urgency=urgency, organizer_name=organizer_name, description=description,\
+#                             date_posted=date_posted, location=location, item_list=item_list)
+
+# @app.route('/delete_request')
+# def delete_request():
+#     request_id = request.args.get('request_id')
+#     # delete the row with the request
+#     del_request = Requests.query.filter_by(RequestID = request_id).first()
+#     db.session.delete(del_request)
+
+#     # delete din sa request details
+#     del_request_details = RequestDetails.query.filter_by(RequestID = request_id).all()
+#     for detail in del_request_details:
+#         db.session.delete(detail)
+
+#     db.session.commit()
+
+#     return redirect(url_for('org_request_list'))
+
+# @app.route('/allocate')
+# def allocate():
+#     pass
+
+
+# @app.route('/donate', methods = ['GET', 'POST'])
+# def donate():
+#     pass 
+#     '''
+#     INSERT INTO Feedbacks()
+#     if wala pang ganong connection 
+#     '''
+
+
+# @app.route('/update', methods = ['GET', 'POST'])
+# def update():
+#     pass
+
+# @app.route('/thank-you')
+# def thank_you():    
+#     return render_template('thankyou.html', role = session['role'])
+
 # @app.route('/submit_request_form', methods = ['POST'])
 # def submit_request_form():
 #     organizer_id = request.form.get('organizer')

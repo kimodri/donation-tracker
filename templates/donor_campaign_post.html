@@ -2,9 +2,11 @@
 
 {% block body %}
 <body>
-
-     {% include "navigation.html" %}
-
+    {% if role == 'donor' or role == 'representative' %}
+        {% include "navigation.html" %}
+    {% else %}
+        {% include "org_nav.html" %}
+    {% endif %}
     <!-- <div id="go-back-div">
         <a href="{{ url_for('donor_org_profile') }}" id="go-back">&#8592 Go Back</a>
     </div> -->
@@ -38,8 +40,9 @@
                 these trying times. Salamat po!
             </p> -->
         </div>
-
+        
         <div class="item-list">
+        {% if role == 'donor' %}
             <h3>Needed Items</h3>
             <ul>
                 {% if 1 in item_list %}
@@ -58,6 +61,29 @@
                 <li>Medical Kits</li>
                 {% endif %}
             </ul>
+        {% else %}
+                <h3>Needed Items</h3>
+                <ul>
+                    {% if status == 'Active' %}
+                        {% for item in item_statuses.values() %}
+                            <li>{{ item.name }}: {{ item.allocated }} / {{ item.needed }}</li>
+                        {% endfor %}
+                    {% else %}
+                        {% for item_id in item_list %}
+                            {% if item_id == 1 %}
+                                <li>Rice</li>
+                            {% elif item_id == 2 %}
+                                <li>Clothes</li>
+                            {% elif item_id == 3 %}
+                                <li>Canned Goods</li>
+                            {% elif item_id == 4 %}
+                                <li>Medical Kits</li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+        {% endif %}
+        
         </div>
     </div>
 

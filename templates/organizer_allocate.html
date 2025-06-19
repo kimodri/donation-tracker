@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<body>
+
+    <div class="dashboard-container">
+        <!-- NAVIGATION -->
+     {% include "org_nav.html" %}
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <h1 class="main-content-title">Allocate</h1>
+            <!-- Di ko alam kung ano maganda itawag dito HAHAHAH, ikaw na lang magbago : ) -->
+
+            <div class="campaign-list-flex allocation">
+
+                <!-- Active Campaigns -->
+                <div class="campaign-column">
+                    <!-- <h3>Active Campaigns</h3> -->
+
+                    <div class="campaign-header">
+                        <h3>Active Campaigns</h3>
+                        <a  href = "{{ url_for('allocate') }}">
+                            <button class="allocate-button">Allocate</button>
+                        </a>
+                    </div>
+
+                    {% if active_campaigns %}
+                        {% for active_campaign in active_campaigns %}
+                        <div class="campaign-card-allocate">
+                            <div class="campaign-details">
+                                <h4>{{ active_campaign.Name.title() }}</h4>
+                                <small>Ongoing</small>
+                                <a href="{{url_for('campaign', campaign_id = active_campaign.CampaignID)}}" class="campaign-link">View Campaign &#8594;</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="campaign-card-allocate">
+                            <p>You have no active campaigns.</p>
+                        </div>
+                    {% endif %}
+                    
+                {% if completed_campaigns %}
+                    {% for campaign in completed_campaigns %}
+                    <div class="campaign-card-allocate">
+                        <div class="campaign-details">
+                            <h4>{{ completed_campaign.Name.title() }}</h4>
+                            <small>Ongoing</small>
+                            <a href="{{url_for('campaign', campaign_id = completed_campaign.CampaignID)}}" class="campaign-link">View Campaign &#8594;</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="campaign-card-allocate">
+                        <p>You have no completed campaigns.</p>
+                    </div>
+                {% endif %}
+
+
+
+            </div>
+        </div>
+        <script src="/static/javascript.js"></script>
+</body>
+{% endblock %}
+
+                <!-- <div class="campaign-column">
+                    <h3>Completed Campaigns</h3>
+
+                    <div class="campaign-card-allocate">
+                        <div class="campaign-details">
+                            <h4>COVID Food Drive</h4>
+                            <small>Completed</small>
+                            <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594;</a>
+                        </div>
+                    </div>
+
+                    <div class="campaign-card-allocate">
+                        <div class="campaign-details">
+                            <h4>Bayanihan Fundraiser</h4>
+                            <small>Completed</small>
+                            <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594;</a>
+                        </div>
+                    </div>
+                </div> -->
