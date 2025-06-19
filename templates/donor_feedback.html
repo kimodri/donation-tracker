@@ -23,10 +23,10 @@
 
     <div class="donor-center-container">
 
-        {% if organizer %}
+        {% if organizers %}
             {% for organizer in organizers %}
                     <div class="donor-center-div">
-                    <h3 class="organizer-name">{{ organizer.organizer.Name }}</h3>
+                    <h3 class="organizer-name">{{ organizer.organizer.Name.title() }}</h3>
                         <button 
                             class="feedback-bttn" 
                             data-org-name="{{ organizer.organizer.Name }}" 
@@ -79,7 +79,8 @@
                 <p><strong>Organizer:</strong> <span class="organizer-name"></span></p>
                 
                 <!-- so we can get the organizer name -->
-                <input type="hidden" name="organizer_id" id="organizer-name-input">
+                <input type="hidden" name="organizer_name" id="organizer-name-input">
+
                  <!-- trying to get ID -->
                 <input type="hidden" name="organizer_id" id="organizer-id-input">
 

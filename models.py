@@ -300,16 +300,17 @@ class DonationDetails(db.Model):
 class Inventory(db.Model):
     __tablename__ = 'Inventory'
     InventoryID = Column(Integer, primary_key=True, autoincrement=True)
-    DonationDetailID = Column(Integer, ForeignKey('DonationDetails.DonationDetailID'))
+    DonationID = Column(Integer, ForeignKey('Donations.DonationID'))  # Rename field properly
+
     ItemID = Column(Integer, ForeignKey('ItemList.ItemID'))
     QuantityAvailable = Column(Integer)
-    CampaignID = Column(Integer, ForeignKey('Campaigns.CampaignID'))
+    CampaignID = Column(Integer, ForeignKey('Campaigns.CampaignID'), nullable = True)
     Status = Column(String(20))
     AllocationDate = Column(Date, default=date.today, server_default=func.now(), nullable=True)
 
-    donation_detail = db.relationship("DonationDetails", backref="inventories")
     item = db.relationship("ItemList", backref="inventories")
     campaign = db.relationship("Campaigns", backref="inventories")
+    donation = db.relationship("Donations", backref="inventories")  # Match to Donations, not DonationDetails
 
     def __repr__(self):
         return f"<Inventory(InventoryID='{self.InventoryID}', Status='{self.Status}')>"
