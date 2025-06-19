@@ -276,7 +276,7 @@ class Donations(db.Model):
     DonationID = Column(Integer, primary_key=True, autoincrement=True)
     DonorID = Column(Integer, ForeignKey('Donors.DonorID'))
     OrganizerID = Column(Integer, ForeignKey('Organizers.OrganizerID'))
-    Timestamp = Column(DateTime, default=datetime.now, server_default=func.now())
+    Date = Column(Date, default=date.today, server_default=func.now())
 
     donor = db.relationship("Donors", backref="donations")
     organizer = db.relationship("Organizers", backref="donations")
@@ -304,9 +304,8 @@ class Inventory(db.Model):
     ItemID = Column(Integer, ForeignKey('ItemList.ItemID'))
     QuantityAvailable = Column(Integer)
     CampaignID = Column(Integer, ForeignKey('Campaigns.CampaignID'))
-    Timestamp = Column(DateTime)
     Status = Column(String(20))
-    AllocationDate = Column(DateTime, nullable=True)
+    AllocationDate = Column(Date, default=date.today, server_default=func.now(), nullable=True)
 
     donation_detail = db.relationship("DonationDetails", backref="inventories")
     item = db.relationship("ItemList", backref="inventories")
