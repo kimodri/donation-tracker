@@ -581,6 +581,7 @@ def allocate():
 
     for campaign in campaigns:
         campaign_summary = {'name': campaign.Name, 'allocations': []}
+        
         campaign_details = CampaignDetails.query.filter_by(CampaignID=campaign.CampaignID).all()
 
         for detail in campaign_details:
@@ -652,6 +653,7 @@ def allocate():
                     'allocated': total_allocated
                 })
 
+        print(campaign_summary)
         # Check if the campaign is now fully allocated
         fully_allocated = True
         for detail in campaign_details:
