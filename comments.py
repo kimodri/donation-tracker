@@ -1,3 +1,15 @@
+# @app.route('/submit_request_form', methods = ['POST'])
+# def submit_request_form():
+#     organizer_id = request.form.get('organizer')
+#     representative_id = session.get('representative_id')
+#     message = request.form.get('message') 
+
+#     db.session.add(Requests(OrganizerID=organizer_id, RepresentativeID=representative_id,\
+#                             Message=message))
+    
+#     # but i feel like we should also record kung ilan yung requested
+#     db.session.commit()
+
 # @app.route('/donate_form/submit_donate_form', methods = ['POST'])
 # def submit_donate_form():
 #     organizer_id = request.form.get('organizer_id')

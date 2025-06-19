@@ -1,13 +1,17 @@
 <!-- NAV BAR -->
     <nav class="nav-bar">
         <div class="nav-bar-div">
-            <div class="logo"><a href=""><img  id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a></div>
+            <div class="logo"><a href="{{ url_for('home') }}"><img  id="doneate-logo" src="/static/img/doneate_logo_2.png" alt="DONEate logo"></a></div>
             
             <ul>
                 <li><a href="{{ url_for('home') }}">About</a></li>
                 <!-- <li><a href="/">Home</a></li> -->
+            {% if role == 'donor' %}
                 <li><a href="{{ url_for('donor_donate') }}">Organizers</a></li>
+            {% elif role == 'representative' %}
+                <li><a href="{{ url_for('rep_request_org') }}">Organizers</a></li>
                 <!-- <li><a href="#">Campaigns</a></li>   -->
+            {% endif %}
             {% if role == 'donor' %}
                 <li><a href="{{ url_for('donor_feedback') }}">Feedback</a></li>
                 <li><a href="{{ url_for('donor_update') }}">Updates</a></li>

@@ -38,6 +38,7 @@ from models import (
     Organizers,
     Representatives,
     Requests,
+    RequestDetails,
     Updates
 )
 
@@ -105,11 +106,15 @@ def login():
         print(password)
 
 
+
+        
         try:
             # query the user
             result = Users.query.filter_by(Email=email).first()
-            print(result.Email)
-            print(result.Role)
+            if result == None:
+                raise AttributeError("Something went wrong intentionally!")
+            # print(result.Email)
+            # print(result.Role)
 
             if result:
                 if result.Password == password: 
@@ -134,15 +139,15 @@ def login():
                         representatives = [i.Email for i in Users.query.filter_by(Role = 'representative')]
                         id = representatives.index(session['email']) + 1
                         session['representative_id'] = id
-                        return "Representative Page"
+                        return redirect(url_for('rep_request_org'))
                         # return redirect('') # homepage for representative
                 else:
                     flash('Incorrect password')
-                    return redirect('/login')
+                    return render_template('login.html')
 
         except AttributeError:
-            print(result.Email)
-            print(result.Password)
+            # print(result.Email)
+            # print(result.Password)
             flash('Account not found')
             # redicrect to sign in page whch will call the sign in function
             return render_template('login.html')
@@ -373,6 +378,62 @@ def donor_update():
 
 
 # FOR REPRESENTATIVES
+
+@app.route('/submit_request_form', methods=['POST'])
+def submit_request_form():
+    from sqlalchemy.exc import SQLAlchemyError
+
+    organizer_id = request.form.get('organizer')
+    representative_id = session.get('representative_id')
+    message = request.form.get('message')
+
+    try:
+        # Step 1: Add request to Requests table
+        new_request = Requests(
+            OrganizerID=organizer_id,
+            RepresentativeID=representative_id,
+            Message=message
+        )
+        db.session.add(new_request)
+        db.session.commit()
+
+        # Step 2: Get the inserted RequestID
+        request_id = new_request.RequestID
+
+        # Step 3: Map checkbox values to quantity field names
+        item_map = {
+            "1": "rnum",
+            "2": "cnum",
+            "3": "cgnum",
+            "4": "mednum"
+        }
+
+        # Get selected checkboxes (returns a list of values as strings)
+        checked_items = request.form.getlist('cb')
+
+        for item_id in checked_items:
+            qty_str = request.form.get(item_map.get(item_id))
+            try:
+                quantity = int(qty_str)
+                if quantity > 0:
+                    db.session.add(RequestDetails(
+                        RequestID=request_id,
+                        ItemID=int(item_id),
+                        QuantityNeeded=quantity
+                    ))
+            except (ValueError, TypeError):
+                continue  # Skip invalid input
+
+        db.session.commit()
+        # flash('Request submitted successfully!', 'success')
+        return redirect(url_for('rep_request_org'))
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        print(f"Error: {e}")
+        # flash('Something went wrong while submitting the request.', 'error')
+        return redirect(url_for('rep_request_org'))
+    
 @app.route('/rep_request_org')
 def rep_request_org():
     organizers = Organizers.query.all()
@@ -382,19 +443,6 @@ def rep_request_org():
 def request_form():
     organizer_id = request.args.get('organizer_id')
     return render_template('rep_request_form.html', organizer_id=organizer_id, role = session.get('role'))
-
-@app.route('/submit_request_form', methods = ['POST'])
-def submit_request_form():
-    organizer_id = request.form.get('organizer')
-    representative_id = session.get('representative_id')
-    message = request.form.get('message') 
-
-    db.session.add(Requests(OrganizerID=organizer_id, RepresentativeID=representative_id,\
-                            Message=message))
-    
-    # but i feel like we should also record kung ilan yung requested
-    db.session.commit()
-
 
 # FOR ORGANIZERS
 @app.route('/org_request_list')
