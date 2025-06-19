@@ -50,8 +50,13 @@ with app.app_context():
 
 # Routes
 @app.route('/')
+def index():
+    return render_template('index.html', role = session.get('role'))
+
+
+@app.route('/home')
 def home():
-    return render_template('index.html')
+    return render_template('about_us.html', role = session.get('role'))
 
 @app.route('/signin', methods = ['GET', 'POST'])
 def signin():
@@ -88,57 +93,59 @@ def signin():
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
 
-    if request == 'GET':
+    print(request)
+    if request.method == 'GET':
         return render_template('login.html')
 
     # Get the things
-    email = request.form.get('email')
-    password = request.form.get('password')
-    print(email)
-    print(password)
+    else:
+        email = request.form.get('email')
+        password = request.form.get('password')
+        print(email)
+        print(password)
 
 
-    try:
-        # query the user
-        result = Users.query.filter_by(Email=email).first()
-        print(result.Email)
-        print(result.Role)
+        try:
+            # query the user
+            result = Users.query.filter_by(Email=email).first()
+            print(result.Email)
+            print(result.Role)
 
-        if result:
-            if result.Password == password: 
-                session['user_id'] = result.UserID
-                session['email'] = result.Email
-                session['role'] = result.Role
+            if result:
+                if result.Password == password: 
+                    session['user_id'] = result.UserID
+                    session['email'] = result.Email
+                    session['role'] = result.Role
 
-                if result.Role == 'donor':
-                    donors = [i.Email for i in Users.query.filter_by(Role = 'donor')]
-                    id = donors.index(session['email']) + 1
-                    session['donor_id'] = id
-                    print(type(session['donor_id']))
-                    return redirect(url_for('donor_donate'))
-                    # return redirect('')  # homepage for donor
-                elif result.Role == 'organizer':
-                    organizers = [i.Email for i in Users.query.filter_by(Role = 'organizer')]
-                    id = organizers.index(session['email']) + 1
-                    session['organizer_id'] = id
-                    return "Organizer Page"
-                    # return redirect('') # homepage for organizer
+                    if result.Role == 'donor':
+                        donors = [i.Email for i in Users.query.filter_by(Role = 'donor')]
+                        id = donors.index(session['email']) + 1
+                        session['donor_id'] = id
+                        print(type(session['donor_id']))
+                        return redirect(url_for('donor_donate'))
+                        # return redirect('')  # homepage for donor
+                    elif result.Role == 'organizer':
+                        organizers = [i.Email for i in Users.query.filter_by(Role = 'organizer')]
+                        id = organizers.index(session['email']) + 1
+                        session['organizer_id'] = id
+                        return redirect(url_for('org_request_list'))
+                        # return redirect('') # homepage for organizer
+                    else:
+                        representatives = [i.Email for i in Users.query.filter_by(Role = 'representative')]
+                        id = representatives.index(session['email']) + 1
+                        session['representative_id'] = id
+                        return "Representative Page"
+                        # return redirect('') # homepage for representative
                 else:
-                    representatives = [i.Email for i in Users.query.filter_by(Role = 'representative')]
-                    id = representatives.index(session['email']) + 1
-                    session['representative_id'] = id
-                    return "Representative Page"
-                    # return redirect('') # homepage for representative
-            else:
-                flash('Incorrect password')
-                return redirect('/login')
+                    flash('Incorrect password')
+                    return redirect('/login')
 
-    except AttributeError:
-        print(result.Email)
-        print(result.Password)
-        flash('Account not found')
-        # redicrect to sign in page whch will call the sign in function
-        return render_template('login.html')
+        except AttributeError:
+            print(result.Email)
+            print(result.Password)
+            flash('Account not found')
+            # redicrect to sign in page whch will call the sign in function
+            return render_template('login.html')
 
 # @app.route('/organizerList', methods = ['GET', 'POST'])
 # def organizerList():
@@ -200,18 +207,19 @@ def campaign():
 def donate_form():
     # query for the lists of organizers
     result = Organizers.query.all()
+    print(result)
     return render_template('donor_donate_form.html', organizers = result, role = session.get('role'))
 
 @app.route('/donate_form/submit_donate_form', methods = ['POST'])
 def submit_donate_form():
     organizer_id = request.form.get('organizer_id')
-    rice_quantity = int(request.form.get('rice-quantity'))
-    clothes_quantity = int(request.form.get('clothes-quantity'))
-    canned_goods_quantity = int(request.form.get('canned-goods-quantity'))
-    medical_kits_quantity = int(request.form.get('medical-kits-quantity'))
+    rice_quantity = request.form.get('rice-quantity')
+    clothes_quantity = request.form.get('clothes-quantity')
+    canned_goods_quantity = request.form.get('canned-goods-quantity')
+    medical_kits_quantity = request.form.get('medical-kits-quantity')
 
     # add to database
-    # donation table
+    # donation table    
     db.session.add(Donations(DonorID = session.get('donor_id'), OrganizerID = organizer_id))
     db.session.commit()
 
@@ -227,9 +235,6 @@ def submit_donate_form():
 
     # Add again for inventory
     donation_detail_id = DonationDetails.query.filter_by(DonorID=session.get('donor_id')).order_by(Donations.DonationID.desc()).first()
-
-    
-
 
     # Perhaps flash here, thanking
     return redirect(url_for('donor_donate'))
@@ -282,11 +287,15 @@ def donor_feedback():
     # Get all donations made by the donor
     donations = Donations.query.filter_by(DonorID=donor_id).all()
 
+    print(donations)
     # Get all feedbacks the donor has already submitted
+
     feedbacks = Feedbacks.query.filter_by(DonorID=donor_id).all()
+    print(feedbacks)
 
     # Get a set of OrganizerIDs that have already been feedbacked
     feedbacked_organizer_ids = {feedback.OrganizerID for feedback in feedbacks}
+
 
     # Filter only the donations to organizers that have NOT been feedbacked
     donations_to_unfeedbacked_organizers = [
@@ -303,7 +312,9 @@ def donor_feedback():
     # organizer_names = list(OrderedDict.fromkeys(
     #     donation.organizer.Name for donation in donations_to_unfeedbacked_organizers
     # ))
-        
+    
+    print(donor_id)
+    print(organizers)
     return render_template('donor_feedback.html', role = session.get('role'), organizers = organizers)
 
     # return render_template('donor_feedback.html', role = session.get('role'), organizers = organizer_names)
@@ -361,7 +372,7 @@ def submit_request_form():
 @app.route('/org_request_list')
 def org_request_list():
     requests = Requests.query.filter_by(OrganizerID=session.get('organizer_id')).all()
-    render_template('organizer_request_list.html', requests = requests)
+    return render_template('organizer_request_list.html', requests = requests)
 
 @app.route('/delete_request')
 def delete_request():
@@ -375,7 +386,7 @@ def delete_request():
 def org_update_form():
     # query those who only donated to you
     donations = Donations.query.filter_by(OrganizerID = session.get('donor_id')).all()
-    render_template('organizer_request_form.html', donations=donations)
+    return render_template('organizer_request_form.html', donations=donations)
 
 @app.route('/org_update_form/submit_update', methods = ['POST'])
 def submit_update():

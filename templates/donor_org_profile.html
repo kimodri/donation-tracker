@@ -94,7 +94,7 @@
             {% if feedbacks %}
                 {% for feedback in feedbacks %}
                     <div class="donor-center-div update">
-                        <h4 class="organizer-name-update">{{feedback.donor.Name}}</h4>
+                        <h4 class="organizer-name-update">{{feedback.donor.Name.title()}}</h4>
                         <p>{{feedback.Comment}}</p>
                     </div>
                 {% endfor %}

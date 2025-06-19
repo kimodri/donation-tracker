@@ -31,7 +31,7 @@
             {% if updates|length > 0 %}
                 {% for update in updates %}
                     <div class="donor-center-div update">
-                        <h4 class="organizer-name-update">{{ update.organizer.Name }}</h4>
+                        <h4 class="organizer-name-update">{{ update.organizer.Name.title() }}</h4>
                         <p>{{ update.UpdateText }}</p>
                     </div>
                 {% endfor %}

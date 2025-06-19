@@ -46,7 +46,7 @@
                                 <h4 class="organizer-name-update">{{request.representative.Name}}</h4>
 
                                 <!-- lagay ka actio url_for -->
-                                <a href = "{{ url_for(delete_request, {{request_id = request.RequestID}}) }}">
+                                <a href = "{{ url_for(delete_request, request_id = request.RequestID) }}">
                                     <button class="delete-btn">Delete</button>
                                 </a>
                             </div>

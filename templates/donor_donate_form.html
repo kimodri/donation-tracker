@@ -22,7 +22,7 @@
                         <option disabled selected>Select organizer</option>
                         {% if organizers %}
                             {% for organizer in organizers %}
-                                <option value = "{{organizer.OrganizerID}}">{{ organizer.Name }}</option>
+                                <option value = "{{organizer.OrganizerID}}">{{ organizer.Name.title() }}</option>
                             {% endfor %}
                         {% else %}
                             <option disabled selected>No organizers found</option>

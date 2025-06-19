@@ -282,7 +282,7 @@ class Donations(db.Model):
     organizer = db.relationship("Organizers", backref="donations")
 
     def __repr__(self):
-        return f"<Donation(DonationID='{self.DonationID}', Timestamp='{self.Timestamp}')>"
+        return f"<Donation(DonationID='{self.DonationID}', Date='{self.Date}')>"
 
 class DonationDetails(db.Model):
     __tablename__ = 'DonationDetails'

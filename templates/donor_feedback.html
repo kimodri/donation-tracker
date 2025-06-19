@@ -23,8 +23,8 @@
 
     <div class="donor-center-container">
 
+        {% if organizer %}
             {% for organizer in organizers %}
-                {% if organizer %}
                     <div class="donor-center-div">
                     <h3 class="organizer-name">{{ organizer.organizer.Name }}</h3>
                         <button 
@@ -35,10 +35,10 @@
                         </button>
                         <!-- hindi nagbigay ng link kasi automatic -->
                     </div>
-                {% else %}
-                    <h3 class = 'organizer-name'>You have not donated to anyone yet.</h3>
-                {% endif %}
-            {% endfor %}  
+                {% endfor %} 
+            {% else %}
+                    <h3 class = 'organizer-name'>You have not donated to anyone yet <br>or you have feedbacked them already.</h3> 
+            {% endif %}
        
 
         <!-- {% for organizer in organizers %}
