@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+
+
+{%block body%}
+<body>
+
+
+  {% include "navigation.html" %}
+
+
+  <div id="go-back-div">
+        <a href="{{ url_for('donor_donate') }}" id="go-back">&#8592 Go Back</a>
+    </div>
+
+
+    <!-- REQUEST FORM -->
+    <div class="request-form-container">
+        <header>Request Form</header>
+        <form id="request-form", method = 'post', action = "{{ url_for('submit_request_form') }}">
+
+
+                   
+            <input type="hidden" name="organizer" value="{{ organizer_id }}">
+            <span class="title">Select What You Need</span>
+            <div> <!-- ItemID should be the value-->
+               
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="rice-cb", value = '1' name = 'cb'>
+                        <label for="rice-cb">Rice</label>
+                    </div>
+                    <input name = 'rnum' type="number" id="rice-num" disabled>
+                </div>
+
+
+
+
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="clothes-cb" value = '2' name = 'cb'>
+                        <label for="clothes-cb">Clothes</label>
+                    </div>
+                    <input type="number" name = 'cnum' id="clothes-num" disabled>
+                </div>
+
+
+
+
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="canned-goods-cb" value = '3' name = 'cb'>
+                        <label for="canned-goods-cb">Canned Goods</label>
+                    </div>
+                    <input type="number" name = 'cgnum' id="canned-goods-num" disabled>
+                </div>
+
+
+
+
+                <div class="request-item">
+                    <div class="checkbox-label-group">
+                        <input type="checkbox" id="medical-kits-cb" value = '4' name = 'cb'>
+                        <label for="medical-kits-cb">Medical Kits</label>
+                    </div>
+                    <input type="number" name = 'mednum' id="medical-kits-num" disabled>
+                </div>
+            </div>
+
+
+            <span class="title">Message</span>
+            <textarea name="message" placeholder="Write your message here..."></textarea>
+
+
+            <div class="button-group">
+                <button type="reset" class="cancel-bttn">Cancel</button>
+                <button type="submit" class="submit-bttn">Submit</button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <script src="/static/javascript.js"></script>
+</body>
+{% endblock %}
+
+
+
+
+  <!-- <span class="title">Personal Details</span>
+            <div class="fields">
+                <div class="input-field">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Enter your name" required>
+                </div>
+
+
+                <div class="input-field">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+
+
+                <div class="input-field">
+                    <label>Province</label>
+                    <select required>
+                        <option disabled selected>Select province</option>
+                        <option>Manila</option>
+                        <option>Rizal</option>
+                        <option>Laguna</option>
+                    </select>
+                </div>
+                <div class="input-field">
+                    <label>City</label>
+                    <select required>
+                        <option disabled selected>Select city</option>
+                        <option>Taguig</option>
+                        <option>Pasig</option>
+                        <option>Makati</option>
+                    </select>
+                </div>
+            </div> -->
+

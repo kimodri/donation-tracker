@@ -1,22 +1,18 @@
 {% extends "layout.html" %}
 
 {% block body %}
+
 <body>
     {% if role == 'donor' or role == 'representative' %}
-        {% include "navigation.html" %}
-    {% else %}
-        {% include "org_nav.html" %}
-    {% endif %}
-    <!-- <div id="go-back-div">
-        <a href="{{ url_for('donor_org_profile') }}" id="go-back">&#8592 Go Back</a>
-    </div> -->
-    <br><br><br><br>
+    {% include "navigation.html" %}
 
+    <!-- SA DONOR / REPRESENTATIVE SIDE -->
+    <h1 id="donor-page-title">Campaign</h1>
     <div class="campaign-post-container">
         <div class="campaign-post-header">
             <h1 class="campaign-post-title">{{name}}</h1>
             {% if urgency == 1 %}
-                <span class="urgent-tag">URGENT</span>
+            <span class="urgent-tag">URGENT</span>
             {% endif %}
         </div>
 
@@ -40,19 +36,19 @@
                 these trying times. Salamat po!
             </p> -->
         </div>
-        
+
         <div class="item-list">
-        {% if role == 'donor' %}
+            {% if role == 'donor' %}
             <h3>Needed Items</h3>
             <ul>
                 {% if 1 in item_list %}
                 <li>Rice</li>
                 {% endif %}
-                
+
                 {% if 2 in item_list %}
                 <li>Clothes</li>
                 {% endif %}
-                
+
                 {% if 3 in item_list %}
                 <li>Canned Goods</li>
                 {% endif %}
@@ -61,31 +57,126 @@
                 <li>Medical Kits</li>
                 {% endif %}
             </ul>
-        {% else %}
-                <h3>Needed Items</h3>
-                <ul>
-                    {% if status == 'Active' or status == 'Completed'%}
-                        {% for item in item_statuses.values() %}
-                            <li>{{ item.name }}: {{ item.allocated }} / {{ item.needed }}</li>
-                        {% endfor %}
-                    {% else %}
-                        {% for item_id in item_list %}
-                            {% if item_id == 1 %}
-                                <li>Rice</li>
-                            {% elif item_id == 2 %}
-                                <li>Clothes</li>
-                            {% elif item_id == 3 %}
-                                <li>Canned Goods</li>
-                            {% elif item_id == 4 %}
-                                <li>Medical Kits</li>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                </ul>
-        {% endif %}
-        
+            {% else %}
+            <h3>Needed Items</h3>
+            <ul>
+                {% if status == 'Active' or status == 'Completed'%}
+                {% for item in item_statuses.values() %}
+                <li>{{ item.name }}: {{ item.allocated }} / {{ item.needed }}</li>
+                {% endfor %}
+                {% else %}
+                {% for item_id in item_list %}
+                {% if item_id == 1 %}
+                <li>Rice</li>
+                {% elif item_id == 2 %}
+                <li>Clothes</li>
+                {% elif item_id == 3 %}
+                <li>Canned Goods</li>
+                {% elif item_id == 4 %}
+                <li>Medical Kits</li>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </ul>
+            {% endif %}
+
         </div>
     </div>
+
+    {% else %}
+
+    <div class="dashboard-container">
+        <!-- NAVIGATION -->
+        {% include "org_nav.html" %}
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <h1 class="main-content-title">Campaign</h1>
+
+            <div class="campaign-post-container">
+                <div class="campaign-post-header">
+                    <h1 class="campaign-post-title">{{name}}</h1>
+                    {% if urgency == 1 %}
+                    <span class="urgent-tag">URGENT</span>
+                    {% endif %}
+                </div>
+
+                <p class="campaign-post-meta">📅 Posted on {{date_posted}} &nbsp; | &nbsp; 📍 {{location}} &nbsp;
+                    | &nbsp;
+                    👤 Organizer: {{organizer_name}}</p>
+
+                <div class="campaign-post-description">
+                    <h3>Description</h3>
+                    <p>
+                        {{description}}
+                        <!-- This campaign aims to provide essential food packs to families affected by recent flooding in Barangay
+                Mabini.
+                Each pack contains rice, canned goods, and hygiene supplies. We need your help to reach our goal and
+                ensure
+                no one goes hungry during recovery. Any donation, big or small, makes a difference! -->
+                    </p>
+                    <!-- <p>
+                Donations will be accepted via our online form or at our community drop-off center. Let's support one
+                another in
+                these trying times. Salamat po!
+            </p> -->
+                </div>
+
+                <div class="item-list">
+                    {% if role == 'donor' %}
+                    <h3>Needed Items</h3>
+                    <ul>
+                        {% if 1 in item_list %}
+                        <li>Rice</li>
+                        {% endif %}
+
+                        {% if 2 in item_list %}
+                        <li>Clothes</li>
+                        {% endif %}
+
+                        {% if 3 in item_list %}
+                        <li>Canned Goods</li>
+                        {% endif %}
+
+                        {% if 4 in item_list %}
+                        <li>Medical Kits</li>
+                        {% endif %}
+                    </ul>
+                    {% else %}
+                    <h3>Needed Items</h3>
+                    <ul>
+                        {% if status == 'Active' or status == 'Completed'%}
+                        {% for item in item_statuses.values() %}
+                        <li>{{ item.name }}: {{ item.allocated }} / {{ item.needed }}</li>
+                        {% endfor %}
+                        {% else %}
+                        {% for item_id in item_list %}
+                        {% if item_id == 1 %}
+                        <li>Rice</li>
+                        {% elif item_id == 2 %}
+                        <li>Clothes</li>
+                        {% elif item_id == 3 %}
+                        <li>Canned Goods</li>
+                        {% elif item_id == 4 %}
+                        <li>Medical Kits</li>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- <div id="go-back-div">
+        <a href="{{ url_for('donor_org_profile') }}" id="go-back">&#8592 Go Back</a>
+    </div> -->
+    <br><br><br><br>
+
+
+
+
 
     <script src="/static/javascript.js"></script>
 </body>

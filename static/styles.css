@@ -213,6 +213,7 @@ li a:hover {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
+	gap: 20px;
 	padding: 20px;
 	background-color: var(--white);
 	border-radius: var(--border-radius-2);
@@ -224,6 +225,7 @@ li a:hover {
 .organizer-name {
 	font-size: var(--font-size-l);
 	font-weight: var(--font-weight-medium);
+	margin: auto 0px;
 }
 
 .feedback-bttn {
@@ -433,6 +435,7 @@ li a:hover {
 	font-size: var(--font-size-m);
 	font-weight: var(--font-weight-medium);
 	display: block;
+	margin: auto 0px;
 }
 
 .donor-center-div.update {
@@ -624,9 +627,8 @@ li a:hover {
 
 .campaign-link {
 	font-size: 14px;
-	color: var(--accent-color);
+	color: #007bff;
 	text-decoration: none;
-	margin-top: 3px;
 }
 
 .campaign-link:hover {
@@ -653,12 +655,6 @@ li a:hover {
 	font-size: 14px;
 	color: #555;
 	margin: 8px 0;
-}
-
-.campaign-link {
-	font-size: 14px;
-	color: #007bff;
-	text-decoration: none;
 }
 
 .feedback-section {
@@ -1100,4 +1096,23 @@ textarea {
 .about-image img {
 	max-width: 100%;
 	border-radius: 15px;
+}
+
+/* ALLOCATION RESULT */
+
+.allocate-summary-list {
+	width: 50%;
+}
+
+/* REPORTS */
+.reports-link {
+	font-size: var(--font-size-n);
+	font-weight: var(--font-weight-medium);
+	color: #007bff;
+	/* color: var(--text-color); */
+	text-decoration: none;
+}
+
+.reports-link:hover {
+	text-decoration: underline;
 }
