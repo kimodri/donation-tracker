@@ -1043,6 +1043,41 @@ textarea {
 }
 
 /* ------------ About Us page ------------ */
+.group-banner {
+	background-color: var(--primary-color);
+	padding: 60px 20px;
+	text-align: center;
+	width: 75%;
+	margin: 0 auto;
+}
+
+.group-banner h1 {
+	font-size: var(--font-size-xxl);
+	margin-bottom: 40px;
+	color: var(--text-color);
+}
+
+/* .group-banner h2 {
+	font-size: var(--font-size-xl);
+	margin-top: 20px;
+	color: var(--secondary-color);
+} */
+
+.group-banner span {
+	color: var(--accent-color);
+}
+
+.group-banner img {
+	width: 90%;
+	max-width: 900px;
+	border-radius: 20px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.group-banner img {
+	width: 75%;
+}
+
 .about-us-container {
 	width: 100%;
 	padding: 30px;
