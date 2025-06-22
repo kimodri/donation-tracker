@@ -330,50 +330,32 @@ def donor_org_profile():
                            active_campaigns=active_campaigns, completed_campaigns=completed_campaigns,\
                             feedbacks=feedbacks, avg_stars=avg_stars) 
 
+from collections import OrderedDict
+
 @app.route('/donor_feedback')
 def donor_feedback():
-
-    # get the organizers that the session[role.id] has donated, pass the list 
     donor_id = session.get("donor_id")
+    if not donor_id:
+        return "Donor not logged in", 401
 
-    print(donor_id)
-    # Get all donations made by the donor
+    # All donations by donor
     donations = Donations.query.filter_by(DonorID=donor_id).all()
 
-    print(donations)
-    # Get all feedbacks the donor has already submitted
+    # OrganizerIDs that have already received feedback
+    feedbacked_organizer_ids = {
+        feedback.OrganizerID for feedback in Feedbacks.query.filter_by(DonorID=donor_id).all()
+    }
 
-    feedbacks = Feedbacks.query.filter_by(DonorID=donor_id).all()
-    print(feedbacks)
+    # Prepare an ordered dict to keep organizers in the order they were donated to
+    unique_organizers = OrderedDict()
+    for donation in donations:
+        org_id = donation.OrganizerID
+        if org_id not in feedbacked_organizer_ids and org_id not in unique_organizers:
+            unique_organizers[org_id] = donation.organizer  # Use .organizer relationship
 
-    # Get a set of OrganizerIDs that have already been feedbacked
-    feedbacked_organizer_ids = {feedback.OrganizerID for feedback in feedbacks}
-    print(f"Have already feedbacked on: {feedbacked_organizer_ids}")
+    organizers = list(unique_organizers.values())
 
-    # Filter only the donations to organizers that have NOT been feedbacked
-    donations_to_unfeedbacked_organizers = [
-        donation for donation in donations if donation.OrganizerID not in feedbacked_organizer_ids
-    ]
-
-    # Now extract unique organizer names (in order of appearance)
-    from collections import OrderedDict
-
-    organizers = list(OrderedDict.fromkeys(
-        donation for donation in donations_to_unfeedbacked_organizers
-    ))
-    
-    # from taas nakuha mo yung listahan ng donations na may OrganizerID
-    unfeedbacked_organizers_id = [ i.OrganizerID for i in organizers]
-
-    # organizer_names = list(OrderedDict.fromkeys(
-    #     donation.organizer.Name for donation in donations_to_unfeedbacked_organizers
-    # ))
-    
-    print(donor_id)
-    print(organizers)
-    print(f'unfeedbacked organizers id {unfeedbacked_organizers_id}')
-
-    return render_template('donor_feedback.html', role = session.get('role'), organizers = organizers)
+    return render_template('donor_feedback.html', role=session.get('role'), organizers=organizers)
 
     # return render_template('donor_feedback.html', role = session.get('role'), organizers = organizer_names)
 
