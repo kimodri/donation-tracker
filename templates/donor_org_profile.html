@@ -22,14 +22,16 @@
             <!-- Active campaigns -->
             <div class="campaign-column">
                 <h3>Active Campaigns</h3>
-                <div class="campaign-card-organizer-view">
+                
                         {% if active_campaigns %}
                             {% for active_campaign in active_campaigns %}
+                        <div class="campaign-card-organizer-view">
                             <div class="campaign-info">
                                 <h4>{{active_campaign.Name.title()}}</h4>
                                 <span class="status ongoing">Ongoing</span>
                                 <a href = "{{url_for('campaign', campaign_id = active_campaign.CampaignID)}}">View Campaign &#8594</a>
                             </div>
+                        </div>
                             {% endfor %}
                         {% else %}
                             <div class="campaign-info">
@@ -40,7 +42,7 @@
                         <!-- edit mo pa to para malagyan ng info -->
                         
                         <!-- <a href="donor_campaign_post.html" class="campaign-link">View Campaign &#8594</a> -->
-                </div>
+                
 
                 <!-- <div class="campaign-card-organizer-view">
                     <div class="campaign-info">
