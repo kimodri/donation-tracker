@@ -586,13 +586,17 @@ def allocate():
 
         for detail in campaign_details:
             item_id = detail.ItemID
+            print(item_id)
             item_name = detail.item.ItemName
+            print(item_name)
             qty_needed = detail.QuantityNeeded
+            print(qty_needed)
 
             # Check how much has already been allocated
             already_allocated = db.session.query(func.sum(Inventory.QuantityAvailable)).filter_by(
                 CampaignID=campaign.CampaignID,
-                ItemID=item_id
+                ItemID=item_id,
+                Status = 'allocated' # this is my addtion, I think this will help
             ).scalar() or 0
 
             remaining_needed = qty_needed - already_allocated
