@@ -59,7 +59,7 @@
                             {% for completed_campaign in completed_campaigns %}
                             <div class="campaign-card-organizer-view">
                                 <div class="campaign-info">
-                                    <h4>completed_campaign.Name.title()</h4>
+                                    <h4>{{completed_campaign.Name.title()}}</h4>
                                     <span class="status completed">Completed</span>
                                     <a href="{{url_for('campaign', campaign_id = completed_campaign.CampaignID)}}" class="campaign-link">View Campaign &#8594</a>
                                 </div>

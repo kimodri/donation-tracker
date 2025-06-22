@@ -26,11 +26,11 @@
         {% if organizers %}
             {% for organizer in organizers %}
                     <div class="donor-center-div">
-                    <h3 class="organizer-name">{{ organizer.organizer.Name.title() }}</h3>
+                    <h3 class="organizer-name">{{ organizer.Name.title() }}</h3>
                         <button 
                             class="feedback-bttn" 
-                            data-org-name="{{ organizer.organizer.Name }}" 
-                            data-org-id="{{ organizer.organizer.OrganizerID }}">
+                            data-org-name="{{ organizer.Name }}" 
+                            data-org-id="{{ organizer.OrganizerID }}">
                             Send Feedback
                         </button>
                         <!-- hindi nagbigay ng link kasi automatic -->
