@@ -45,7 +45,7 @@ class Report:
         SELECT
         d.DonorID,
         dr.Name,
-        COUNT(d.DonationID)        AS times_donated,
+        COUNT(DISTINCT d.DonationID)        AS times_donated,
         COALESCE(SUM(dd.Quantity), 0) AS total_items_donated
         FROM Donations d
         JOIN Donors dr

@@ -9,6 +9,9 @@ from datetime import date
 from collections import defaultdict
 from reports import Report
 import matplotlib.pyplot as plt
+import io
+import base64
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 # Create the app instance
 app = Flask(__name__)
@@ -554,83 +557,72 @@ def submit_update():
 def report():
     try:
         choice = int(request.args.get('choice'))
+        plt.style.use('ggplot')
 
-        plt.style.use('ggplot')  # Consistent visual theme
-        plt.figure(figsize=(10, 6))  # Standard size
+        def plot_to_base64(fig):
+            buf = io.BytesIO()
+            FigureCanvas(fig).print_png(buf)
+            buf.seek(0)
+            return base64.b64encode(buf.read()).decode('utf-8')
 
         if choice == 1:
             df = reporter.most_donated()
-            x = df['Name']
-            y = df['donation_count']
-
-            plt.bar(x, y, color='cornflowerblue')
-            plt.xlabel('Names')
-            plt.ylabel('Donation Count')
-            plt.title('Most Donated Organizer')
-            plt.grid(True)
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.bar(df['Name'], df['donation_count'], color='cornflowerblue')
+            ax.set_xlabel('Names')
+            ax.set_ylabel('Donation Count')
+            ax.set_title('Most Donated Organizer')
+            ax.grid(True)
+            fig.tight_layout()
+            image_base64 = plot_to_base64(fig)
+            return render_template('report_graph.html', graph=image_base64, title="Most Donated Organizer")
 
         elif choice == 2:
             df = reporter.left_available(session.get('organizer_id'))
-            x = df['Name']
-            y = df['total_available']
-
-            plt.bar(x, y, color='mediumseagreen')
-            plt.xlabel('Names')
-            plt.ylabel('Available Items')
-            plt.title('Count of Available Items')
-            plt.grid(True)
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.bar(df['Name'], df['total_available'], color='mediumseagreen')
+            ax.set_xlabel('Names')
+            ax.set_ylabel('Available Items')
+            ax.set_title('Count of Available Items')
+            ax.grid(True)
+            fig.tight_layout()
+            image_base64 = plot_to_base64(fig)
+            return render_template('report_graph.html', graph=image_base64, title="Count of Available Items")
 
         elif choice == 3:
             df = reporter.total_donation()
-            # Convert DataFrame to list of dictionaries (each row is a dict)
             data = df.to_dict(orient='records')
             columns = df.columns.tolist()
-
             return render_template('report_table.html', data=data, columns=columns)
-
-        # elif choice == 3:
-        #     df = reporter.total_donation()
-
-        #     scatter = plt.scatter(
-        #         df['times_donated'],
-        #         df['total_items_donated'],
-        #         alpha=0.7,
-        #         edgecolors='w',
-        #         color='tomato'
-        #     )
-        #     for i, name in enumerate(df['Name']):
-        #         plt.annotate(name, (df['times_donated'][i], df['total_items_donated'][i]),
-        #                      fontsize=8, alpha=0.8)
-        #     plt.xlabel('Times Donated')
-        #     plt.ylabel('Total Items Donated')
-        #     plt.title('Total Items Donated vs. Times Donated per Donor')
-        #     plt.grid(True)
 
         elif choice == 4:
             df = reporter.most_requested_items()
-
-            plt.barh(df['ItemName'], df['request_count'], color='steelblue')
-            plt.xlabel("Number of Requests")
-            plt.title("Most Requested Items")
-            plt.gca().invert_yaxis()  # Highest first
-            plt.grid(True)
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.barh(df['ItemName'], df['request_count'], color='steelblue')
+            ax.set_xlabel("Number of Requests")
+            ax.set_title("Most Requested Items")
+            ax.invert_yaxis()
+            ax.grid(True)
+            fig.tight_layout()
+            image_base64 = plot_to_base64(fig)
+            return render_template('report_graph.html', graph=image_base64, title="Most Requested Items")
 
         elif choice == 5:
             df = reporter.number_campaigns(session.get('organizer_id'))
-            x = df['Status']
-            y = df['count']
+            fig, ax = plt.subplots(figsize=(10, 6))
+            ax.bar(df['Status'], df['count'], color='goldenrod')
+            ax.set_xlabel('Status')
+            ax.set_ylabel('Count')
+            ax.set_title('Number of Active and Completed Campaigns')
+            ax.grid(True)
+            fig.tight_layout()
+            image_base64 = plot_to_base64(fig)
+            return render_template('report_graph.html', graph=image_base64, title="Number of Campaigns by Status")
 
-            plt.bar(x, y, color='goldenrod')
-            plt.xlabel('Status')
-            plt.ylabel('Count')
-            plt.title('Number of Active and Completed Campaigns')
-            plt.grid(True)
-
-        plt.tight_layout()
-        plt.show()
-
-        return render_template('report.html')
-    except:
+        else:
+            return render_template('report.html')
+    except Exception as e:
+        print(e)
         return render_template('report.html')
 
 
