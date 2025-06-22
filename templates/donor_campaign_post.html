@@ -64,7 +64,7 @@
         {% else %}
                 <h3>Needed Items</h3>
                 <ul>
-                    {% if status == 'Active' %}
+                    {% if status == 'Active' or status == 'Completed'%}
                         {% for item in item_statuses.values() %}
                             <li>{{ item.name }}: {{ item.allocated }} / {{ item.needed }}</li>
                         {% endfor %}
