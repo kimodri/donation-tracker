@@ -3,21 +3,30 @@
 {% block body %}
 
 <body>
-{% include "navigation.html" %}
+    {% include "navigation.html" %}
 
-<h2>Your Donations</h2>
+    <h1 id="donor-page-title">Your Donations</h1>
 
-{% if campaigns %}
-    {% for campaign, items in campaigns.items() %}
-        <h3>📦 {{ campaign }}</h3>
-        <ul>
-            {% for item_name, qty in items %}
-                <li>{{ item_name }}: {{ qty }}</li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
-{% else %}
-    <p>You haven't donated to any campaigns yet or the organizer has not yet allocated your donations.</p>
-{% endif %}
+    <div class="donor-center-container">
+        {% if campaigns %}
+        {% for campaign, items in campaigns.items() %}
+        <div class="donor-center-div">
+            <h3 class="organizer-name">{{ campaign }}</h3>
+            <div class="allocate-summary-list">
+                <ul>
+                    {% for item_name, qty in items %}
+                    <li>{{ item_name }}: {{ qty }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="donor-center-div">
+            <p>You haven't donated to any campaigns yet or the organizer has not yet allocated your donations.</p>
+        </div>
+        {% endif %}
+    </div>
 
+</body>
 {% endblock %}

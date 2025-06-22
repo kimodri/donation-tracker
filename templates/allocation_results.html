@@ -1,29 +1,66 @@
 {% extends "layout.html" %}
 {% block body %}
+
 <body>
-    {% include "org_nav.html" %}
 
     <div class="dashboard-container">
+        <!-- NAVIGATION -->
+        {% include "org_nav.html" %}
+
+        <!-- MAIN CONTENT -->
         <div class="main-content">
             <h1 class="main-content-title">Allocation Results</h1>
 
-            {% if results %}
+            <div class="donor-center-container">
+                <!-- {% if results %}
                 {% for campaign in results %}
-                    <div class="campaign-card-allocate">
-                        <h3>{{ campaign.name }}</h3>
+                <div class="campaign-card-allocate">
+                    <h3>{{ campaign.name }}</h3>
+                    <ul>
+                        {% for alloc in campaign.allocations %}
+                        <li><strong>{{ alloc.item }}:</strong> {{ alloc.allocated }} allocated</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>No new allocations were made.</p>
+                {% endif %} -->
+
+                {% if results %}
+                {% for campaign in results %}
+                <div class="donor-center-div">
+                    <h3 class="organizer-name">{{ campaign.name }}</h3>
+                    <div class="allocate-summary-list">
                         <ul>
                             {% for alloc in campaign.allocations %}
-                                <li><strong>{{ alloc.item }}:</strong> {{ alloc.allocated }} allocated</li>
+                            <li><strong>{{ alloc.item }}:</strong> {{ alloc.allocated }} allocated</li>
                             {% endfor %}
                         </ul>
                     </div>
+                </div>
                 {% endfor %}
-            {% else %}
-                <p>No new allocations were made.</p>
-            {% endif %}
+                {% else %}
+                <div class="donor-center-div">
+                    <p>No new allocations were made.</p>
+                </div>
+                {% endif %}
 
-            <div style="margin-top: 2rem;">
-                <a href="{{ url_for('org_update_form') }}" class="submit-bttn">Update the Donors</a>
+                <!-- <div class="donor-center-div">
+                    <h3 class="organizer-name-update">John sldjfgsjglanegnoaeiwgnoweablsohag nsdhsigsdlngbsdg</h3>
+                    <div class="allocate-summary-list" style="width: 50%;">
+                        <ul>
+                            <li>Rice: 50</li>
+                            <li>Clothes: 50</li>
+                            <li>Medical Kits: 50</li>
+                        </ul>
+                    </div>
+                </div> -->
+
+                <div style="margin-top: 2rem;">
+                    <a href="{{ url_for('org_update_form') }}" class="submit-bttn">Update the Donors</a>
+                </div>
+
             </div>
         </div>
     </div>
