@@ -7,11 +7,13 @@ from sqlalchemy import text, func, distinct
 from extensions import db
 from datetime import date
 from collections import defaultdict
-
+from reports import Report
+import matplotlib.pyplot as plt
 
 # Create the app instance
 app = Flask(__name__)
 app.secret_key = 'hello'
+reporter = Report()
 
 # Absolute path for SQLite (reliable path handling)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -548,6 +550,93 @@ def submit_update():
 
     return redirect(url_for('org_request_list'))
 
+@app.route('/report')
+def report():
+    try:
+        choice = int(request.args.get('choice'))
+
+        plt.style.use('ggplot')  # Consistent visual theme
+        plt.figure(figsize=(10, 6))  # Standard size
+
+        if choice == 1:
+            df = reporter.most_donated()
+            x = df['Name']
+            y = df['donation_count']
+
+            plt.bar(x, y, color='cornflowerblue')
+            plt.xlabel('Names')
+            plt.ylabel('Donation Count')
+            plt.title('Most Donated Organizer')
+            plt.grid(True)
+
+        elif choice == 2:
+            df = reporter.left_available(session.get('organizer_id'))
+            x = df['Name']
+            y = df['total_available']
+
+            plt.bar(x, y, color='mediumseagreen')
+            plt.xlabel('Names')
+            plt.ylabel('Available Items')
+            plt.title('Count of Available Items')
+            plt.grid(True)
+
+        elif choice == 3:
+            df = reporter.total_donation()
+            # Convert DataFrame to list of dictionaries (each row is a dict)
+            data = df.to_dict(orient='records')
+            columns = df.columns.tolist()
+
+            return render_template('report_table.html', data=data, columns=columns)
+
+        # elif choice == 3:
+        #     df = reporter.total_donation()
+
+        #     scatter = plt.scatter(
+        #         df['times_donated'],
+        #         df['total_items_donated'],
+        #         alpha=0.7,
+        #         edgecolors='w',
+        #         color='tomato'
+        #     )
+        #     for i, name in enumerate(df['Name']):
+        #         plt.annotate(name, (df['times_donated'][i], df['total_items_donated'][i]),
+        #                      fontsize=8, alpha=0.8)
+        #     plt.xlabel('Times Donated')
+        #     plt.ylabel('Total Items Donated')
+        #     plt.title('Total Items Donated vs. Times Donated per Donor')
+        #     plt.grid(True)
+
+        elif choice == 4:
+            df = reporter.most_requested_items()
+
+            plt.barh(df['ItemName'], df['request_count'], color='steelblue')
+            plt.xlabel("Number of Requests")
+            plt.title("Most Requested Items")
+            plt.gca().invert_yaxis()  # Highest first
+            plt.grid(True)
+
+        elif choice == 5:
+            df = reporter.number_campaigns(session.get('organizer_id'))
+            x = df['Status']
+            y = df['count']
+
+            plt.bar(x, y, color='goldenrod')
+            plt.xlabel('Status')
+            plt.ylabel('Count')
+            plt.title('Number of Active and Completed Campaigns')
+            plt.grid(True)
+
+        plt.tight_layout()
+        plt.show()
+
+        return render_template('report.html')
+    except:
+        return render_template('report.html')
+
+
+
+
+
 @app.route('/allocate')
 def allocate():
     organizer_id = session.get('organizer_id')
@@ -718,5 +807,5 @@ def submit_campaign():
     return redirect(url_for('org_campaign')) 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port = 5000)
 

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p style="text-align: center;">{{msg}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="dashboard-container">
+        <!-- NAVIGATION -->
+    {% include "org_nav.html" %}
+
+<ul>
+    <li>
+        <a href = "{{url_for('report', choice=1)}}">
+        Who is the most‐donated organizer? (system-wide summary)
+        </a>  
+    </li>
+    <li>
+        <a href = "{{url_for('report', choice=2)}}">
+        What is left available in inventory for each item? (specific to an organizer)
+        </a>
+    </li>
+    <li>
+        <a href = "{{url_for('report', choice=3)}}">
+        What is the total donation of each donor and how many times have they donated? (system-wide summary)
+        </a>
+    </li>
+    <li>
+        <a href = "{{url_for('report', choice=4)}}">
+       Which items are most frequently requested across all communities? (system-wide summary)
+       </a>
+    </li>
+    <li>
+        <a href = "{{url_for('report', choice=5)}}">
+        Total number of active vs. completed campaigns (specific to an organizer)
+        </a>
+<ul>
+{% endblock %}

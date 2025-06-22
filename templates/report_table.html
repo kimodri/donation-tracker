@@ -1,0 +1,51 @@
+<!-- templates/report_table.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Total Items vs Times Donated</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 80%;
+            margin: 40px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4a261;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #fdf0e3;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">Total Items Donated vs. Times Donated per Donor</h2>
+    <table>
+        <thead>
+            <tr>
+                {% for col in columns %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    {% for col in columns %}
+                        <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
