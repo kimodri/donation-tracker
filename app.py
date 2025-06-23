@@ -488,20 +488,6 @@ def request_form():
     return render_template('rep_request_form.html', organizer_id=organizer_id, role = session.get('role'))
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # FOR ORGANIZERS
 @app.route('/org_campaign')
 def org_campaign():
@@ -624,10 +610,6 @@ def report():
     except Exception as e:
         print(e)
         return render_template('report.html')
-
-
-
-
 
 @app.route('/allocate')
 def allocate():
