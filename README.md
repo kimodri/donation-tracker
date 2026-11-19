@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="static/img/doneate_logo_2.png" alt="DONEate logo" width="40%">
+</p>
+
 # DONEate — Donation Tracker
 
 DONEate is a web application for managing donations, community requests, and the allocation of essential supplies. It was developed as the **final project for the Information Management course** by **Triselle Bernabe, Matan Exconde, and Kim Magan**.
