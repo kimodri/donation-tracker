@@ -1,9 +1,68 @@
 {% extends "layout.html" %}
-
+{% block title %}DONEate | Small acts. Meaningful change.{% endblock %}
+{% block head %}
+<meta name="description" content="Connect with organizers, give essential supplies, and follow your donations with DONEate.">
+<link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+{% endblock %}
 {% block body %}
-<body>
-    <h1>Welcome to DONEate!</h1>
- 
-    <p><a href = '/signin'>Login/Signup</a></p> 
+<body class="landing">
+<a class="lp-skip" href="#main">Skip to content</a>
+<header class="lp-header lp-wrap">
+    <a class="lp-brand" href="{{ url_for('index') }}" aria-label="DONEate home"><img src="{{ url_for('static', filename='img/doneate_logo_2.png') }}" alt="DONEate"></a>
+    <nav aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#get-involved">Get involved</a>
+        <a class="lp-login" href="{{ url_for('login') }}">Log in</a>
+    </nav>
+</header>
+<main id="main">
+    <section class="lp-hero lp-wrap" aria-labelledby="hero-title">
+        <div class="lp-hero-copy">
+            <p class="lp-eyebrow">A little kindness goes a long way</p>
+            <h1 id="hero-title">Give a little.<br>Change a lot.</h1>
+            <p class="lp-lead">Turn the things you can give into the help someone needs. Connect with organizers, donate essentials, and follow your contribution along the way.</p>
+            <div class="lp-actions">
+                {% if role == 'donor' %}
+                <a class="lp-button" href="{{ url_for('donor_donate') }}">Find an organizer</a>
+                {% elif role == 'organizer' %}
+                <a class="lp-button" href="{{ url_for('org_request_list') }}">Go to your dashboard</a>
+                {% elif role == 'representative' %}
+                <a class="lp-button" href="{{ url_for('rep_request_org') }}">Find an organizer</a>
+                {% else %}
+                <a class="lp-button" href="{{ url_for('signin') }}">Start giving</a>
+                {% endif %}
+                <a class="lp-text-link" href="#how-it-works">See how it works</a>
+            </div>
+            <p class="lp-hero-note">For donors. For organizers. For stronger communities.</p>
+        </div>
+        <div class="lp-visual">
+            <img class="lp-hero-photo" src="{{ url_for('static', filename='img/about_us.jpg') }}" alt="A group bringing their hands together in a shared gesture of support" fetchpriority="high" width="5184" height="3456">
+            <div class="lp-photo-caption"><span aria-hidden="true">♡</span><div><strong>Good things happen together.</strong><p>Every contribution is a place to start.</p></div></div>
+        </div>
+    </section>
+    <section class="lp-essentials" aria-label="Items you can donate">
+        <div class="lp-wrap lp-essentials-inner"><p>Everyday essentials.<br><strong>Extraordinary care.</strong></p><ul><li>Rice</li><li>Clothes</li><li>Canned goods</li><li>Medical kits</li></ul></div>
+    </section>
+    <section class="lp-section lp-wrap" id="how-it-works" aria-labelledby="how-title">
+        <div class="lp-section-heading"><p class="lp-eyebrow">From generosity to action</p><h2 id="how-title">Making a difference,<br>one step at a time.</h2><p>One place to connect your willingness to help with a community's needs.</p></div>
+        <div class="lp-steps">
+            <article><span class="lp-step-icon" aria-hidden="true">◎</span><h3>Find your connection</h3><p>Explore organizers and their active campaigns to see where your support can help.</p></article>
+            <article><span class="lp-step-icon" aria-hidden="true">♡</span><h3>Give what you can</h3><p>Choose an organizer and record the essential items you want to donate.</p></article>
+            <article><span class="lp-step-icon" aria-hidden="true">✓</span><h3>Follow your contribution</h3><p>See the campaigns your donations are allocated to and read updates from organizers.</p></article>
+        </div>
+    </section>
+    <section class="lp-involve" id="get-involved" aria-labelledby="involve-title">
+        <div class="lp-wrap">
+            <div class="lp-section-heading"><p class="lp-eyebrow">There's a place for you here</p><h2 id="involve-title">Different roles. Shared purpose.</h2></div>
+            <div class="lp-roles">
+                <article><p class="lp-role-label">For donors</p><h3>Put your kindness<br>into motion.</h3><p>Give useful supplies, follow allocations, and share feedback with the organizers you support.</p><a href="{{ url_for('signin') }}">Join as a donor</a></article>
+                <article><p class="lp-role-label">For organizers</p><h3>Bring help<br>where it's needed.</h3><p>Review community requests, create campaigns, and allocate donated items with purpose.</p><a href="{{ url_for('signin') }}">Join as an organizer</a></article>
+                <article><p class="lp-role-label">For representatives</p><h3>Be a voice<br>for your community.</h3><p>Connect with organizers and request the supplies your community needs.</p><a href="{{ url_for('signin') }}">Join as a representative</a></article>
+            </div>
+        </div>
+    </section>
+    <section class="lp-closing lp-wrap"><p class="lp-eyebrow">Small acts add up</p><h2>A better tomorrow<br>starts with us.</h2><p>Your next act of kindness could start right here.</p><a class="lp-button" href="{{ url_for('signin') }}">Get started with DONEate</a></section>
+</main>
+<footer class="lp-footer lp-wrap"><a class="lp-footer-brand" href="{{ url_for('index') }}">DONEate<span>Giving with purpose.</span></a><p>Connecting generosity with community.</p><a href="#main">Back to top</a></footer>
 </body>
 {% endblock %}

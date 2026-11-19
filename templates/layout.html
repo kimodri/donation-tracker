@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="icon" type="image/jpg" href="/static/img/doneate_favicon.png">
-    <title>DONEnate</title>
+    <title>{% block title %}DONEate{% endblock %}</title>
+    {% block head %}{% endblock %}
 </head>
 
 {% block body %}{% endblock %}

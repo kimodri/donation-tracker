@@ -1,3 +1,4 @@
 homepage.html
 __pycache__
 .ipynb_checkpoints
+.venv/

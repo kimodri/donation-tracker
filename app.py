@@ -116,17 +116,12 @@ def login():
         password = request.form.get('password')
         print(email)
         print(password)
-
-
-
-        
+                
         try:
             # query the user
             result = Users.query.filter_by(Email=email).first()
             if result == None:
                 raise AttributeError("Something went wrong intentionally!")
-            # print(result.Email)
-            # print(result.Role)
 
             if result:
                 if result.Password == password: 
@@ -158,8 +153,6 @@ def login():
                     return render_template('login.html')
 
         except AttributeError:
-            # print(result.Email)
-            # print(result.Password)
             flash('Account not found')
             # redicrect to sign in page whch will call the sign in function
             return render_template('login.html')
@@ -781,5 +774,5 @@ def submit_campaign():
     return redirect(url_for('org_campaign')) 
 
 if __name__ == '__main__':
-    app.run(debug=True, port = 5000)
+    app.run(debug=False, port = 5000)
 
