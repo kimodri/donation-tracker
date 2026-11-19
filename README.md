@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="static/img/doneate_logo_2.png" alt="DONEate logo" width="40%">
+  <img src="static/img/doneate_logo_2.png" alt="DONEate logo" width="20%">
 </p>
 
 # DONEate — Donation Tracker
